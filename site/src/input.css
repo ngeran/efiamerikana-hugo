@@ -1,0 +1,131 @@
+/* =========================================================================
+   Tailwind v4 entry — compiled (offline, pre-build) to static/css/main.css
+   via the justfile `css` recipe. Hugo serves main.css verbatim (no Pipes).
+   ========================================================================= */
+@import "tailwindcss";
+
+/* Scan the layouts (and every partial under it) for class names. Relative to
+   this file, layouts live one dir up. */
+@source "../layouts/**/*.html";
+
+/* Design tokens lifted from the original <style> / tailwind.config block.
+   Defining these in @theme makes bg-brand-pink / font-serif / text-charcoal
+   etc. available as first-class utilities. */
+@theme {
+  --color-brand-yellow: #FFD24D;
+  --color-brand-pink: #FF1FA9;
+  --color-brand-red: #FF3a3a;
+  --color-charcoal: #1b1c1c;
+  --color-hearth-offwhite: #FFFBF2;
+
+  --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Libre Caslon Text", ui-serif, Georgia, serif;
+}
+
+@layer base {
+  /* The original hid the scrollbar entirely. */
+  html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    /* Offset so each section separator line (4px) lands flush under the fixed h-20 (80px) header. */
+    scroll-padding-top: calc(5rem + 4px);
+  }
+  html::-webkit-scrollbar {
+    display: none;
+  }
+  body {
+    background-color: var(--color-brand-yellow);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+  }
+}
+
+@layer components {
+  /* Generous breathing room on desktop, tightened on mobile so sections
+     don't feel sparse or force needless scrolling on a phone. */
+  .section-pad {
+    @apply py-12 px-6 md:py-20;
+  }
+
+  /* Mobile hamburger button + its three bars, animating into an X when the
+     menu is open (state lives on the button's aria-expanded attribute). */
+  #menu-toggle {
+    @apply flex flex-col justify-center gap-[5px] w-10 h-10 -ml-2 cursor-pointer;
+  }
+  #menu-toggle span {
+    @apply block w-6 h-[2px] bg-charcoal transition-all duration-300;
+  }
+  #menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  #menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  #menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .card-border {
+    @apply border-[1.5px] border-charcoal;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-border:hover {
+    @apply -translate-y-2;
+    box-shadow: 0 12px 24px -10px rgba(27, 28, 28, 0.2);
+  }
+
+  .pill-tag {
+    @apply bg-brand-pink text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.1em];
+  }
+
+  .rounded-preview-sm {
+    @apply rounded-3xl;
+  }
+
+  .img-cover {
+    @apply object-cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s ease;
+  }
+  .group:hover .img-cover {
+    transform: scale(1.05);
+  }
+  .group:hover .img-cover-grayscale {
+    filter: grayscale(0);
+  }
+
+  .card-soft {
+    @apply bg-white rounded-3xl border-[1.5px] border-charcoal;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-soft:hover {
+    @apply -translate-y-2;
+    box-shadow: 0 12px 24px -10px rgba(27, 28, 28, 0.2);
+  }
+
+  /* Hero aside: pink panel with a red rule — left on desktop, top on mobile. */
+  .hero-aside {
+    background-color: var(--color-brand-pink);
+    border-left: 16px solid var(--color-brand-red);
+  }
+  @media (max-width: 768px) {
+    .hero-aside {
+      border-left: none;
+      border-top: 16px solid var(--color-brand-red);
+    }
+  }
+
+  /* "| Title" section headings. */
+  .section-title-pipe {
+    @apply flex items-baseline gap-2;
+  }
+  /* Pipe colour is set per-section via text-brand-red / text-white so the
+     gallery (pink bg) can override the light-section default. */
+  .section-title-pipe .pipe {
+    @apply font-light text-[2rem] leading-none;
+  }
+  .section-title-pipe .title-text {
+    @apply font-serif text-[2.5rem] leading-[1.1];
+  }
+  @media (max-width: 640px) {
+    .section-title-pipe .title-text {
+      @apply text-[2rem];
+    }
+    .section-title-pipe .pipe {
+      @apply text-[1.5rem];
+    }
+  }
+}

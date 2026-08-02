@@ -1,0 +1,14 @@
+baseURL = "/"
+title = "efiamerikana"
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+
+# Videos & Gallery are headless content sections: each item is rendered inline
+# on the home page (never as its own URL), so we suppress the unused section /
+# taxonomy / term list pages entirely.
+disableKinds = ["section", "taxonomy", "term"]
+
+[params]
+  description = "Effie Kazantzidis — Greek-American home cook, UGC creator & culinary storyteller."
+  # Tailwind v4 is compiled OUTSIDE Hugo (see the justfile `css` recipe) and
+  # served verbatim from static/css/main.css. Do not use Hugo Pipes for it.

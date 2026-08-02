@@ -1,0 +1,72 @@
+{{/* Sticky responsive header.
+      Mobile:  hamburger button → slide-down menu panel.
+      Desktop (md+): full inline nav on the left. EN|GR lives next to Email. */ -}}
+<header class="fixed top-0 w-full z-[100] bg-brand-yellow/90 backdrop-blur-md border-b border-charcoal/10 px-6 h-20 flex items-center">
+
+  {{/* Mobile menu toggle (hidden on desktop via the md:hidden utility). */}}
+  <button id="menu-toggle" type="button"
+          aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu"
+          class="md:hidden">
+    <span></span><span></span><span></span>
+  </button>
+
+  {{/* Desktop left nav. */}}
+  <nav class="hidden md:flex flex-1 gap-4 lg:gap-6 text-[10px] font-bold uppercase tracking-widest items-center">
+    <a href="#about" class="hover:text-brand-pink transition-colors">About Me</a>
+    <a href="#videos" class="hover:text-brand-pink transition-colors">Favorite Videos</a>
+    <a href="#pictures" class="hover:text-brand-pink transition-colors">Pictures</a>
+    <a href="#analytics" class="hover:text-brand-pink transition-colors">Analytics</a>
+    <a href="#contact" class="hover:text-brand-pink transition-colors">Contact</a>
+  </nav>
+
+  {{/* Brand: absolutely centered on every breakpoint. */}}
+  <a href="{{ .Site.Home.RelPermalink }}" class="absolute left-1/2 -translate-x-1/2 text-2xl font-bold tracking-tighter lowercase">{{ .Site.Title }}</a>
+
+  {{/* Right: language switch + email. */}}
+  <div class="flex-1 flex justify-end items-center gap-4">
+    <div class="flex gap-1.5 text-[10px] font-bold uppercase tracking-widest">
+      <a href="#" class="text-charcoal hover:text-brand-pink transition-colors">EN</a>
+      <span class="text-charcoal/30">|</span>
+      <a href="#" class="text-charcoal/40 hover:text-brand-pink transition-colors">GR</a>
+    </div>
+    <a href="mailto:{{ .Param "contact_email" }}" class="flex items-center gap-2 group">
+      <span class="material-symbols-outlined text-brand-red group-hover:scale-110 transition-transform">mail</span>
+      <span class="hidden lg:block text-[11px] font-bold uppercase tracking-widest border-b border-charcoal/20">Email Me</span>
+    </a>
+  </div>
+</header>
+
+{{/* Mobile menu panel — sits just under the header. */}}
+<div id="mobile-menu" class="hidden md:hidden fixed top-20 inset-x-0 z-[99] bg-brand-yellow border-b border-charcoal/10 shadow-xl">
+  <nav class="flex flex-col px-6 py-4 text-sm font-bold uppercase tracking-widest">
+    <a href="#about"     class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">About Me</a>
+    <a href="#videos"    class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Favorite Videos</a>
+    <a href="#pictures"  class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Pictures</a>
+    <a href="#analytics" class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Analytics</a>
+    <a href="#contact"   class="mobile-link py-3 hover:text-brand-pink transition-colors">Contact</a>
+  </nav>
+</div>
+
+<script>
+  // Vanilla toggle: open/close the panel, lock body scroll while open, and
+  // close on link tap. State is mirrored to aria-expanded for accessibility.
+  (function () {
+    var btn = document.getElementById('menu-toggle');
+    var menu = document.getElementById('mobile-menu');
+    if (!btn || !menu) return;
+
+    function setOpen(open) {
+      menu.classList.toggle('hidden', !open);
+      btn.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('overflow-hidden', open);
+    }
+
+    btn.addEventListener('click', function () {
+      setOpen(menu.classList.contains('hidden'));
+    });
+
+    menu.querySelectorAll('.mobile-link').forEach(function (link) {
+      link.addEventListener('click', function () { setOpen(false); });
+    });
+  })();
+</script>

@@ -1,0 +1,11 @@
+{{/* Footer — copyright, policy links, tagline. */ -}}
+<footer class="bg-charcoal text-white py-12 px-6">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/5 pt-12">
+    <div class="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">© {{ now.Format "2006" }} {{ .Site.Title | upper }}</div>
+    <div class="flex gap-8 text-[10px] font-bold uppercase tracking-widest">
+      <a href="#" class="hover:text-brand-yellow transition-colors">Privacy Policy</a>
+      <a href="#" class="hover:text-brand-yellow transition-colors">Terms of Service</a>
+    </div>
+    <div class="text-[10px] font-bold uppercase tracking-widest text-brand-pink">{{ .Param "footer_tagline" }}</div>
+  </div>
+</footer>

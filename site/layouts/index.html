@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{ partial "hero.html" . }}
+
+  {{/* Thin palette lines between sections, rotating pink/red/yellow. Each
+        colour is picked to contrast BOTH neighbours (e.g. red at Hero→About,
+        since the Hero aside is pink). */}}
+  <div class="h-1 bg-brand-red" aria-hidden="true"></div>
+  {{ partial "about.html" . }}
+  <div class="h-1 bg-brand-pink" aria-hidden="true"></div>
+  {{ partial "videos.html" . }}
+  <div class="h-1 bg-brand-red" aria-hidden="true"></div>
+  {{ partial "gallery.html" . }}
+  <div class="h-1 bg-brand-yellow" aria-hidden="true"></div>
+  {{ partial "analytics.html" . }}
+  <div class="h-1 bg-brand-pink" aria-hidden="true"></div>
+  {{ partial "contact.html" . }}
+{{ end }}

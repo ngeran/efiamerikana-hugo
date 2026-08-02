@@ -1,0 +1,149 @@
+# =========================================================================
+# Decap CMS (Open Source) config — github backend.
+#
+# One-time setup (github backend, PKCE):
+#   1. Create a GitHub OAuth App (Authorization callback URL:
+#      https://api.netlify.com/auth/done — or your own proxy callback).
+#   2. Put its Client ID in `backend.app_id` below.
+#   3. For local editing: `npx decap-server`, then open /admin/.
+#      `local_backend: true` below makes the editor use the local proxy first.
+#
+# Media uploads land in static/images/upload (served at /images/upload).
+# =========================================================================
+
+backend:
+  name: github
+  repo: ngeran/efiamerikana-landing
+  branch: main
+  auth_type: pkce
+  app_id: ""   # ← paste your GitHub OAuth App client_id here
+
+local_backend: true   # dev: use `npx decap-server`; prod falls back to github
+
+media_folder: "static/images/upload"
+public_folder: "/images/upload"
+site_url: https://example.org
+
+# Reusable "headless build" field — keeps video/gallery items from generating
+# standalone URLs while still letting the home page range over them. Anchored
+# so both folder collections reference the same definition. Decap ignores the
+# `x-` prefixed key; only the anchor is used.
+x-headless: &headless
+  label: "Headless settings (advanced — leave as-is)"
+  name: "build"
+  widget: "object"
+  collapsed: true
+  fields:
+    - { label: "render", name: "render", widget: "hidden", default: "never" }
+    - { label: "list", name: "list", widget: "hidden", default: "local" }
+    - { label: "publishResources", name: "publishResources", widget: "hidden", default: false }
+
+collections:
+  # ── Landing page (single file) ──────────────────────────────────────────
+  - name: "pages"
+    label: "Landing Page"
+    delete: false
+    files:
+      - label: "Home"
+        name: "home"
+        file: "content/_index.md"
+        fields:
+          # Meta
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Browser Title (<title>)", name: "head_title", widget: "string" }
+          - { label: "Meta Description", name: "description", widget: "text" }
+          # Hero
+          - { label: "Hero · Brand", name: "hero_brand", widget: "string" }
+          - { label: "Hero · Name", name: "hero_name", widget: "string" }
+          - { label: "Hero · Role", name: "hero_role", widget: "string" }
+          - { label: "Hero · Tags", name: "hero_tags", widget: "string" }
+          - { label: "Hero · Quote", name: "hero_quote", widget: "text" }
+          - { label: "Hero · Portrait", name: "hero_image", widget: "image" }
+          - { label: "Hero · Portfolio Label", name: "hero_portfolio_label", widget: "string" }
+          # About
+          - { label: "About · Heading Label", name: "about_label", widget: "string" }
+          - { label: "About · Pill Tag", name: "about_tag", widget: "string" }
+          - { label: "About · Heading", name: "about_heading", widget: "string" }
+          - { label: "About · Heading Accent", name: "about_heading_accent", widget: "string" }
+          - { label: "About · Paragraph 1", name: "about_p1", widget: "text" }
+          - { label: "About · Paragraph 2", name: "about_p2", widget: "text" }
+          - { label: "About · Portrait", name: "about_image", widget: "image" }
+          - { label: "About · CTA", name: "about_cta", widget: "string" }
+          # Section intros
+          - { label: "Videos · Heading", name: "videos_label", widget: "string" }
+          - { label: "Videos · Sublabel", name: "videos_sublabel", widget: "string" }
+          - { label: "Videos · Intro", name: "videos_intro", widget: "text" }
+          - { label: "Gallery · Heading", name: "gallery_label", widget: "string" }
+          - { label: "Gallery · Sublabel", name: "gallery_sublabel", widget: "string" }
+          - { label: "Gallery · Intro", name: "gallery_intro", widget: "text" }
+          # Analytics
+          - { label: "Analytics · Ghost Text", name: "analytics_ghost", widget: "string" }
+          - { label: "Analytics · Heading", name: "analytics_heading", widget: "string" }
+          - { label: "Analytics · Heading Accent", name: "analytics_heading_accent", widget: "string" }
+          - { label: "Analytics · Reach", name: "analytics_reach", widget: "string" }
+          - { label: "Analytics · Reach Label", name: "analytics_reach_label", widget: "string" }
+          - { label: "Analytics · Community", name: "analytics_community", widget: "string" }
+          - { label: "Analytics · Community Label", name: "analytics_community_label", widget: "string" }
+          - { label: "Analytics · Engagement Rate", name: "analytics_engagement_rate", widget: "string" }
+          - { label: "Analytics · Engagement Label", name: "analytics_engagement_label", widget: "string" }
+          - { label: "Analytics · Avg Views", name: "analytics_avg_views", widget: "string" }
+          - { label: "Analytics · Avg Views Label", name: "analytics_avg_views_label", widget: "string" }
+          - label: "Analytics · Platform Bars"
+            name: "analytics_platforms"
+            widget: "list"
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Value", name: "value", widget: "string" }
+              - { label: "Bar Width", name: "bar", widget: "string" }
+              - { label: "Color", name: "color", widget: "select", options: ["brand-pink", "brand-yellow", "brand-red"] }
+          - { label: "Analytics · Note", name: "analytics_note", widget: "text" }
+          # Contact
+          - { label: "Contact · Heading", name: "contact_heading", widget: "string" }
+          - { label: "Contact · Text", name: "contact_text", widget: "text" }
+          - { label: "Contact · Email", name: "contact_email", widget: "string" }
+          - label: "Social Links"
+            name: "socials"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+          # Footer
+          - { label: "Footer · Tagline", name: "footer_tagline", widget: "string" }
+
+  # ── Videos (folder) ─────────────────────────────────────────────────────
+  - name: "videos"
+    label: "Videos"
+    label_singular: "Video"
+    folder: "content/videos"
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} — {{platform}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Platform", name: "platform", widget: "select", options: ["TikTok", "Reels", "YouTube", "Shorts"] }
+      - { label: "Category", name: "category", widget: "string" }
+      - { label: "Views", name: "views", widget: "string" }
+      - { label: "Video URL", name: "video_url", widget: "string", default: "#" }
+      - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Description", name: "body", widget: "markdown", required: false }
+      - *headless
+
+  # ── Gallery (folder) ────────────────────────────────────────────────────
+  - name: "gallery"
+    label: "Gallery"
+    label_singular: "Picture"
+    folder: "content/gallery"
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{slug}}"
+    summary: "{{title}} — {{tag}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Tag (pill)", name: "tag", widget: "string" }
+      - { label: "Descriptor (date subtitle)", name: "descriptor", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Description", name: "body", widget: "markdown", required: false }
+      - *headless

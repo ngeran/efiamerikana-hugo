@@ -1,0 +1,36 @@
+{{/* Hero — left portrait + intro, right pink "view portfolio" aside. */ -}}
+<section class="relative flex flex-col md:flex-row flex-1 w-full bg-brand-yellow border-b border-charcoal/10">
+  <div class="relative overflow-hidden w-full md:w-4/5 flex items-center justify-center px-5 md:px-12 py-16 md:py-20">
+    <div class="absolute right-0 top-1/4 w-96 h-96 bg-white/20 blur-3xl rounded-full pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative z-10 flex flex-col md:flex-row items-center gap-10 md:gap-12 w-full max-w-6xl">
+      <div class="w-full md:w-3/5 shrink-0 rounded-[2rem] overflow-hidden border-2 border-black/5 aspect-[4/5]">
+        {{ with .Param "hero_image" }}<img class="w-full h-full object-cover" src="{{ . }}" alt="{{ $.Param "hero_name" }}" loading="eager" />{{ end }}
+      </div>
+
+      <div class="flex flex-col max-w-md">
+        <div class="mb-6">
+          <h1 class="font-bold leading-none text-4xl">{{ .Param "hero_brand" }}</h1>
+          <h2 class="mt-1 tracking-widest uppercase font-bold text-brand-pink text-lg">{{ .Param "hero_name" }}</h2>
+          <div class="h-1 w-12 mt-4 bg-brand-red" aria-hidden="true"></div>
+        </div>
+        <h3 class="text-4xl font-bold mb-4">{{ .Param "hero_role" }}</h3>
+        <div class="space-y-4">
+          {{ with .Param "hero_tags" }}
+          <div class="uppercase font-bold tracking-tighter text-sm space-y-1">
+            {{ range $tag := split . "•" }}{{ with (trim $tag " ") }}<div>• {{ . }}</div>{{ end }}{{ end }}
+          </div>
+          {{ end }}
+          <p class="text-2xl italic opacity-80 leading-tight max-w-md">{{ .Param "hero_quote" }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="w-full md:w-1/5 hero-aside border-t-[16px] md:border-t-0 md:border-l-[16px] border-brand-red flex flex-col items-center justify-center text-center gap-8 px-6 py-10">
+    <h4 class="text-4xl leading-tight font-medium max-w-[150px] text-white">{{ .Param "hero_portfolio_label" }}</h4>
+    <a class="w-20 h-20 bg-charcoal rounded-full grid place-items-center hover:scale-105 transition-transform" href="#videos" aria-label="{{ .Param "hero_portfolio_label" }}">
+      <svg class="w-8 h-8 fill-white ml-1" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+    </a>
+  </aside>
+</section>
