@@ -15,19 +15,8 @@ media_folder: "site/static/images/upload"
 public_folder: "/images/upload"
 site_url: https://efiamerikana-site.pages.dev
 
-# Reusable "headless build" field — keeps video/gallery items from generating
-# standalone URLs while still letting the home page range over them. Anchored
-# so both folder collections reference the same definition. Decap ignores the
-# `x-` prefixed key; only the anchor is used.
-x-headless: &headless
-  label: "Headless settings (advanced — leave as-is)"
-  name: "build"
-  widget: "object"
-  collapsed: true
-  fields:
-    - { label: "render", name: "render", widget: "hidden", default: "never" }
-    - { label: "list", name: "list", widget: "hidden", default: "local" }
-    - { label: "publishResources", name: "publishResources", widget: "hidden", default: false }
+# (Headless build settings are inlined per-collection below — no YAML anchors,
+# which some Decap builds parse poorly.)
 
 collections:
   # ── Landing page (single file) ──────────────────────────────────────────
@@ -119,7 +108,14 @@ collections:
       - { label: "Video URL", name: "video_url", widget: "string", default: "#" }
       - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
       - { label: "Description", name: "body", widget: "markdown", required: false }
-      - *headless
+      - label: "Headless settings (advanced — leave as-is)"
+        name: "build"
+        widget: "object"
+        collapsed: true
+        fields:
+          - { label: "render", name: "render", widget: "hidden", default: "never" }
+          - { label: "list", name: "list", widget: "hidden", default: "local" }
+          - { label: "publishResources", name: "publishResources", widget: "hidden", default: false }
 
   # ── Gallery (folder) ────────────────────────────────────────────────────
   - name: "gallery"
@@ -137,4 +133,11 @@ collections:
       - { label: "Descriptor (date subtitle)", name: "descriptor", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
       - { label: "Description", name: "body", widget: "markdown", required: false }
-      - *headless
+      - label: "Headless settings (advanced — leave as-is)"
+        name: "build"
+        widget: "object"
+        collapsed: true
+        fields:
+          - { label: "render", name: "render", widget: "hidden", default: "never" }
+          - { label: "list", name: "list", widget: "hidden", default: "local" }
+          - { label: "publishResources", name: "publishResources", widget: "hidden", default: false }
