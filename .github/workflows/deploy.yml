@@ -24,10 +24,10 @@ jobs:
           # This creates ./result with the built site
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: efiamerikana-landing
-          directory: ./result
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          # Deploys the Nix-built site (./result) to the Pages project.
+          # The project must already exist in Cloudflare (wrangler does not create it).
+          command: pages deploy ./result --project-name=efiamerikana-site --branch main
