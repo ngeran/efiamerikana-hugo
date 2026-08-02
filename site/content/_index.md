@@ -3,6 +3,19 @@ title: "Home"
 head_title: "efiamerikana · UGC & Culinary Storytelling"
 description: "Effie Kazantzidis — Greek-American home cook, UGC creator & culinary storyteller."
 
+# ── Navigation ─────────────────────────────────────────────────────────────
+nav:
+  - label: "About Me"
+    url: "#about"
+  - label: "Favorite Videos"
+    url: "#videos"
+  - label: "Pictures"
+    url: "#pictures"
+  - label: "Analytics"
+    url: "#analytics"
+  - label: "Contact"
+    url: "#contact"
+
 # ── Hero ──────────────────────────────────────────────────────────────────
 hero_brand: "efiamerikana"
 hero_name: "Effie Kazantzidis"
@@ -72,5 +85,10 @@ socials:
     url: "https://www.facebook.com/efiamerikana"
 
 # ── Footer ────────────────────────────────────────────────────────────────
+footer_links:
+  - label: "Privacy Policy"
+    url: "#"
+  - label: "Terms of Service"
+    url: "#"
 footer_tagline: "Greek American × Global Impact"
 ---

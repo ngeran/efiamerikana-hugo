@@ -12,11 +12,7 @@
 
   {{/* Desktop left nav. */}}
   <nav class="hidden md:flex flex-1 gap-4 lg:gap-6 text-[10px] font-bold uppercase tracking-widest items-center">
-    <a href="#about" class="hover:text-brand-pink transition-colors">About Me</a>
-    <a href="#videos" class="hover:text-brand-pink transition-colors">Favorite Videos</a>
-    <a href="#pictures" class="hover:text-brand-pink transition-colors">Pictures</a>
-    <a href="#analytics" class="hover:text-brand-pink transition-colors">Analytics</a>
-    <a href="#contact" class="hover:text-brand-pink transition-colors">Contact</a>
+    {{ range .Param "nav" }}<a href="{{ .url | default "#" }}" class="hover:text-brand-pink transition-colors">{{ .label }}</a>{{ end }}
   </nav>
 
   {{/* Brand: absolutely centered on every breakpoint. */}}
@@ -39,11 +35,7 @@
 {{/* Mobile menu panel — sits just under the header. */}}
 <div id="mobile-menu" class="hidden md:hidden fixed top-20 inset-x-0 z-[99] bg-brand-yellow border-b border-charcoal/10 shadow-xl">
   <nav class="flex flex-col px-6 py-4 text-sm font-bold uppercase tracking-widest">
-    <a href="#about"     class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">About Me</a>
-    <a href="#videos"    class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Favorite Videos</a>
-    <a href="#pictures"  class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Pictures</a>
-    <a href="#analytics" class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Analytics</a>
-    <a href="#contact"   class="mobile-link py-3 hover:text-brand-pink transition-colors">Contact</a>
+    {{ range .Param "nav" }}<a href="{{ .url | default "#" }}" class="mobile-link py-3 border-b border-charcoal/10 last:border-b-0 hover:text-brand-pink transition-colors">{{ .label }}</a>{{ end }}
   </nav>
 </div>
 

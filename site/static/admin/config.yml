@@ -32,6 +32,13 @@ collections:
           - { label: "Page Title", name: "title", widget: "string" }
           - { label: "Browser Title (<title>)", name: "head_title", widget: "string" }
           - { label: "Meta Description", name: "description", widget: "text" }
+          # Navigation
+          - label: "Navigation Menu"
+            name: "nav"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL / Anchor", name: "url", widget: "string" }
           # Hero
           - { label: "Hero · Brand", name: "hero_brand", widget: "string" }
           - { label: "Hero · Name", name: "hero_name", widget: "string" }
@@ -88,6 +95,12 @@ collections:
               - { label: "Label", name: "label", widget: "string" }
               - { label: "URL", name: "url", widget: "string" }
           # Footer
+          - label: "Footer Links"
+            name: "footer_links"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
           - { label: "Footer · Tagline", name: "footer_tagline", widget: "string" }
 
   # ── Videos (folder) ─────────────────────────────────────────────────────
