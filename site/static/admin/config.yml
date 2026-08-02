@@ -16,7 +16,7 @@ backend:
   repo: ngeran/efiamerikana-landing
   branch: main
   auth_type: pkce
-  app_id: ""   # ← paste your GitHub OAuth App client_id here
+  app_id: "Ov23liWgC8tUshzuFVcS"   # ← paste your GitHub OAuth App client_id here
 
 local_backend: true   # dev: use `npx decap-server`; prod falls back to github
 
