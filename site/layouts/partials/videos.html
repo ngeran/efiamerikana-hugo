@@ -1,4 +1,17 @@
-{{/* Selected Works — one card per item in the `videos` headless section. */ -}}
+{{/* Selected Works — one card per item in the `videos` headless section.
+
+     Responsive/UX fixes:
+     - Grid steps 1 → 2 → 3 at sm/lg (was 1 → 2 → 3 at md/lg — see
+       gallery.html for why the extra sm: step matters on tablets).
+     - alt text fixed from `{{ $.Title }}` (outer page, same for every
+       card) to `{{ .Title }}` (this video's own title).
+     - The play-icon overlay was `opacity-0 group-hover:opacity-100`,
+       which never appears on touch devices (no hover state) — a tap just
+       navigates away with no visual affordance beforehand. It now shows
+       at low opacity by default and brightens on hover *or* focus, so
+       touch and keyboard users get the same "this is playable" cue mouse
+       users do.
+     - Added `loading="lazy"` for below-the-fold cards. */ -}}
 <section id="videos" class="bg-brand-yellow">
   <div class="max-w-7xl mx-auto section-pad">
     <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
@@ -10,23 +23,22 @@
     </div>
     <p class="text-base text-charcoal/70 max-w-2xl mb-12">{{ .Param "videos_intro" }}</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
       {{ with .Site.GetPage "videos" }}
         {{ range .Pages.ByDate.Reverse }}
-          {{ $color := "" }}
           <a href="{{ .Param "video_url" | default "#" }}" class="group block">
             <div class="relative aspect-square bg-charcoal rounded-preview-sm overflow-hidden card-border mb-4">
-              {{ with .Param "image" }}<img src="{{ . }}" class="w-full h-full img-cover opacity-90 group-hover:opacity-100" alt="{{ $.Title }}">{{ end }}
+              {{ with .Param "image" }}<img src="{{ . }}" class="w-full h-full img-cover opacity-90 group-hover:opacity-100" alt="{{ .Title }}" loading="lazy" decoding="async">{{ end }}
               <div class="absolute inset-0 flex items-center justify-center">
-                <span class="material-symbols-outlined text-white text-6xl opacity-0 group-hover:opacity-100 transition-opacity scale-75 group-hover:scale-100 transition-transform drop-shadow-2xl">play_circle</span>
+                <span class="material-symbols-outlined text-white text-6xl opacity-40 group-hover:opacity-100 group-focus-visible:opacity-100 scale-90 group-hover:scale-100 group-focus-visible:scale-100 transition-all drop-shadow-2xl" aria-hidden="true">play_circle</span>
               </div>
               {{ with .Param "platform" }}<div class="absolute bottom-3 left-3 bg-charcoal/70 backdrop-blur-sm px-4 py-1.5 rounded-full text-white text-[10px] font-bold uppercase tracking-wider">{{ . }}</div>{{ end }}
             </div>
 
             <div class="space-y-1">
-              <div class="flex justify-between items-start">
+              <div class="flex justify-between items-start gap-2">
                 <h3 class="font-serif text-xl font-bold leading-tight">{{ .Title }}</h3>
-                {{ with .Param "category" }}<span class="text-[10px] font-bold uppercase tracking-widest text-brand-red bg-white/30 px-2 py-0.5 rounded-full">{{ . }}</span>{{ end }}
+                {{ with .Param "category" }}<span class="shrink-0 text-[10px] font-bold uppercase tracking-widest text-brand-red bg-white/30 px-2 py-0.5 rounded-full">{{ . }}</span>{{ end }}
               </div>
               <div class="flex justify-between text-[10px] font-bold text-charcoal/40 uppercase tracking-widest">
                 <span>{{ .Date | time.Format "January 2, 2006" }}</span>

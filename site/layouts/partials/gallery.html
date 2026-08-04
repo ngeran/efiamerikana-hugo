@@ -1,4 +1,17 @@
-{{/* The Gallery — one card per item in the `gallery` headless section. */ -}}
+{{/* The Gallery — one card per item in the `gallery` headless section.
+
+     Responsive/UX fixes:
+     - Grid now steps 1 → 2 → 3 columns at sm/lg instead of jumping
+       straight from 1 to 2 at md (768px). Without the sm: step, phones in
+       landscape and small tablets (roughly 480-767px) rendered a single
+       full-width card per row, wasting most of the horizontal space.
+     - alt text was `{{ $.Title }}`, i.e. the *outer* page's title (the
+       gallery index, effectively always the same string) rather than each
+       photo's own title — every image in the grid had identical alt text.
+       Fixed to use the current loop item's `.Title` so each photo gets a
+       distinct, accurate description for screen readers and search.
+     - Added `loading="lazy"` since this section sits well below the fold;
+       the browser no longer has to fetch every gallery image up front. */ -}}
 <section id="pictures" class="bg-brand-pink border-y border-charcoal/10">
   <div class="max-w-7xl mx-auto section-pad">
     <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
@@ -10,19 +23,19 @@
     </div>
     <p class="text-base text-white/80 max-w-2xl mb-12">{{ .Param "gallery_intro" }}</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
       {{ with .Site.GetPage "gallery" }}
         {{ range .Pages.ByDate.Reverse }}
           <div class="group">
             <div class="aspect-square bg-white rounded-preview-sm overflow-hidden card-border mb-4">
-              {{ with .Param "image" }}<img src="{{ . }}" class="w-full h-full img-cover img-cover-grayscale grayscale" alt="{{ $.Title }}">{{ end }}
+              {{ with .Param "image" }}<img src="{{ . }}" class="w-full h-full img-cover img-cover-grayscale grayscale" alt="{{ .Title }}" loading="lazy" decoding="async">{{ end }}
             </div>
-            <div class="flex items-start justify-between">
+            <div class="flex items-start justify-between gap-2">
               <div>
                 <h3 class="font-serif text-lg font-bold text-white">{{ .Title }}</h3>
                 <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">{{ .Date | time.Format "January 2006" }}{{ with .Param "descriptor" }} • {{ . }}{{ end }}</p>
               </div>
-              {{ with .Param "tag" }}<span class="text-[10px] font-bold text-brand-yellow uppercase tracking-widest border border-brand-yellow px-3 py-1 rounded-full">{{ . }}</span>{{ end }}
+              {{ with .Param "tag" }}<span class="shrink-0 text-[10px] font-bold text-brand-yellow uppercase tracking-widest border border-brand-yellow px-3 py-1 rounded-full">{{ . }}</span>{{ end }}
             </div>
           </div>
         {{ end }}

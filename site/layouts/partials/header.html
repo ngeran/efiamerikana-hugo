@@ -1,41 +1,80 @@
 {{/* Sticky responsive header.
-      Mobile:  hamburger button → slide-down menu panel.
-      Desktop (md+): full inline nav on the left. EN|GR lives next to Email. */ -}}
-<header class="fixed top-0 w-full z-[100] bg-brand-yellow/90 backdrop-blur-md border-b border-charcoal/10 px-6 h-16 flex items-center">
 
-  {{/* Mobile menu toggle (hidden on desktop via the md:hidden utility). */}}
-  <button id="menu-toggle" type="button"
-          aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu"
-          class="md:hidden">
-    <span></span><span></span><span></span>
-  </button>
+     Breakpoint strategy: the original switched from hamburger to full
+     inline nav at `md` (768px). On real tablets and small laptop windows
+     (roughly 768-1024px) that meant cramming 5 nav links + a centered
+     logo + a language switch + an email link into one 64px-tall row, which
+     wrapped or overlapped the centered logo. Everything below now switches
+     at `lg` (1024px) instead, so the compact hamburger menu covers phones
+     *and* tablets, and the roomy inline layout only appears once there's
+     genuinely enough width for it.
 
-  {{/* Desktop left nav. */}}
-  <nav class="hidden md:flex flex-1 gap-4 lg:gap-6 text-[0.75rem] leading-[1rem] font-bold uppercase tracking-widest items-center">
-    {{ range .Param "nav" }}<a href="{{ .url | default "#" }}" class="hover:text-brand-pink transition-colors">{{ .label }}</a>{{ end }}
-  </nav>
+     Mobile/tablet (< lg): hamburger button → slide-down menu panel,
+       which also carries the language switch + email link so nothing is
+       lost, just relocated.
+     Desktop (lg+): full inline nav on the left, EN|GR + Email on the
+       right, brand centered. */ -}}
+<header class="fixed top-0 w-full z-[100] bg-brand-yellow/90 backdrop-blur-md border-b border-charcoal/10 px-4 sm:px-6 h-16 flex items-center">
+  {{/* .header-inner caps the row's width on ultra-wide/4K monitors so the
+       nav, logo and email links stay visually related instead of spreading
+       across the whole screen. See input.css for the definition. */}}
+  <div class="header-inner">
 
-  {{/* Brand: absolutely centered on every breakpoint. */}}
-  <a href="{{ .Site.Home.RelPermalink }}" class="absolute left-1/2 -translate-x-1/2 text-2xl font-bold tracking-tighter lowercase">{{ .Site.Title }}</a>
+    {{/* Mobile/tablet menu toggle — hidden once the inline nav takes over at lg. */}}
+    <button id="menu-toggle" type="button"
+            aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu"
+            class="lg:hidden">
+      <span></span><span></span><span></span>
+    </button>
 
-  {{/* Right: language switch + email. */}}
-  <div class="flex-1 flex justify-end items-center gap-4">
-    <div class="flex gap-1.5 text-[0.75rem] leading-[1rem] font-bold uppercase tracking-widest">
-      <a href="#" class="text-charcoal hover:text-brand-pink transition-colors">EN</a>
-      <span class="text-charcoal/30">|</span>
-      <a href="#" class="text-charcoal/40 hover:text-brand-pink transition-colors">GR</a>
+    {{/* Desktop inline nav (lg+ only). */}}
+    <nav class="hidden lg:flex flex-1 gap-4 xl:gap-6 text-[0.75rem] leading-[1rem] font-bold uppercase tracking-widest items-center">
+      {{ range .Param "nav" }}<a href="{{ .url | default "#" }}" class="hover:text-brand-pink transition-colors">{{ .label }}</a>{{ end }}
+    </nav>
+
+    {{/* Brand: absolutely centered on every breakpoint. clamp() keeps it
+         from crowding the hamburger button on the smallest phones (~320px)
+         while still reading as a confident wordmark on desktop. */}}
+    <a href="{{ .Site.Home.RelPermalink }}" class="absolute left-1/2 -translate-x-1/2 font-bold tracking-tighter lowercase whitespace-nowrap text-[clamp(1.125rem,4vw,1.5rem)]">{{ .Site.Title }}</a>
+
+    {{/* Desktop-only: language switch + email (lg+). On smaller screens
+         these live inside the mobile menu panel instead, so nothing is cut
+         and the header row never overflows. */}}
+    <div class="hidden lg:flex flex-1 justify-end items-center gap-4">
+      <div class="flex gap-1.5 text-[0.75rem] leading-[1rem] font-bold uppercase tracking-widest">
+        <a href="#" class="text-charcoal hover:text-brand-pink transition-colors">EN</a>
+        <span class="text-charcoal/30" aria-hidden="true">|</span>
+        <a href="#" class="text-charcoal/40 hover:text-brand-pink transition-colors">GR</a>
+      </div>
+      <a href="mailto:{{ .Param "contact_email" }}" class="flex items-center gap-2 group">
+        <span class="material-symbols-outlined text-brand-red group-hover:scale-110 transition-transform" aria-hidden="true">mail</span>
+        <span class="text-[0.75rem] leading-[1rem] font-bold uppercase tracking-widest border-b border-charcoal/20">Email Me</span>
+      </a>
     </div>
-    <a href="mailto:{{ .Param "contact_email" }}" class="flex items-center gap-2 group">
-      <span class="material-symbols-outlined text-brand-red group-hover:scale-110 transition-transform">mail</span>
-      <span class="hidden lg:block text-[0.75rem] leading-[1rem] font-bold uppercase tracking-widest border-b border-charcoal/20">Email Me</span>
-    </a>
+
   </div>
 </header>
 
-{{/* Mobile menu panel — sits just under the header. */}}
-<div id="mobile-menu" class="hidden md:hidden fixed top-16 inset-x-0 z-[99] bg-brand-yellow border-b border-charcoal/10 shadow-xl">
+{{/* Mobile/tablet menu panel — sits just under the header. Carries the
+     primary nav plus the language switch and email link that are hidden
+     from the header itself below `lg`, so no functionality is lost when
+     the inline header collapses. */ -}}
+<div id="mobile-menu" class="hidden lg:hidden fixed top-16 inset-x-0 z-[99] bg-brand-yellow border-b border-charcoal/10 shadow-xl max-h-[calc(100dvh-4rem)] overflow-y-auto">
   <nav class="flex flex-col px-6 py-4 text-[0.75rem] leading-[1rem] font-bold uppercase tracking-widest">
-    {{ range .Param "nav" }}<a href="{{ .url | default "#" }}" class="mobile-link py-3 border-b border-charcoal/10 last:border-b-0 hover:text-brand-pink transition-colors">{{ .label }}</a>{{ end }}
+    {{ range .Param "nav" }}<a href="{{ .url | default "#" }}" class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">{{ .label }}</a>{{ end }}
+
+    {{/* Language switch + email, relocated here from the desktop header. */}}
+    <div class="flex items-center justify-between py-3">
+      <div class="flex gap-1.5">
+        <a href="#" class="text-charcoal hover:text-brand-pink transition-colors">EN</a>
+        <span class="text-charcoal/30" aria-hidden="true">|</span>
+        <a href="#" class="text-charcoal/40 hover:text-brand-pink transition-colors">GR</a>
+      </div>
+      <a href="mailto:{{ .Param "contact_email" }}" class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-brand-red text-base" aria-hidden="true">mail</span>
+        Email Me
+      </a>
+    </div>
   </nav>
 </div>
 
@@ -60,5 +99,19 @@
     menu.querySelectorAll('.mobile-link').forEach(function (link) {
       link.addEventListener('click', function () { setOpen(false); });
     });
+
+    // Close the panel if the viewport grows past the `lg` breakpoint while
+    // it's open (e.g. rotating a tablet, or resizing a browser window) so
+    // it can't get stuck open behind the desktop nav.
+    var lgQuery = window.matchMedia('(min-width: 1024px)');
+    function handleBreakpointChange(e) {
+      if (e.matches) setOpen(false);
+    }
+    if (lgQuery.addEventListener) {
+      lgQuery.addEventListener('change', handleBreakpointChange);
+    } else if (lgQuery.addListener) {
+      // Safari < 14 fallback
+      lgQuery.addListener(handleBreakpointChange);
+    }
   })();
 </script>

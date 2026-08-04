@@ -1,46 +1,59 @@
-{{/* Analytics — headline stats + per-platform bars (from _index params). */ -}}
+{{/* Analytics — headline stats + per-platform bars (from _index params).
+
+     Legibility fix: every caption in this section (stat labels, platform
+     bar labels/values) used raw arbitrary sizes — text-[5px] and
+     text-[6px] — which render smaller than any operating system's
+     minimum comfortable reading size. They're replaced with `.micro-label`
+     (defined in input.css), a fluid utility with a 10px floor. The
+     background "ghost" word now uses `.ghost-text` instead of a bare
+     text-[8vw], which caps how large it can get on ultra-wide monitors.
+
+     Mobile fix: the two stat columns and the two pill stats now collapse
+     to a single column below `sm` — at 4 numbers across a 320-375px
+     screen with `border-l pl-6` dividers, the original grid-cols-2 made
+     each figure too narrow and crowded the divider against the text. */ -}}
 <section id="analytics" class="half-type bg-charcoal text-white overflow-hidden relative">
-  <div class="absolute top-1/2 left-0 transform -translate-y-1/2 text-[8vw] font-serif italic text-white/[0.03] whitespace-nowrap pointer-events-none">{{ .Param "analytics_ghost" }}</div>
+  <div class="ghost-text absolute top-1/2 left-0 transform -translate-y-1/2 font-serif italic text-white/[0.03] whitespace-nowrap pointer-events-none" aria-hidden="true">{{ .Param "analytics_ghost" }}</div>
 
   <div class="max-w-7xl mx-auto relative z-10 section-pad">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
       <div>
-        <h2 class="text-6xl md:text-8xl font-serif leading-tight mb-12">{{ .Param "analytics_heading" }} <br/><span class="text-brand-yellow italic">{{ .Param "analytics_heading_accent" }}</span></h2>
+        <h2 class="text-5xl sm:text-6xl md:text-8xl font-serif leading-tight mb-10 sm:mb-12">{{ .Param "analytics_heading" }} <br/><span class="text-brand-yellow italic">{{ .Param "analytics_heading_accent" }}</span></h2>
 
-        <div class="grid grid-cols-2 gap-8">
-          <div class="border-l border-brand-pink pl-6">
-            <p class="text-4xl md:text-5xl font-bold font-serif mb-2">{{ .Param "analytics_reach" }}</p>
-            <p class="text-[5px] uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_reach_label" }}</p>
+        <div class="grid grid-cols-2 gap-4 sm:gap-8">
+          <div class="border-l border-brand-pink pl-4 sm:pl-6">
+            <p class="text-3xl sm:text-4xl md:text-5xl font-bold font-serif mb-2">{{ .Param "analytics_reach" }}</p>
+            <p class="micro-label uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_reach_label" }}</p>
           </div>
-          <div class="border-l border-brand-yellow pl-6">
-            <p class="text-4xl md:text-5xl font-bold font-serif mb-2">{{ .Param "analytics_community" }}</p>
-            <p class="text-[5px] uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_community_label" }}</p>
+          <div class="border-l border-brand-yellow pl-4 sm:pl-6">
+            <p class="text-3xl sm:text-4xl md:text-5xl font-bold font-serif mb-2">{{ .Param "analytics_community" }}</p>
+            <p class="micro-label uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_community_label" }}</p>
           </div>
         </div>
 
-        <div class="mt-12 flex gap-6 flex-wrap">
-          <div class="bg-white/5 backdrop-blur-sm rounded-xl px-6 py-4 border border-white/10">
-            <span class="block text-2xl font-bold font-serif text-brand-yellow">{{ .Param "analytics_engagement_rate" }}</span>
-            <span class="text-[5px] uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_engagement_label" }}</span>
+        <div class="mt-10 sm:mt-12 grid grid-cols-2 sm:flex gap-4 sm:gap-6 sm:flex-wrap">
+          <div class="bg-white/5 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-4 border border-white/10">
+            <span class="block text-xl sm:text-2xl font-bold font-serif text-brand-yellow">{{ .Param "analytics_engagement_rate" }}</span>
+            <span class="micro-label uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_engagement_label" }}</span>
           </div>
-          <div class="bg-white/5 backdrop-blur-sm rounded-xl px-6 py-4 border border-white/10">
-            <span class="block text-2xl font-bold font-serif text-brand-pink">{{ .Param "analytics_avg_views" }}</span>
-            <span class="text-[5px] uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_avg_views_label" }}</span>
+          <div class="bg-white/5 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-4 border border-white/10">
+            <span class="block text-xl sm:text-2xl font-bold font-serif text-brand-pink">{{ .Param "analytics_avg_views" }}</span>
+            <span class="micro-label uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_avg_views_label" }}</span>
           </div>
         </div>
       </div>
 
-      <div class="space-y-12">
-        <div class="space-y-8">
+      <div class="space-y-10 sm:space-y-12">
+        <div class="space-y-6 sm:space-y-8">
           {{ range .Param "analytics_platforms" }}
             {{/* Map the stored color name to a literal utility so the scanner
                  picks it up at compile time. */}}
             {{ $bar := "" }}
             {{ if eq .color "brand-pink" }}{{ $bar = "bg-brand-pink" }}{{ else if eq .color "brand-yellow" }}{{ $bar = "bg-brand-yellow" }}{{ else if eq .color "brand-red" }}{{ $bar = "bg-brand-red" }}{{ else }}{{ $bar = "bg-white" }}{{ end }}
             <div class="group">
-              <div class="flex justify-between text-[6px] font-bold uppercase tracking-[0.2em] mb-3">
-                <span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full {{ $bar }}"></div> {{ .name }}</span>
-                <span>{{ .value }}</span>
+              <div class="micro-label flex justify-between font-bold uppercase tracking-[0.2em] mb-3 gap-2">
+                <span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full shrink-0 {{ $bar }}" aria-hidden="true"></div> {{ .name }}</span>
+                <span class="shrink-0">{{ .value }}</span>
               </div>
               <div class="w-full h-1 bg-white/10 overflow-hidden rounded-full">
                 <div class="h-full {{ $bar }} rounded-full transition-all duration-1000" style="width: {{ .bar | default "50%" }}"></div>

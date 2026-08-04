@@ -41,6 +41,38 @@
     color: var(--color-charcoal);
     font-family: var(--font-sans);
   }
+
+  /* -----------------------------------------------------------------------
+     Accessibility: keyboard focus.
+     The site relies on hover: states for feedback, which keyboard/switch
+     users never see. Give every interactive element a clear, on-brand
+     focus ring instead of the invisible default outline some browsers use
+     on colored backgrounds (yellow-on-yellow, red-on-red, etc).
+     ----------------------------------------------------------------------- */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--color-brand-pink);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* -----------------------------------------------------------------------
+     Respect the OS-level "reduce motion" preference. The site leans on
+     hover-lift, scale and smooth-scroll animation for personality; none of
+     that should run for people who've asked their system to minimize it.
+     ----------------------------------------------------------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    html.scroll-smooth {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer components {
@@ -52,21 +84,58 @@
 
   /* Sections rendered at half type (analytics, contact). The --text-*
      custom-property cascade makes every text-* utility inside resolve to
-     half, while the rest of the site stays at full size. */
+     half, while the rest of the site stays at full size.
+
+     UX FIX: the original scale bottomed out at 0.375rem (6px) for text-xs,
+     which is below any comfortably-readable size on a screen (WCAG-style
+     guidance treats ~9px as an absolute floor, ~11-12px as the practical
+     minimum for body copy). That made the analytics stat labels and the
+     "top 1%" note effectively illegible, especially on high-density phone
+     screens. The scale below keeps the same *relative* "half type" feel
+     (headings still read as dramatically larger than labels) but raises
+     every step so nothing renders under 10px. */
   .half-type {
-    --text-xs: 0.375rem;
-    --text-sm: 0.4375rem;
-    --text-base: 0.5rem;
-    --text-lg: 0.5625rem;
-    --text-xl: 0.625rem;
-    --text-2xl: 0.75rem;
-    --text-3xl: 0.875rem;
-    --text-4xl: 1.125rem;
-    --text-5xl: 1.5rem;
-    --text-6xl: 1.875rem;
-    --text-7xl: 2.25rem;
-    --text-8xl: 3rem;
-    --text-9xl: 4rem;
+    --text-xs: 0.625rem;   /* 10px — was 6px  */
+    --text-sm: 0.6875rem;  /* 11px — was 7px  */
+    --text-base: 0.75rem;  /* 12px — was 8px  */
+    --text-lg: 0.8125rem;  /* 13px — was 9px  */
+    --text-xl: 0.875rem;   /* 14px — was 10px */
+    --text-2xl: 1rem;      /* 16px — was 12px */
+    --text-3xl: 1.125rem;  /* 18px — was 14px */
+    --text-4xl: 1.375rem;  /* 22px — was 18px */
+    --text-5xl: 1.75rem;   /* 28px — was 24px */
+    --text-6xl: 2.25rem;   /* 36px — was 30px */
+    --text-7xl: 2.75rem;   /* 44px — was 36px */
+    --text-8xl: 3.5rem;    /* 56px — was 48px */
+    --text-9xl: 4.5rem;    /* 72px — was 64px */
+  }
+
+  /* Tiny uppercase captions inside the analytics section (stat labels,
+     per-platform bar labels). These previously used raw arbitrary values
+     (text-[5px], text-[6px]) that bypassed the --text-* scale entirely and
+     were unreadable on any screen. This utility gives them a fluid,
+     always-legible size instead: a hard floor of 10px, growing gently with
+     the viewport up to 12px on very large screens. */
+  .micro-label {
+    font-size: clamp(0.625rem, 0.5rem + 0.3vw, 0.75rem);
+  }
+
+  /* Large decorative background word behind the analytics stats. Using a
+     pure vw unit (the original text-[8vw]) makes this text balloon to
+     200px+ on ultra-wide/4K monitors, which pushes it visually off the
+     panel it's meant to sit quietly behind. Clamping keeps it responsive
+     to the viewport while capping how big it can get. */
+  .ghost-text {
+    font-size: clamp(1.75rem, 8vw, 8rem);
+  }
+
+  /* Constrains and centers the header's inner flex row on very large
+     screens (ultra-wide / 4K monitors). Without this the nav links, the
+     centered logo, and the email link all spread out to the full window
+     width and lose any visual relationship to each other. On phones/
+     tablets this is a no-op (the content is narrower than the cap anyway). */
+  .header-inner {
+    @apply relative flex items-center w-full h-full max-w-[1600px] mx-auto;
   }
 
   /* Mobile hamburger button + its three bars, animating into an X when the
@@ -118,16 +187,20 @@
     box-shadow: 0 12px 24px -10px rgba(27, 28, 28, 0.2);
   }
 
-  /* Hero aside: pink panel with a red rule — left on desktop, top on mobile. */
+  /* Hero aside: pink panel with a red rule — top on mobile, thinner top
+     rule on very small phones, left rule on desktop.
+
+     The rule's side/thickness now lives entirely on the element as
+     responsive Tailwind utilities (border-t-[20px] sm:border-t-[32px]
+     md:border-t-0 md:border-l-[32px] in hero.html) instead of being split
+     between a plain-CSS media query here and utility classes there — two
+     mechanisms fighting over the same property was fragile and made the
+     breakpoint hard to find. This class now only carries the background
+     color, which doesn't have a utility-class equivalent worth adding
+     (bg-brand-pink already exists and could be used directly in markup,
+     but this keeps the aside's few custom rules grouped in one place). */
   .hero-aside {
     background-color: var(--color-brand-pink);
-    border-left: 32px solid var(--color-brand-red);
-  }
-  @media (max-width: 768px) {
-    .hero-aside {
-      border-left: none;
-      border-top: 32px solid var(--color-brand-red);
-    }
   }
 
   /* "| Title" section headings — fluid (clamp) so they scale to any screen. */

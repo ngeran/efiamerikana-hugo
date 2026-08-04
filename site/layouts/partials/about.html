@@ -1,7 +1,17 @@
-{{/* About — portrait + story copy + CTA. */ -}}
+{{/* About — portrait + story copy + CTA.
+
+     Note on the -translate-y-[Npx] offsets below: these are small optical
+     nudges (a handful of pixels) that only make sense once the layout is
+     the two-column md:grid-cols-2 arrangement. Previously they were
+     unconditional, so on mobile (single stacked column) they also pulled
+     the section title and the story copy upward — tightening the gap
+     between image and text to the point of feeling cramped, sometimes
+     nearly overlapping depending on image height. They're now scoped to
+     `md:` and up, so mobile gets the full, untouched gap-8 spacing and
+     desktop keeps its original fine-tuned alignment. */ -}}
 <section id="about" class="bg-about-blue">
   <div class="max-w-7xl mx-auto section-pad">
-    <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4 relative -translate-y-[5px]">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4 relative md:-translate-y-[5px]">
       <div class="section-title-pipe">
         <span class="pipe text-brand-red">|</span>
         <span class="title-text">{{ .Param "about_label" }}</span>
@@ -9,15 +19,15 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-      <div class="relative -translate-y-[10px]">
-        {{ with .Param "about_image" }}<img src="{{ . }}" class="block w-full max-w-sm mx-auto aspect-square rounded-full object-cover object-[50%_25%] grayscale hover:grayscale-0 transition-all duration-700" alt="{{ $.Param "hero_name" }}">{{ end }}
+      <div class="relative md:-translate-y-[10px]">
+        {{ with .Param "about_image" }}<img src="{{ . }}" class="block w-full max-w-[16rem] sm:max-w-sm mx-auto aspect-square rounded-full object-cover object-[50%_25%] grayscale hover:grayscale-0 transition-all duration-700" alt="Portrait of {{ $.Param "hero_name" }}" loading="lazy">{{ end }}
       </div>
 
-      <div class="space-y-4 relative -translate-y-[25px]">
+      <div class="space-y-4 relative md:-translate-y-[25px] text-center md:text-left">
         <span class="pill-tag inline-block">{{ .Param "about_tag" }}</span>
-        <h2 class="text-3xl md:text-4xl font-serif leading-tight text-charcoal">{{ .Param "about_heading" }} <br/><span class="italic text-brand-pink">{{ .Param "about_heading_accent" }}</span></h2>
-        <p class="text-lg leading-snug text-charcoal/80 max-w-lg">{{ .Param "about_p1" }}</p>
-        <p class="text-base leading-snug text-charcoal/70 max-w-lg">{{ .Param "about_p2" }}</p>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight text-charcoal">{{ .Param "about_heading" }} <br/><span class="italic text-brand-pink">{{ .Param "about_heading_accent" }}</span></h2>
+        <p class="text-base sm:text-lg leading-snug text-charcoal/80 max-w-lg mx-auto md:mx-0">{{ .Param "about_p1" }}</p>
+        <p class="text-sm sm:text-base leading-snug text-charcoal/70 max-w-lg mx-auto md:mx-0">{{ .Param "about_p2" }}</p>
       </div>
     </div>
   </div>

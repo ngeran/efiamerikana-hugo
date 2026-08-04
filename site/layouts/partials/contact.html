@@ -1,14 +1,20 @@
-{{/* Contact — big CTA + email + social links (from _index params). */ -}}
+{{/* Contact — big CTA + email + social links (from _index params).
+
+     The email address used a fixed text-xl with whitespace-nowrap, which
+     on a narrow phone (~320px) combined with a longer address can force
+     horizontal overflow instead of wrapping. Stepping the size down at the
+     smallest breakpoint and dropping the forced no-wrap at that size lets
+     it break onto a second line gracefully instead of clipping/scrolling. */ -}}
 <section id="contact" class="half-type bg-brand-red text-white text-center">
-  <div class="max-w-3xl mx-auto space-y-12 section-pad">
-    <h2 class="text-6xl md:text-8xl font-serif italic leading-none">{{ .Param "contact_heading" }}</h2>
+  <div class="max-w-3xl mx-auto space-y-10 sm:space-y-12 section-pad">
+    <h2 class="text-4xl sm:text-6xl md:text-8xl font-serif italic leading-none">{{ .Param "contact_heading" }}</h2>
     <div class="space-y-6">
-      <p class="text-xl md:text-2xl font-medium text-white/80">{{ .Param "contact_text" }}</p>
-      <a href="mailto:{{ .Param "contact_email" }}" class="text-xl md:text-4xl font-serif font-bold border-b-2 border-brand-yellow inline-block hover:text-brand-yellow transition-colors whitespace-nowrap">{{ .Param "contact_email" }}</a>
+      <p class="text-lg sm:text-xl md:text-2xl font-medium text-white/80">{{ .Param "contact_text" }}</p>
+      <a href="mailto:{{ .Param "contact_email" }}" class="text-lg sm:text-xl md:text-4xl font-serif font-bold border-b-2 border-brand-yellow inline-block hover:text-brand-yellow transition-colors break-all sm:whitespace-nowrap">{{ .Param "contact_email" }}</a>
     </div>
-    <div class="pt-12 flex flex-wrap justify-center items-center gap-6 sm:gap-8">
+    <div class="pt-10 sm:pt-12 flex flex-wrap justify-center items-center gap-6 sm:gap-8">
       {{ range .Param "socials" }}
-      <a href="{{ .url | default "#" }}" class="flex items-center gap-2 text-white hover:text-brand-yellow transition-colors">
+      <a href="{{ .url | default "#" }}" class="flex items-center gap-2 text-white hover:text-brand-yellow transition-colors" target="_blank" rel="noopener noreferrer">
         {{ partial "social-icon.html" (dict "label" .label) }}
         <span class="text-sm font-bold uppercase tracking-widest">{{ .label }}</span>
       </a>

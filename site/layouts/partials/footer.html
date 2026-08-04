@@ -1,8 +1,12 @@
-{{/* Footer — copyright, policy links, tagline. */ -}}
-<footer class="bg-charcoal text-white py-12 px-6">
-  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/5 pt-12">
-    <div class="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">© {{ now.Format "2006" }} {{ .Site.Title | upper }}</div>
-    <div class="flex gap-8 text-[10px] font-bold uppercase tracking-widest">
+{{/* Footer — copyright, policy links, tagline.
+     Already stacked cleanly on mobile via flex-col; just centering text
+     and tightening the tracking slightly on the smallest screens so the
+     wide letter-spacing doesn't force the copyright line to wrap awkwardly
+     on a ~320px viewport. */ -}}
+<footer class="bg-charcoal text-white py-10 sm:py-12 px-6">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8 text-center md:text-left border-t border-white/5 pt-10 sm:pt-12">
+    <div class="text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.4em] text-white/30">© {{ now.Format "2006" }} {{ .Site.Title | upper }}</div>
+    <div class="flex gap-6 sm:gap-8 text-[10px] font-bold uppercase tracking-widest">
       {{ range .Param "footer_links" }}<a href="{{ .url | default "#" }}" class="hover:text-brand-yellow transition-colors">{{ .label }}</a>{{ end }}
     </div>
     <div class="text-[10px] font-bold uppercase tracking-widest text-brand-pink">{{ .Param "footer_tagline" }}</div>
