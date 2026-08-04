@@ -3,6 +3,10 @@
      Responsive/UX fixes:
      - Grid steps 1 → 2 → 3 at sm/lg (was 1 → 2 → 3 at md/lg — see
        gallery.html for why the extra sm: step matters on tablets).
+     - Card thumbnails use `.preview-media` instead of a fixed
+       `aspect-square`, so the row's height adapts to a short *viewport*,
+       not just a narrow one — see gallery.html / input.css for the full
+       explanation.
      - alt text fixed from `{{ $.Title }}` (outer page, same for every
        card) to `{{ .Title }}` (this video's own title).
      - The play-icon overlay was `opacity-0 group-hover:opacity-100`,
@@ -21,13 +25,13 @@
       </div>
       <p class="max-w-xs text-xs font-bold uppercase tracking-widest text-charcoal/40">{{ .Param "videos_sublabel" }}</p>
     </div>
-    <p class="text-base text-charcoal/70 max-w-2xl mb-12">{{ .Param "videos_intro" }}</p>
+    <p class="text-base text-charcoal/70 max-w-2xl section-intro">{{ .Param "videos_intro" }}</p>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
       {{ with .Site.GetPage "videos" }}
         {{ range .Pages.ByDate.Reverse }}
           <a href="{{ .Param "video_url" | default "#" }}" class="group block">
-            <div class="relative aspect-square bg-charcoal rounded-preview-sm overflow-hidden card-border mb-4">
+            <div class="preview-media relative bg-charcoal rounded-preview-sm overflow-hidden card-border mb-4">
               {{ with .Param "image" }}<img src="{{ . }}" class="w-full h-full img-cover opacity-90 group-hover:opacity-100" alt="{{ .Title }}" loading="lazy" decoding="async">{{ end }}
               <div class="absolute inset-0 flex items-center justify-center">
                 <span class="material-symbols-outlined text-white text-6xl opacity-40 group-hover:opacity-100 group-focus-visible:opacity-100 scale-90 group-hover:scale-100 group-focus-visible:scale-100 transition-all drop-shadow-2xl" aria-hidden="true">play_circle</span>

@@ -21,8 +21,10 @@
   --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Libre Caslon Text", ui-serif, Georgia, serif;
 
-  /* About section background. */
-  --color-about-blue: #AED6F1;
+  /* About section background. Lightened ~25% toward white from the
+     original #AED6F1 so it reads as an airy backdrop for the portrait
+     rather than competing with it. */
+  --color-about-blue: #C2E0F5;
 }
 
 @layer base {
@@ -77,9 +79,29 @@
 
 @layer components {
   /* Generous breathing room on desktop, tightened on mobile so sections
-     don't feel sparse or force needless scrolling on a phone. */
+     don't feel sparse or force needless scrolling on a phone. Also
+     tightened on short *viewports* (regardless of width) — a shallow
+     browser window shouldn't spend a big chunk of its limited height on
+     padding alone. */
   .section-pad {
     @apply py-6 px-6 md:py-10;
+  }
+  @media (max-height: 820px) {
+    .section-pad {
+      @apply py-4 md:py-6;
+    }
+  }
+
+  /* Intro paragraph under a section's title (gallery/videos/about-style
+     sections). Same short-viewport logic as .section-pad — trims the gap
+     before the grid so more of the first row of cards fits on screen. */
+  .section-intro {
+    @apply mb-12;
+  }
+  @media (max-height: 820px) {
+    .section-intro {
+      @apply mb-6;
+    }
   }
 
   /* Sections rendered at half type (analytics, contact). The --text-*
@@ -165,6 +187,34 @@
 
   .rounded-preview-sm {
     @apply rounded-3xl;
+  }
+
+  /* -----------------------------------------------------------------------
+     Gallery/video preview thumbnails.
+     These were plain `aspect-square`, sized purely off the grid column's
+     *width*. That's fine for how wide the row is, but it ignores how much
+     *vertical* space the browser window actually has. On a shorter window
+     (a laptop with a shallow viewport, or DevTools/keyboard eating screen
+     height) the row's total height — square image + title/date/tag block
+     below it — stays exactly the same as on a tall monitor, so the row
+     just runs off the bottom of the viewport mid-caption instead of
+     resizing to fit.
+     `.preview-media` keeps the square ratio by default but flattens it in
+     two steps as the *viewport height* shrinks, so the whole row (image +
+     caption) has a much better chance of fitting within a short window
+     without an awkward, scroll-required cut partway through a card. */
+  .preview-media {
+    aspect-ratio: 1 / 1;
+  }
+  @media (max-height: 820px) {
+    .preview-media {
+      aspect-ratio: 4 / 3;
+    }
+  }
+  @media (max-height: 680px) {
+    .preview-media {
+      aspect-ratio: 16 / 9;
+    }
   }
 
   .img-cover {
