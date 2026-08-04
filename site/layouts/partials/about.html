@@ -9,19 +9,15 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-      <div class="relative -translate-y-[5px]">
+      <div class="relative -translate-y-[10px]">
         {{ with .Param "about_image" }}<img src="{{ . }}" class="block w-full max-w-sm mx-auto aspect-square rounded-full object-cover object-[50%_25%] grayscale hover:grayscale-0 transition-all duration-700" alt="{{ $.Param "hero_name" }}">{{ end }}
       </div>
 
-      <div class="space-y-4">
-        <div class="space-y-4 relative -translate-y-[25px]">
-          <span class="pill-tag inline-block">{{ .Param "about_tag" }}</span>
-          <h2 class="text-3xl md:text-4xl font-serif leading-tight text-charcoal">{{ .Param "about_heading" }} <br/><span class="italic text-brand-pink">{{ .Param "about_heading_accent" }}</span></h2>
-          <p class="text-lg leading-snug text-charcoal/80 max-w-lg">{{ .Param "about_p1" }}</p>
-          <p class="text-base leading-snug text-charcoal/70 max-w-lg">{{ .Param "about_p2" }}</p>
-        </div>
-
-        <a href="#contact" class="bg-charcoal text-white px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] inline-block hover:bg-brand-red transition-all shadow-lg hover:shadow-xl rounded-full relative -translate-y-[15px]">{{ .Param "about_cta" }}</a>
+      <div class="space-y-4 relative -translate-y-[25px]">
+        <span class="pill-tag inline-block">{{ .Param "about_tag" }}</span>
+        <h2 class="text-3xl md:text-4xl font-serif leading-tight text-charcoal">{{ .Param "about_heading" }} <br/><span class="italic text-brand-pink">{{ .Param "about_heading_accent" }}</span></h2>
+        <p class="text-lg leading-snug text-charcoal/80 max-w-lg">{{ .Param "about_p1" }}</p>
+        <p class="text-base leading-snug text-charcoal/70 max-w-lg">{{ .Param "about_p2" }}</p>
       </div>
     </div>
   </div>
