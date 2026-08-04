@@ -1,7 +1,7 @@
 {{/* The Gallery — one card per item in the `gallery` headless section. */ -}}
 <section id="pictures" class="bg-brand-pink border-y border-charcoal/10">
   <div class="max-w-7xl mx-auto section-pad">
-    <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
       <div class="section-title-pipe">
         <span class="pipe text-white">|</span>
         <span class="title-text text-white">{{ .Param "gallery_label" }}</span>
@@ -10,7 +10,7 @@
     </div>
     <p class="text-base text-white/80 max-w-2xl mb-12">{{ .Param "gallery_intro" }}</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
       {{ with .Site.GetPage "gallery" }}
         {{ range .Pages.ByDate.Reverse }}
           <div class="group">
