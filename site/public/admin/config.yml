@@ -1,42 +1,22 @@
 # =========================================================================
-# Decap CMS (Open Source) config — github backend.
-#
-# One-time setup (github backend, PKCE):
-#   1. Create a GitHub OAuth App (Authorization callback URL:
-#      https://api.netlify.com/auth/done — or your own proxy callback).
-#   2. Put its Client ID in `backend.app_id` below.
-#   3. For local editing: `npx decap-server`, then open /admin/.
-#      `local_backend: true` below makes the editor use the local proxy first.
-#
-# Media uploads land in static/images/upload (served at /images/upload).
+# Decap CMS (Open Source) config — github backend with OAuth proxy.
 # =========================================================================
 
 backend:
   name: github
-  repo: ngeran/efiamerikana-landing
+  repo: ngeran/efiamerikana-hugo
   branch: main
-  auth_type: pkce
-  app_id: ""   # ← paste your GitHub OAuth App client_id here
+  base_url: https://efiamerikana-cms-oauth.ngeran.workers.dev
+  auth_endpoint: /auth
 
 local_backend: true   # dev: use `npx decap-server`; prod falls back to github
 
-media_folder: "static/images/upload"
+media_folder: "site/static/images/upload"
 public_folder: "/images/upload"
-site_url: https://example.org
+site_url: https://efiamerikana-site.pages.dev
 
-# Reusable "headless build" field — keeps video/gallery items from generating
-# standalone URLs while still letting the home page range over them. Anchored
-# so both folder collections reference the same definition. Decap ignores the
-# `x-` prefixed key; only the anchor is used.
-x-headless: &headless
-  label: "Headless settings (advanced — leave as-is)"
-  name: "build"
-  widget: "object"
-  collapsed: true
-  fields:
-    - { label: "render", name: "render", widget: "hidden", default: "never" }
-    - { label: "list", name: "list", widget: "hidden", default: "local" }
-    - { label: "publishResources", name: "publishResources", widget: "hidden", default: false }
+# (Headless build settings are inlined per-collection below — no YAML anchors,
+# which some Decap builds parse poorly.)
 
 collections:
   # ── Landing page (single file) ──────────────────────────────────────────
@@ -46,12 +26,19 @@ collections:
     files:
       - label: "Home"
         name: "home"
-        file: "content/_index.md"
+        file: "site/content/_index.md"
         fields:
           # Meta
           - { label: "Page Title", name: "title", widget: "string" }
           - { label: "Browser Title (<title>)", name: "head_title", widget: "string" }
           - { label: "Meta Description", name: "description", widget: "text" }
+          # Navigation
+          - label: "Navigation Menu"
+            name: "nav"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL / Anchor", name: "url", widget: "string" }
           # Hero
           - { label: "Hero · Brand", name: "hero_brand", widget: "string" }
           - { label: "Hero · Name", name: "hero_name", widget: "string" }
@@ -108,13 +95,19 @@ collections:
               - { label: "Label", name: "label", widget: "string" }
               - { label: "URL", name: "url", widget: "string" }
           # Footer
+          - label: "Footer Links"
+            name: "footer_links"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
           - { label: "Footer · Tagline", name: "footer_tagline", widget: "string" }
 
   # ── Videos (folder) ─────────────────────────────────────────────────────
   - name: "videos"
     label: "Videos"
     label_singular: "Video"
-    folder: "content/videos"
+    folder: "site/content/videos"
     create: true
     delete: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
@@ -128,13 +121,20 @@ collections:
       - { label: "Video URL", name: "video_url", widget: "string", default: "#" }
       - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
       - { label: "Description", name: "body", widget: "markdown", required: false }
-      - *headless
+      - label: "Headless settings (advanced — leave as-is)"
+        name: "build"
+        widget: "object"
+        collapsed: true
+        fields:
+          - { label: "render", name: "render", widget: "hidden", default: "never" }
+          - { label: "list", name: "list", widget: "hidden", default: "local" }
+          - { label: "publishResources", name: "publishResources", widget: "hidden", default: false }
 
   # ── Gallery (folder) ────────────────────────────────────────────────────
   - name: "gallery"
     label: "Gallery"
     label_singular: "Picture"
-    folder: "content/gallery"
+    folder: "site/content/gallery"
     create: true
     delete: true
     slug: "{{year}}-{{month}}-{{slug}}"
@@ -146,4 +146,11 @@ collections:
       - { label: "Descriptor (date subtitle)", name: "descriptor", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
       - { label: "Description", name: "body", widget: "markdown", required: false }
-      - *headless
+      - label: "Headless settings (advanced — leave as-is)"
+        name: "build"
+        widget: "object"
+        collapsed: true
+        fields:
+          - { label: "render", name: "render", widget: "hidden", default: "never" }
+          - { label: "list", name: "list", widget: "hidden", default: "local" }
+          - { label: "publishResources", name: "publishResources", widget: "hidden", default: false }

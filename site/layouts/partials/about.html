@@ -1,5 +1,5 @@
 {{/* About — portrait + story copy + CTA. */ -}}
-<section id="about" class="bg-brand-yellow">
+<section id="about" class="bg-about-blue">
   <div class="max-w-7xl mx-auto section-pad">
     <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
       <div class="section-title-pipe">
@@ -16,8 +16,8 @@
       <div class="space-y-6">
         <span class="pill-tag inline-block">{{ .Param "about_tag" }}</span>
         <h2 class="text-4xl md:text-5xl font-serif leading-tight text-charcoal">{{ .Param "about_heading" }} <br/><span class="italic text-brand-pink">{{ .Param "about_heading_accent" }}</span></h2>
-        <p class="text-lg leading-relaxed text-charcoal/80 max-w-lg">{{ .Param "about_p1" }}</p>
-        <p class="text-base leading-relaxed text-charcoal/70 max-w-lg">{{ .Param "about_p2" }}</p>
+        <p class="text-lg leading-snug text-charcoal/80 max-w-lg">{{ .Param "about_p1" }}</p>
+        <p class="text-base leading-snug text-charcoal/70 max-w-lg">{{ .Param "about_p2" }}</p>
 
         <a href="#contact" class="bg-charcoal text-white px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] inline-block hover:bg-brand-red transition-all shadow-lg hover:shadow-xl rounded-full">{{ .Param "about_cta" }}</a>
       </div>

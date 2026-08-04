@@ -1,6 +1,6 @@
 {{/* Analytics — headline stats + per-platform bars (from _index params). */ -}}
 <section id="analytics" class="bg-charcoal text-white overflow-hidden relative">
-  <div class="absolute top-1/2 left-0 transform -translate-y-1/2 text-[15vw] font-serif italic text-white/[0.03] whitespace-nowrap pointer-events-none">{{ .Param "analytics_ghost" }}</div>
+  <div class="absolute top-1/2 left-0 transform -translate-y-1/2 text-[8vw] font-serif italic text-white/[0.03] whitespace-nowrap pointer-events-none">{{ .Param "analytics_ghost" }}</div>
 
   <div class="max-w-7xl mx-auto relative z-10 section-pad">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
@@ -10,22 +10,22 @@
         <div class="grid grid-cols-2 gap-8">
           <div class="border-l border-brand-pink pl-6">
             <p class="text-4xl md:text-5xl font-bold font-serif mb-2">{{ .Param "analytics_reach" }}</p>
-            <p class="text-[10px] uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_reach_label" }}</p>
+            <p class="text-[5px] uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_reach_label" }}</p>
           </div>
           <div class="border-l border-brand-yellow pl-6">
             <p class="text-4xl md:text-5xl font-bold font-serif mb-2">{{ .Param "analytics_community" }}</p>
-            <p class="text-[10px] uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_community_label" }}</p>
+            <p class="text-[5px] uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_community_label" }}</p>
           </div>
         </div>
 
         <div class="mt-12 flex gap-6 flex-wrap">
           <div class="bg-white/5 backdrop-blur-sm rounded-xl px-6 py-4 border border-white/10">
             <span class="block text-2xl font-bold font-serif text-brand-yellow">{{ .Param "analytics_engagement_rate" }}</span>
-            <span class="text-[10px] uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_engagement_label" }}</span>
+            <span class="text-[5px] uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_engagement_label" }}</span>
           </div>
           <div class="bg-white/5 backdrop-blur-sm rounded-xl px-6 py-4 border border-white/10">
             <span class="block text-2xl font-bold font-serif text-brand-pink">{{ .Param "analytics_avg_views" }}</span>
-            <span class="text-[10px] uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_avg_views_label" }}</span>
+            <span class="text-[5px] uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_avg_views_label" }}</span>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@
             {{ $bar := "" }}
             {{ if eq .color "brand-pink" }}{{ $bar = "bg-brand-pink" }}{{ else if eq .color "brand-yellow" }}{{ $bar = "bg-brand-yellow" }}{{ else if eq .color "brand-red" }}{{ $bar = "bg-brand-red" }}{{ else }}{{ $bar = "bg-white" }}{{ end }}
             <div class="group">
-              <div class="flex justify-between text-[11px] font-bold uppercase tracking-[0.2em] mb-3">
+              <div class="flex justify-between text-[6px] font-bold uppercase tracking-[0.2em] mb-3">
                 <span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full {{ $bar }}"></div> {{ .name }}</span>
                 <span>{{ .value }}</span>
               </div>

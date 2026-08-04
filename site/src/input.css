@@ -20,6 +20,25 @@
 
   --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Libre Caslon Text", ui-serif, Georgia, serif;
+
+  /* About section background. */
+  --color-about-blue: #D6EAF8;
+
+  /* Font sizes HALVED site-wide (per request). To un-reduce, raise these
+     toward the Tailwind defaults (xs .75 / sm .875 / base 1 / lg 1.125 …). */
+  --text-xs: 0.375rem;
+  --text-sm: 0.4375rem;
+  --text-base: 0.5rem;
+  --text-lg: 0.5625rem;
+  --text-xl: 0.625rem;
+  --text-2xl: 0.75rem;
+  --text-3xl: 0.875rem;
+  --text-4xl: 1.125rem;
+  --text-5xl: 1.5rem;
+  --text-6xl: 1.875rem;
+  --text-7xl: 2.25rem;
+  --text-8xl: 3rem;
+  --text-9xl: 4rem;
 }
 
 @layer base {
@@ -44,7 +63,7 @@
   /* Generous breathing room on desktop, tightened on mobile so sections
      don't feel sparse or force needless scrolling on a phone. */
   .section-pad {
-    @apply py-12 px-6 md:py-20;
+    @apply py-6 px-6 md:py-10;
   }
 
   /* Mobile hamburger button + its three bars, animating into an X when the
@@ -69,7 +88,7 @@
   }
 
   .pill-tag {
-    @apply bg-brand-pink text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.1em];
+    @apply bg-brand-pink text-white px-3 py-1 rounded-full text-[5px] font-bold uppercase tracking-[0.1em];
   }
 
   .rounded-preview-sm {
@@ -99,12 +118,12 @@
   /* Hero aside: pink panel with a red rule — left on desktop, top on mobile. */
   .hero-aside {
     background-color: var(--color-brand-pink);
-    border-left: 16px solid var(--color-brand-red);
+    border-left: 32px solid var(--color-brand-red);
   }
   @media (max-width: 768px) {
     .hero-aside {
       border-left: none;
-      border-top: 16px solid var(--color-brand-red);
+      border-top: 32px solid var(--color-brand-red);
     }
   }
 
@@ -115,17 +134,17 @@
   /* Pipe colour is set per-section via text-brand-red / text-white so the
      gallery (pink bg) can override the light-section default. */
   .section-title-pipe .pipe {
-    @apply font-light text-[2rem] leading-none;
+    @apply font-light text-[1rem] leading-none;
   }
   .section-title-pipe .title-text {
-    @apply font-serif text-[2.5rem] leading-[1.1];
+    @apply font-serif text-[1.25rem] leading-[1.1];
   }
   @media (max-width: 640px) {
     .section-title-pipe .title-text {
-      @apply text-[2rem];
+      @apply text-[1rem];
     }
     .section-title-pipe .pipe {
-      @apply text-[1.5rem];
+      @apply text-[0.75rem];
     }
   }
 }

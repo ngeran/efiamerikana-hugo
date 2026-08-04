@@ -11,7 +11,7 @@
   </button>
 
   {{/* Desktop left nav. */}}
-  <nav class="hidden md:flex flex-1 gap-4 lg:gap-6 text-[10px] font-bold uppercase tracking-widest items-center">
+  <nav class="hidden md:flex flex-1 gap-4 lg:gap-6 text-[5px] font-bold uppercase tracking-widest items-center">
     {{ range .Param "nav" }}<a href="{{ .url | default "#" }}" class="hover:text-brand-pink transition-colors">{{ .label }}</a>{{ end }}
   </nav>
 
@@ -20,14 +20,14 @@
 
   {{/* Right: language switch + email. */}}
   <div class="flex-1 flex justify-end items-center gap-4">
-    <div class="flex gap-1.5 text-[10px] font-bold uppercase tracking-widest">
+    <div class="flex gap-1.5 text-[5px] font-bold uppercase tracking-widest">
       <a href="#" class="text-charcoal hover:text-brand-pink transition-colors">EN</a>
       <span class="text-charcoal/30">|</span>
       <a href="#" class="text-charcoal/40 hover:text-brand-pink transition-colors">GR</a>
     </div>
     <a href="mailto:{{ .Param "contact_email" }}" class="flex items-center gap-2 group">
       <span class="material-symbols-outlined text-brand-red group-hover:scale-110 transition-transform">mail</span>
-      <span class="hidden lg:block text-[11px] font-bold uppercase tracking-widest border-b border-charcoal/20">Email Me</span>
+      <span class="hidden lg:block text-[6px] font-bold uppercase tracking-widest border-b border-charcoal/20">Email Me</span>
     </a>
   </div>
 </header>
