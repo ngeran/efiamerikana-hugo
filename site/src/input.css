@@ -30,8 +30,8 @@
   html {
     -ms-overflow-style: none;
     scrollbar-width: none;
-    /* Offset so each section separator line (4px) lands flush under the fixed h-20 (80px) header. */
-    scroll-padding-top: calc(5rem + 4px);
+    /* Offset so each section separator line (4px) lands flush under the fixed h-16 (64px) header. */
+    scroll-padding-top: calc(4rem + 4px);
   }
   html::-webkit-scrollbar {
     display: none;
@@ -130,24 +130,18 @@
     }
   }
 
-  /* "| Title" section headings. */
+  /* "| Title" section headings — fluid (clamp) so they scale to any screen. */
   .section-title-pipe {
     @apply flex items-baseline gap-2;
   }
   /* Pipe colour is set per-section via text-brand-red / text-white so the
      gallery (pink bg) can override the light-section default. */
   .section-title-pipe .pipe {
-    @apply font-light text-[2rem] leading-none;
+    @apply font-light leading-none;
+    font-size: clamp(1rem, 2.4vw, 1.5rem);
   }
   .section-title-pipe .title-text {
-    @apply font-serif text-[2.5rem] leading-[1.1];
-  }
-  @media (max-width: 640px) {
-    .section-title-pipe .title-text {
-      @apply text-[2rem];
-    }
-    .section-title-pipe .pipe {
-      @apply text-[1.5rem];
-    }
+    @apply font-serif leading-[1.1];
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
   }
 }
