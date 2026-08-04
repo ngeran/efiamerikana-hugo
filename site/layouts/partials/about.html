@@ -1,7 +1,7 @@
 {{/* About — portrait + story copy + CTA. */ -}}
 <section id="about" class="bg-about-blue">
   <div class="max-w-7xl mx-auto section-pad">
-    <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4 relative -translate-y-[5px]">
       <div class="section-title-pipe">
         <span class="pipe text-brand-red">|</span>
         <span class="title-text">{{ .Param "about_label" }}</span>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-      <div>
+      <div class="relative -translate-y-[5px]">
         {{ with .Param "about_image" }}<img src="{{ . }}" class="block w-full max-w-sm mx-auto aspect-square rounded-full object-cover object-[50%_25%] grayscale hover:grayscale-0 transition-all duration-700" alt="{{ $.Param "hero_name" }}">{{ end }}
       </div>
 
@@ -19,7 +19,7 @@
         <p class="text-lg leading-snug text-charcoal/80 max-w-lg">{{ .Param "about_p1" }}</p>
         <p class="text-base leading-snug text-charcoal/70 max-w-lg">{{ .Param "about_p2" }}</p>
 
-        <a href="#contact" class="bg-charcoal text-white px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] inline-block hover:bg-brand-red transition-all shadow-lg hover:shadow-xl rounded-full">{{ .Param "about_cta" }}</a>
+        <a href="#contact" class="bg-charcoal text-white px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] inline-block hover:bg-brand-red transition-all shadow-lg hover:shadow-xl rounded-full relative -translate-y-[15px]">{{ .Param "about_cta" }}</a>
       </div>
     </div>
   </div>
