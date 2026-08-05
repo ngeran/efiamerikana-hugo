@@ -20,14 +20,14 @@
      unrelated treatments. Kept: the white ring, the drop shadow, the
      grayscale-to-color hover, and a soft blurred glow behind it.
 
-     Size: fixed, not fluid. From `md` up the image is simply `w-full`
-     inside its grid cell — since the section is a `grid-cols-2` at that
-     breakpoint, that cell *is* exactly half the section's width by
-     definition, no viewport math needed to achieve that. Below `md` the
-     layout is a single stacked column, so "half the section" doesn't
-     apply the same way — it's centered with a sensible fixed cap instead
-     (`max-w-xs`, i.e. 320px) so it doesn't stretch edge-to-edge on a
-     phone. */ -}}
+     Size: capped to match the hero portrait, so the two photos share one
+     visual scale (not just the same shape). From `md` up the image is
+     capped at `max-w-72 / 80 / 96` (stepping up at lg/xl). Half a
+     `grid-cols-2` cell is ~600px, and letting a 4:5 portrait fill that
+     makes it ~750px tall — towering over the ~360px story copy and
+     inflating the whole section. Capping to the hero's own widths
+     (~288–384px) lets the text, not the image, drive the section height.
+     Below `md` it's a stacked column with a `max-w-xs` (320px) cap. */ -}}
 <section id="about" class="bg-about-blue">
   <div class="max-w-7xl mx-auto section-pad">
     <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4 relative md:-translate-y-[5px]">
@@ -42,9 +42,9 @@
         {{/* Soft glow behind the portrait, sized a little larger than the
              photo and centered under it via inset-0 + margin auto. Purely
              decorative, so it's aria-hidden and ignores pointer events. */}}
-        <div class="absolute inset-0 m-auto w-60 sm:w-80 md:w-full aspect-[4/5] bg-brand-pink/20 blur-3xl rounded-[3rem] pointer-events-none" aria-hidden="true"></div>
+        <div class="absolute inset-0 m-auto w-60 sm:w-80 md:w-72 lg:w-80 xl:w-96 aspect-[4/5] bg-brand-pink/20 blur-3xl rounded-[3rem] pointer-events-none" aria-hidden="true"></div>
 
-        {{ with .Param "about_image" }}<img src="{{ . }}" class="relative block w-full max-w-xs md:max-w-none mx-auto aspect-[4/5] rounded-[2rem] object-cover object-[50%_25%] grayscale hover:grayscale-0 transition-all duration-700 ring-4 ring-white/80 shadow-xl shadow-charcoal/15" alt="Portrait of {{ $.Param "hero_name" }}" loading="lazy">{{ end }}
+        {{ with .Param "about_image" }}<img src="{{ . }}" class="relative block w-full max-w-xs md:max-w-72 lg:max-w-80 xl:max-w-96 mx-auto aspect-[4/5] rounded-[2rem] object-cover object-[50%_25%] grayscale hover:grayscale-0 transition-all duration-700 ring-4 ring-white/80 shadow-xl shadow-charcoal/15" alt="Portrait of {{ $.Param "hero_name" }}" loading="lazy">{{ end }}
       </div>
 
       <div class="space-y-4 relative md:-translate-y-[25px] text-center md:text-left">
