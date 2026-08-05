@@ -19,7 +19,7 @@ nav:
 # ── Hero ──────────────────────────────────────────────────────────────────
 hero_brand: "efiamerikana"
 hero_name: "Effie Kazantzidis"
-hero_role: "Greek-American Home Cook"
+hero_role: "Greek-American<br>Home Cook"
 hero_tags: "Authentic Food • Everyday Cooking • UGC Creator"
 hero_quote: "A little bit of cooking, little bit of humor, and even serious talk sometimes."
 hero_image: "/images/efi-hero.jpg"
