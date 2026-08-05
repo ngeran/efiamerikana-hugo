@@ -21,10 +21,18 @@
   --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Libre Caslon Text", ui-serif, Georgia, serif;
 
-  /* About section background. Lightened ~25% toward white from the
-     original #AED6F1 so it reads as an airy backdrop for the portrait
-     rather than competing with it. */
-  --color-about-blue: #C2E0F5;
+  /* About section background — swapped hue, not just lightness. The
+     original (#AED6F1, then a lightened #C2E0F5) was a cyan-leaning sky
+     blue in the same family as a clear-day photo backdrop, which made it
+     compete a little with the portrait itself. This shifts toward a
+     periwinkle/blue-violet instead, which sits further from both the
+     portrait's likely tones and reads nicely alongside the brand pink
+     (an analogous pink→violet→blue pairing) without turning cold or
+     corporate. Two easy alternates if this isn't the one:
+       - Deeper "denim" blue:  #7CA3C9  (more contrast, still soft)
+       - Teal-leaning blue:    #9FD6D6  (cooler, pairs more with the
+                                 charcoal/analytics section than the pink) */
+  --color-about-blue: #B9C4F2;
 }
 
 @layer base {
@@ -199,13 +207,22 @@
      below it — stays exactly the same as on a tall monitor, so the row
      just runs off the bottom of the viewport mid-caption instead of
      resizing to fit.
-     `.preview-media` is a fixed 1/1 square at every viewport size. (An
-     earlier version flattened it toward 16:9 on short viewports to squeeze
-     a full row on screen, but that turned the thumbnails into rectangles;
-     the design now keeps them square.) Rounded corners come from the
-     `rounded-preview-sm` utility on the same element. */
+     `.preview-media` keeps the square ratio by default but flattens it in
+     two steps as the *viewport height* shrinks, so the whole row (image +
+     caption) has a much better chance of fitting within a short window
+     without an awkward, scroll-required cut partway through a card. */
   .preview-media {
     aspect-ratio: 1 / 1;
+  }
+  @media (max-height: 820px) {
+    .preview-media {
+      aspect-ratio: 4 / 3;
+    }
+  }
+  @media (max-height: 680px) {
+    .preview-media {
+      aspect-ratio: 16 / 9;
+    }
   }
 
   .img-cover {
@@ -226,6 +243,21 @@
   .card-soft:hover {
     @apply -translate-y-2;
     box-shadow: 0 12px 24px -10px rgba(27, 28, 28, 0.2);
+  }
+
+  /* Hero's own vertical rhythm (it doesn't use .section-pad since it needs
+     to fill the viewport-height "above the fold" feel, not just a normal
+     section's breathing room). Same short-viewport logic as .section-pad:
+     a laptop with a shallow effective viewport (OS scaling, browser
+     chrome) shouldn't have to scroll past a large fixed padding just to
+     reach the fold. */
+  .hero-pad {
+    @apply py-10 sm:py-16 md:py-20;
+  }
+  @media (max-height: 820px) {
+    .hero-pad {
+      @apply py-6 md:py-10;
+    }
   }
 
   /* Hero aside: pink panel with a red rule — top on mobile, thinner top
