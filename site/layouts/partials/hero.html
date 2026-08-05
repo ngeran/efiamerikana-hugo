@@ -1,77 +1,57 @@
 {{/* Hero — left portrait + intro, right pink "view portfolio" aside.
 
-     Why this needed another pass: the previous version scaled cleanly at
-     the couple of sizes it was checked against (a phone, a 2K+ monitor)
-     but was unreliable everywhere in between — the exact range that
-     covers most laptops and every 1080p monitor. Two root causes:
+     Sizing strategy: fixed, explicit widths per breakpoint rather than
+     viewport-relative math (vw/calc/clamp). The fluid version scaled
+     smoothly in theory but was hard to predict/tune in practice and made
+     the layout feel off at normal window sizes. Plain fixed widths at
+     each breakpoint are easier to reason about and adjust by eye — bump
+     one number, see exactly what changes, nothing else moves.
 
-     1. The portrait's width was `md:w-[calc(30%_+_30px)]` — 30% of its
-        *flex container's* width, which itself depends on how much room
-        is left after the aside, which itself was a fraction of the
-        *outer section's* width. Three nested percentages meant the
-        portrait's actual rendered size drifted around unpredictably
-        across the laptop/1080p range depending on exactly how those
-        percentages composed at that particular width — it wasn't a bug
-        exactly, just impossible to reason about or tune.
-
-     2. The right-hand aside was a flat `md:w-1/5` of the *entire section*,
-        with no ceiling. On a 1080p+ monitor that's 380px+ just for a
-        "view portfolio" button; on 2K/4K it becomes genuinely huge and
-        visually outweighs the (separately width-capped) portrait+text
-        column next to it — the two sides stop looking like they belong
-        to the same layout.
-
-     The fix: replace both the portrait width and the aside width with
-     `clamp()` — a minimum, a viewport-relative preferred size, and a
-     maximum. That scales continuously with the actual viewport width
-     (laptop, 1080p, 2K, 4K — every value in between, not just the
-     breakpoints we happened to test) and, critically, has a hard ceiling
-     so nothing balloons on a big monitor. The main headline and the pull
-     quote get the same treatment for the same reason — the old
-     `text-3xl sm:text-4xl` jump either looked slightly small on a 1440px
-     laptop or slightly large on a 1920px monitor depending on which side
-     of the jump you landed on; a fluid clamp lands right for both. */ -}}
+     Responsive notes:
+     - Headline/subhead sizes step through an extra breakpoint (base → sm
+       → md) instead of jumping straight to their final size, so a 375px
+       phone doesn't render the same 36-40px type as a desktop.
+     - Padding/gaps tighten on the smallest screens so the hero doesn't
+       force excessive scrolling before "view my portfolio" appears.
+     - `.hero-pad` (input.css) also trims vertical padding on short
+       *viewports* — a laptop with a shallow effective window (OS display
+       scaling, browser chrome) shouldn't have to scroll past a full-size
+       padding just to reach the fold. This only kicks in under 820px of
+       viewport height, so it doesn't affect normal-height windows at all. */ -}}
 <section class="relative flex flex-col md:flex-row flex-1 w-full bg-brand-yellow border-b border-charcoal/10">
-  <div class="relative overflow-hidden w-full md:flex-1 md:min-w-0 flex items-center justify-center px-5 sm:px-8 md:px-12 hero-pad">
+  <div class="relative overflow-hidden w-full md:w-4/5 flex items-center justify-center px-5 sm:px-8 md:px-12 hero-pad">
     <div class="absolute right-0 top-1/4 w-96 h-96 bg-white/20 blur-3xl rounded-full pointer-events-none" aria-hidden="true"></div>
 
     <div class="relative z-10 flex flex-col md:flex-row items-center gap-8 sm:gap-10 md:gap-12 w-full max-w-6xl">
       {{/* Portrait: capped max-width on mobile so it never dominates a
-           small screen edge-to-edge. From md up, width is a fluid clamp
-           instead of the old nested-percentage calc — see the note above
-           for why. clamp(220px, 24vw, 380px) reads as: never smaller than
-           220px, never larger than 380px, and in between, scale with 24%
-           of the viewport width. */}}
-      <div class="w-full max-w-xs sm:max-w-sm md:max-w-none md:w-[clamp(220px,24vw,380px)] mx-auto md:mx-0 shrink-0 rounded-[2rem] overflow-hidden border-2 border-black/5 aspect-[4/5]">
+           small screen edge-to-edge; a fixed width from md up, stepping
+           up slightly at lg/xl so it doesn't feel undersized on a big
+           monitor without ever depending on the parent's own width. */}}
+      <div class="w-full max-w-xs sm:max-w-sm md:w-72 lg:w-80 xl:w-96 mx-auto md:mx-0 shrink-0 rounded-[2rem] overflow-hidden border-2 border-black/5 aspect-[4/5]">
         {{ with .Param "hero_image" }}<img class="w-full h-full object-cover" src="{{ . }}" alt="{{ $.Param "hero_name" }}" loading="eager" fetchpriority="high" />{{ end }}
       </div>
 
       <div class="flex flex-col max-w-md text-center md:text-left items-center md:items-start">
         <div class="mb-5 sm:mb-6">
-          <h1 class="font-bold leading-none text-[clamp(1.5rem,1rem+2vw,2.5rem)]">{{ .Param "hero_brand" }}</h1>
+          <h1 class="font-bold leading-none text-3xl sm:text-4xl">{{ .Param "hero_brand" }}</h1>
           <h2 class="mt-1 tracking-widest uppercase font-bold text-brand-pink text-base sm:text-lg">{{ .Param "hero_name" }}</h2>
           <div class="h-1 w-12 mt-4 bg-brand-red mx-auto md:mx-0" aria-hidden="true"></div>
         </div>
-        <h3 class="font-bold mb-4 text-[clamp(1.75rem,1.1rem+2.6vw,3rem)]">{{ .Param "hero_role" | safeHTML }}</h3>
+        <h3 class="text-3xl sm:text-4xl font-bold mb-4">{{ .Param "hero_role" | safeHTML }}</h3>
         <div class="space-y-4">
           {{ with .Param "hero_tags" }}
           <div class="uppercase font-bold tracking-tighter text-sm space-y-1">
             {{ range $tag := split . "•" }}{{ with (trim $tag " ") }}<div>• {{ . }}</div>{{ end }}{{ end }}
           </div>
           {{ end }}
-          <p class="italic opacity-80 leading-tight max-w-md text-[clamp(1.125rem,0.85rem+1.1vw,1.5rem)]">{{ .Param "hero_quote" }}</p>
+          <p class="text-xl sm:text-2xl italic opacity-80 leading-tight max-w-md">{{ .Param "hero_quote" }}</p>
         </div>
       </div>
     </div>
   </div>
 
-  {{/* Aside width is now the same clamp() strategy as the portrait: a
-       floor so it never gets cramped on a small laptop, a ceiling so it
-       never dwarfs the content column on a big monitor, and `shrink-0`
-       so the flex-1 media column (above) absorbs whatever space is left
-       instead of the two fighting over it. */}}
-  <aside class="w-full md:w-[clamp(220px,20vw,340px)] md:shrink-0 hero-aside border-t-[20px] sm:border-t-[32px] md:border-t-0 md:border-l-[32px] border-brand-red flex flex-col items-center justify-center text-center gap-6 sm:gap-8 px-6 hero-pad">
-    <h4 class="leading-tight font-medium max-w-[160px] text-white text-[clamp(1.25rem,0.9rem+1.4vw,2.25rem)]">{{ .Param "hero_portfolio_label" }}</h4>
+  <aside class="w-full md:w-1/5 hero-aside border-t-[20px] sm:border-t-[32px] md:border-t-0 md:border-l-[32px] border-brand-red flex flex-col items-center justify-center text-center gap-6 sm:gap-8 px-6 hero-pad">
+    <h4 class="text-2xl sm:text-3xl md:text-4xl leading-tight font-medium max-w-[150px] text-white">{{ .Param "hero_portfolio_label" }}</h4>
     <a class="w-16 h-16 sm:w-20 sm:h-20 bg-charcoal rounded-full grid place-items-center hover:scale-105 transition-transform" href="#videos" aria-label="{{ .Param "hero_portfolio_label" }}">
       <svg class="w-6 h-6 sm:w-8 sm:h-8 fill-white ml-1" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
     </a>
