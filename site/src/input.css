@@ -199,22 +199,13 @@
      below it — stays exactly the same as on a tall monitor, so the row
      just runs off the bottom of the viewport mid-caption instead of
      resizing to fit.
-     `.preview-media` keeps the square ratio by default but flattens it in
-     two steps as the *viewport height* shrinks, so the whole row (image +
-     caption) has a much better chance of fitting within a short window
-     without an awkward, scroll-required cut partway through a card. */
+     `.preview-media` is a fixed 1/1 square at every viewport size. (An
+     earlier version flattened it toward 16:9 on short viewports to squeeze
+     a full row on screen, but that turned the thumbnails into rectangles;
+     the design now keeps them square.) Rounded corners come from the
+     `rounded-preview-sm` utility on the same element. */
   .preview-media {
     aspect-ratio: 1 / 1;
-  }
-  @media (max-height: 820px) {
-    .preview-media {
-      aspect-ratio: 4 / 3;
-    }
-  }
-  @media (max-height: 680px) {
-    .preview-media {
-      aspect-ratio: 16 / 9;
-    }
   }
 
   .img-cover {
