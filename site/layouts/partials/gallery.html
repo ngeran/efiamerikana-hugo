@@ -10,11 +10,10 @@
        height* shrinks (not just the width), so a shallow browser window
        has a much better chance of showing a full row — image, title,
        date, tag — without cutting it off mid-caption. See input.css.
-     - alt text was `{{ $.Title }}`, i.e. the *outer* page's title (the
-       gallery index, effectively always the same string) rather than each
-       photo's own title — every image in the grid had identical alt text.
-       Fixed to use the current loop item's `.Title` so each photo gets a
-       distinct, accurate description for screen readers and search.
+     - alt text uses a captured `{{ $title }}` (each photo's own title). It
+       must NOT be `{{ .Title }}`: inside `{{ with .Param "image" }}` the dot
+       is rebound to the URL string, so `.Title` throws "can't evaluate field
+       Title in type string" (broke the CI/Nix build).
      - Added `loading="lazy"` since this section sits well below the fold;
        the browser no longer has to fetch every gallery image up front. */ -}}
 <section id="pictures" class="bg-brand-pink border-y border-charcoal/10">
@@ -31,9 +30,10 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
       {{ with .Site.GetPage "gallery" }}
         {{ range .Pages.ByDate.Reverse }}
+          {{ $title := .Title }}
           <div class="group">
             <div class="preview-media bg-white rounded-preview-sm overflow-hidden card-border mb-4">
-              {{ with .Param "image" }}<img src="{{ . }}" class="w-full h-full img-cover img-cover-grayscale grayscale" alt="{{ .Title }}" loading="lazy" decoding="async">{{ end }}
+              {{ with .Param "image" }}<img src="{{ . }}" class="w-full h-full img-cover img-cover-grayscale grayscale" alt="{{ $title }}" loading="lazy" decoding="async">{{ end }}
             </div>
             <div class="flex items-start justify-between gap-2">
               <div>
