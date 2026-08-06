@@ -237,12 +237,13 @@
     }
   }
 
-  /* 2K+ monitors (≥2560px wide): the hero and about are compact poster
-     compositions, not card grids — filling a ~1440px+ tall viewport
-     leaves them swimming in whitespace. Sections carrying
-     .section-fill-relax drop the viewport fill above 2K and size to
-     their content instead. The videos/pictures grids keep filling. */
-  @media (min-width: 2560px) {
+  /* Large desktop monitors (≥1920px wide — Full HD and up): the hero and
+     about are compact poster compositions, not card grids. Filling a tall
+     viewport leaves them swimming in whitespace (the About copy is only
+     ~450px in a ~1000px+ section), so sections carrying .section-fill-relax
+     drop the viewport fill on large desktops and size to their content
+     instead. The videos/pictures grids keep filling — they have the cards. */
+  @media (min-width: 1920px) {
     .section-fill-relax {
       min-height: 0;
     }
