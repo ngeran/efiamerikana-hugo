@@ -1,17 +1,55 @@
-{{/* Contact — big CTA + email + social links (from _index params).
+{{/* =========================================================================
+     contact.html — section 6 of 6: the closing CTA        → anchor #contact
+     =========================================================================
 
-     The email address used a fixed text-xl with whitespace-nowrap, which
-     on a narrow phone (~320px) combined with a longer address can force
-     horizontal overflow instead of wrapping. Stepping the size down at the
-     smallest breakpoint and dropping the forced no-wrap at that size lets
-     it break onto a second line gracefully instead of clipping/scrolling. */ -}}
+     ROLE
+       Full-red closing block: oversized italic heading, a line of copy, the
+       email address as the primary action, then social links.
+
+     READS (all site params)
+       contact_heading, contact_text, contact_email, socials
+       socials — list of {label, url} maps
+
+     LAYOUT CONTRACT — the one section that is deliberately NOT rail-aligned
+       Everything is centred inside its own `max-w-3xl` cap. A closing CTA
+       reads as a full stop, so symmetry beats edge-alignment here; putting it
+       on the rail would make it look like just another content section.
+       It therefore needs an explicit `px-6`: `.section-pad` is vertical-only
+       now that `.rail` owns horizontal padding, and this block never gets
+       `.rail`.
+       Also no `.section-fill` — the content is short and a forced full-height
+       block would leave a large empty red band.
+       `.half-type` rescales every text-* utility inside (see input.css).
+
+     SECTIONS BELOW
+       1. Heading
+       2. Copy + email link
+       3. Social links
+
+     MISSING DEPENDENCY
+       This calls `partial "social-icon.html"`, which does not exist in this
+       extract. The real Hugo build needs it present.
+
+     MOBILE — why the email link's classes look fussy
+       It used a fixed text-xl with whitespace-nowrap; on a ~320px phone a
+       long address then forced horizontal page overflow instead of wrapping.
+       `break-all sm:whitespace-nowrap` lets it break onto a second line at
+       phone width and stay on one line everywhere else.
+     ========================================================================= */ -}}
 <section id="contact" class="half-type bg-brand-red text-white text-center">
-  <div class="max-w-3xl mx-auto space-y-10 sm:space-y-12 section-pad">
+  <div class="max-w-3xl mx-auto space-y-10 sm:space-y-12 section-pad px-6">
+
+    {{/* 1. HEADING */}}
     <h2 class="text-4xl sm:text-6xl md:text-8xl font-serif italic leading-none">{{ .Param "contact_heading" }}</h2>
+
+    {{/* 2. COPY + EMAIL — the email is the section's primary action. */}}
     <div class="space-y-6">
       <p class="text-lg sm:text-xl md:text-2xl font-medium text-white/80">{{ .Param "contact_text" }}</p>
       <a href="mailto:{{ .Param "contact_email" }}" class="text-lg sm:text-xl md:text-4xl font-serif font-bold border-b-2 border-brand-yellow inline-block hover:text-brand-yellow transition-colors break-all sm:whitespace-nowrap">{{ .Param "contact_email" }}</a>
     </div>
+
+    {{/* 3. SOCIAL LINKS — flex-wrap so a long list stacks rather than
+         overflowing on narrow screens. */}}
     <div class="pt-10 sm:pt-12 flex flex-wrap justify-center items-center gap-6 sm:gap-8">
       {{ range .Param "socials" }}
       <a href="{{ .url | default "#" }}" class="flex items-center gap-2 text-white hover:text-brand-yellow transition-colors" target="_blank" rel="noopener noreferrer">

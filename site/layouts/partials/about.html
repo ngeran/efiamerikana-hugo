@@ -1,35 +1,56 @@
-{{/* About — portrait + story copy + CTA.
+{{/* =========================================================================
+     about..html — section 2 of 6: "About Effie"        → anchor #about
+     =========================================================================
 
-     Note on the -translate-y-[Npx] offsets below: these are small optical
-     nudges (a handful of pixels) that only make sense once the layout is
-     the two-column md:grid-cols-2 arrangement. Previously they were
-     unconditional, so on mobile (single stacked column) they also pulled
-     the section title and the story copy upward — tightening the gap
-     between image and text to the point of feeling cramped, sometimes
-     nearly overlapping depending on image height. They're now scoped to
-     `md:` and up, so mobile gets the full, untouched gap-8 spacing and
-     desktop keeps its original fine-tuned alignment.
+     NOTE THE FILENAME: `about..html` has a double dot (a typo), but
+     index.html correctly calls `partial "about.html"`. Hugo resolves it;
+     renaming the file is the real fix if you want to tidy it.
 
-     Portrait styling — changed from a circle to a rounded rectangle:
-     a circular crop was the one shape on the whole page that didn't
-     match anything else — the hero portrait, the gallery cards, and the
-     video cards are all soft-cornered rectangles (`rounded-[2rem]` /
-     `rounded-3xl`). Matching that here (same `rounded-[2rem]`, same
-     4:5 portrait aspect ratio as the hero image) makes the two portraits
-     on the page read as one consistent visual language instead of two
-     unrelated treatments. Kept: the white ring, the drop shadow, the
-     grayscale-to-color hover, and a soft blurred glow behind it.
+     ROLE
+       Two-column story section: portrait on the left, pill tag + heading +
+       two paragraphs on the right. The page's only periwinkle section.
 
-     Size: capped to match the hero portrait, so the two photos share one
-     visual scale (not just the same shape). From `md` up the image is
-     capped at `max-w-72 / 80 / 96` (stepping up at lg/xl). Half a
-     `grid-cols-2` cell is ~600px, and letting a 4:5 portrait fill that
-     makes it ~750px tall — towering over the ~360px story copy and
-     inflating the whole section. Capping to the hero's own widths
-     (~288–384px) lets the text, not the image, drive the section height.
-     Below `md` it's a stacked column with a `max-w-xs` (320px) cap. */ -}}
-<section id="about" class="bg-about-blue">
-  <div class="max-w-7xl mx-auto section-pad">
+     READS (site params)
+       about_label, about_image, about_tag, about_heading,
+       about_heading_accent, about_p1, about_p2
+
+     LAYOUT CONTRACT
+       · `.section-fill` — occupies the screen when reached from the nav,
+         content top-anchored (title sits just under the header).
+       · `.rail section-pad` on the inner wrapper — shared left/right edge.
+       · The portrait uses `mx-auto md:mx-0`: centred while stacked, flush to
+         the rail from md up. It previously had an unconditional `mx-auto`,
+         which floated it 108px inside the rail on desktop.
+
+     SECTIONS BELOW
+       1. Section title
+       2. Two-column grid — portrait | story copy
+
+     PORTRAIT DESIGN NOTES
+       Shape: was a circle, now `rounded-[2rem]` at a 4:5 ratio. A circular
+       crop was the only shape on the page that matched nothing else (hero
+       portrait and all cards are soft-cornered rectangles), so the two
+       portraits now read as one visual language. Kept: white ring, drop
+       shadow, grayscale→colour hover, blurred glow behind.
+
+       Size: capped to the hero portrait's widths (max-w-72/80/96 at md/lg/xl)
+       so the two photos share one scale. Half a grid-cols-2 cell is ~600px,
+       and a 4:5 portrait filling that would be ~750px tall — towering over
+       the ~360px of story copy and inflating the section. Capping lets the
+       TEXT drive the section height.
+
+     THE -translate-y-[Npx] OFFSETS
+       Small optical nudges that only make sense in the two-column desktop
+       arrangement. They're scoped to `md:` and up because unconditionally
+       they also pulled the mobile title and copy upward, tightening the
+       image/text gap to the point of nearly overlapping.
+     ========================================================================= */ -}}
+<section id="about" class="bg-about-blue section-fill">
+  <div class="rail section-pad">
+
+    {{/* ---------------------------------------------------------------------
+         1. SECTION TITLE — pipe is red here (light background)
+         --------------------------------------------------------------------- */}}
     <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4 relative md:-translate-y-[5px]">
       <div class="section-title-pipe">
         <span class="pipe text-brand-red">|</span>
@@ -37,16 +58,23 @@
       </div>
     </div>
 
+    {{/* ---------------------------------------------------------------------
+         2. TWO-COLUMN GRID — portrait | story copy
+         --------------------------------------------------------------------- */}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
       <div class="relative md:-translate-y-[10px]">
-        {{/* Soft glow behind the portrait, sized a little larger than the
-             photo and centered under it via inset-0 + margin auto. Purely
-             decorative, so it's aria-hidden and ignores pointer events. */}}
-        <div class="absolute inset-0 m-auto w-60 sm:w-80 md:w-72 lg:w-80 xl:w-96 aspect-[4/5] bg-brand-pink/20 blur-3xl rounded-[3rem] pointer-events-none" aria-hidden="true"></div>
+        {{/* Decorative blurred glow, slightly larger than the photo. It must
+             track the portrait's alignment (m-auto md:mx-0) or it drifts
+             toward the column's centre while the photo stays on the rail. */}}
+        <div class="absolute inset-0 m-auto md:mx-0 w-60 sm:w-80 md:w-72 lg:w-80 xl:w-96 aspect-[4/5] bg-brand-pink/20 blur-3xl rounded-[3rem] pointer-events-none" aria-hidden="true"></div>
 
-        {{ with .Param "about_image" }}<img src="{{ . }}" class="relative block w-full max-w-xs md:max-w-72 lg:max-w-80 xl:max-w-96 mx-auto aspect-[4/5] rounded-[2rem] object-cover object-[50%_25%] grayscale hover:grayscale-0 transition-all duration-700 ring-4 ring-white/80 shadow-xl shadow-charcoal/15" alt="Portrait of {{ $.Param "hero_name" }}" loading="lazy">{{ end }}
+        {{/* mx-auto md:mx-0 — centred while stacked, flush to the rail from md
+             up so this portrait shares the hero portrait's left edge. */}}
+        {{ with .Param "about_image" }}<img src="{{ . }}" class="relative block w-full max-w-xs md:max-w-72 lg:max-w-80 xl:max-w-96 mx-auto md:mx-0 aspect-[4/5] rounded-[2rem] object-cover object-[50%_25%] grayscale hover:grayscale-0 transition-all duration-700 ring-4 ring-white/80 shadow-xl shadow-charcoal/15" alt="Portrait of {{ $.Param "hero_name" }}" loading="lazy">{{ end }}
       </div>
 
+      {{/* Story copy. Centred while stacked, left-aligned from md up so it
+           reads as a column paired with the portrait. */}}
       <div class="space-y-4 relative md:-translate-y-[25px] text-center md:text-left">
         <span class="pill-tag inline-block">{{ .Param "about_tag" }}</span>
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight text-charcoal">{{ .Param "about_heading" }} <br/><span class="italic text-brand-pink">{{ .Param "about_heading_accent" }}</span></h2>

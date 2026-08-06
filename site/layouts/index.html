@@ -1,17 +1,91 @@
+{{/* =========================================================================
+     index.html — the home page, and the map of the whole site
+     =========================================================================
+
+     ROLE
+       Fills the "main" block of _default/baseof.html. This single template
+       IS the entire site: there are no other pages. Everything the visitor
+       sees is one of the six partials below, stacked in this order.
+
+     PAGE FLOW (top to bottom)
+       ┌─ header ────────── fixed, 64px, always visible (from baseof.html)
+       │
+       1. hero ............ portrait + name + role + pink "view portfolio"
+       2. about ........... portrait + story copy
+       3. videos .......... "Favorite Videos" card grid   → #videos
+       4. gallery ......... "The Gallery" card grid       → #pictures
+       5. analytics ....... reach/engagement stats, dark
+       6. contact ......... big CTA + email + socials
+       │
+       └─ footer ───────── copyright, policy links, tagline (from baseof.html)
+
+     Each is separated by a 4px full-bleed rule (see DIVIDERS below).
+
+     WHERE THE CONTENT COMES FROM
+       No copy is hardcoded in any partial. Scalar text is a site param
+       (.Param "hero_name", "about_p1", …); the two card grids range over
+       headless page bundles fetched with .Site.GetPage "videos" / "gallery".
+       Adding a line of text means adding a param, not editing a template.
+
+     NAV ANCHORS
+       The nav (a `nav` param, rendered in header.html) links to the section
+       ids below. Note the mismatch worth remembering: the gallery partial is
+       `gallery.html` but its anchor is **#pictures**.
+         #about  #videos  #pictures  #analytics  #contact
+       The hero has no anchor — it's the landing view.
+
+     LAYOUT CONTRACT
+       Sections 1-4 carry `.section-fill`, so each occupies the full screen
+       when you land on it from the nav, without scaling its contents. All
+       sections align their content to one shared left/right edge via
+       `.rail`. Both rules are documented in
+       .claude/skills/section-layout/SKILL.md — read it before adding,
+       reordering, or resizing a section.
+
+     DIVIDERS
+       The 4px rules below rotate pink/red/yellow, and each colour is chosen
+       to contrast BOTH of its neighbouring sections — not just the one above
+       it. So if you reorder or insert a section, re-pick the two dividers
+       around it rather than copying an existing one. Their 4px height is
+       also accounted for in --divider-h and html{scroll-padding-top}.
+     ========================================================================= */}}
 {{ define "main" }}
+
+  {{/* 1. HERO — no anchor id; this is the landing view. Centred composition
+        (.section-fill-center) rather than a titled section. */}}
   {{ partial "hero.html" . }}
 
-  {{/* Thin palette lines between sections, rotating pink/red/yellow. Each
-        colour is picked to contrast BOTH neighbours (e.g. red at Hero→About,
-        since the Hero aside is pink). */}}
+  {{/* red: contrasts the hero's yellow above and the periwinkle about below.
+        (Pink would clash with the hero's own pink aside.) */}}
   <div class="h-1 bg-brand-red" aria-hidden="true"></div>
+
+  {{/* 2. ABOUT → #about */}}
   {{ partial "about.html" . }}
+
+  {{/* pink: sits between periwinkle and yellow. */}}
   <div class="h-1 bg-brand-pink" aria-hidden="true"></div>
+
+  {{/* 3. VIDEOS → #videos */}}
   {{ partial "videos.html" . }}
+
+  {{/* red: separates yellow from the gallery's pink. */}}
   <div class="h-1 bg-brand-red" aria-hidden="true"></div>
+
+  {{/* 4. GALLERY → #pictures  (note: id differs from the filename) */}}
   {{ partial "gallery.html" . }}
+
+  {{/* yellow: the only bright colour that reads against pink above and the
+        near-black analytics panel below. */}}
   <div class="h-1 bg-brand-yellow" aria-hidden="true"></div>
+
+  {{/* 5. ANALYTICS → #analytics — sizes to its content (no .section-fill). */}}
   {{ partial "analytics.html" . }}
+
+  {{/* pink: lifts off the dark analytics panel into the red contact block. */}}
   <div class="h-1 bg-brand-pink" aria-hidden="true"></div>
+
+  {{/* 6. CONTACT → #contact — narrow centred CTA; intentionally the one
+        section NOT aligned to the shared rail. */}}
   {{ partial "contact.html" . }}
+
 {{ end }}

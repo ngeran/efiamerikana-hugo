@@ -1,10 +1,27 @@
-{{/* Footer — copyright, policy links, tagline.
-     Already stacked cleanly on mobile via flex-col; just centering text
-     and tightening the tracking slightly on the smallest screens so the
-     wide letter-spacing doesn't force the copyright line to wrap awkwardly
-     on a ~320px viewport. */ -}}
-<footer class="bg-charcoal text-white py-10 sm:py-12 px-6">
-  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8 text-center md:text-left border-t border-white/5 pt-10 sm:pt-12">
+{{/* =========================================================================
+     footer.html — page foot, below section 6
+     =========================================================================
+
+     ROLE
+       Three items on one row: copyright, policy links, tagline. Separated
+       from the contact section by a hairline top rule.
+
+     READS
+       .Site.Title, footer_links (list of {label, url}), footer_tagline
+
+     LAYOUT CONTRACT
+       Uses `.rail` (not `px-6` + `max-w-7xl`) so the hairline rule and the
+       text start and end on the same left/right edge as every section above.
+       This is the only reason the footer's rule looks continuous with the
+       page's content column.
+
+     MOBILE
+       `flex-col` stacks the three items and `text-center` centres them.
+       Tracking steps up only from `sm` — at the full 0.4em letter-spacing the
+       copyright line wrapped awkwardly on a ~320px viewport.
+     ========================================================================= */ -}}
+<footer class="bg-charcoal text-white py-10 sm:py-12">
+  <div class="rail flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8 text-center md:text-left border-t border-white/5 pt-10 sm:pt-12">
     <div class="text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.4em] text-white/30">© {{ now.Format "2006" }} {{ .Site.Title | upper }}</div>
     <div class="flex gap-6 sm:gap-8 text-[10px] font-bold uppercase tracking-widest">
       {{ range .Param "footer_links" }}<a href="{{ .url | default "#" }}" class="hover:text-brand-yellow transition-colors">{{ .label }}</a>{{ end }}

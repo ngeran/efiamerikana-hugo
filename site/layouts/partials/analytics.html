@@ -1,22 +1,54 @@
-{{/* Analytics — headline stats + per-platform bars (from _index params).
+{{/* =========================================================================
+     analytics.html — section 5 of 6: reach & engagement  → anchor #analytics
+     =========================================================================
 
-     Legibility fix: every caption in this section (stat labels, platform
-     bar labels/values) used raw arbitrary sizes — text-[5px] and
-     text-[6px] — which render smaller than any operating system's
-     minimum comfortable reading size. They're replaced with `.micro-label`
-     (defined in input.css), a fluid utility with a 10px floor. The
-     background "ghost" word now uses `.ghost-text` instead of a bare
-     text-[8vw], which caps how large it can get on ultra-wide monitors.
+     ROLE
+       The page's one dark section. Two columns: headline stats on the left,
+       per-platform progress bars on the right, over a huge faint "ghost" word.
 
-     Mobile fix: the two stat columns and the two pill stats now collapse
-     to a single column below `sm` — at 4 numbers across a 320-375px
-     screen with `border-l pl-6` dividers, the original grid-cols-2 made
-     each figure too narrow and crowded the divider against the text. */ -}}
+     READS (all site params)
+       analytics_ghost, analytics_heading, analytics_heading_accent,
+       analytics_reach(+_label), analytics_community(+_label),
+       analytics_engagement_rate(+_label), analytics_avg_views(+_label),
+       analytics_note
+       analytics_platforms — list of {name, value, bar, color} maps
+
+     LAYOUT CONTRACT
+       · `.rail section-pad` — shares the page's left/right edge.
+       · Deliberately NO `.section-fill`: this section sizes to its content.
+         Its stats are compact, so a forced full-viewport height would leave a
+         large empty dark band.
+       · `.half-type` rescales every text-* utility inside this section (see
+         input.css) — that's why the type here looks smaller than elsewhere
+         despite using the same utility names.
+
+     SECTIONS BELOW
+       1. Ghost word (decorative background)
+       2. Left column  — heading, two headline stats, two pill stats
+       3. Right column — per-platform bars + footnote
+
+     LEGIBILITY
+       Captions use `.micro-label` (10px floor), not raw text-[5px]/text-[6px]
+       which rendered below any comfortable reading size. The ghost word uses
+       `.ghost-text` rather than text-[8vw], which ballooned past 200px on
+       ultra-wide monitors. Don't reintroduce arbitrary font sizes here.
+
+     MOBILE
+       Stat pairs collapse to one column below `sm`: at 4 figures across a
+       320–375px screen the `border-l pl-6` dividers crowded the numbers.
+     ========================================================================= */ -}}
 <section id="analytics" class="half-type bg-charcoal text-white overflow-hidden relative">
+  {{/* 1. GHOST WORD — decorative only, hence aria-hidden + pointer-events-none.
+       Sits behind everything at 3% opacity; the content below lifts above it
+       with relative z-10. */}}
   <div class="ghost-text absolute top-1/2 left-0 transform -translate-y-1/2 font-serif italic text-white/[0.03] whitespace-nowrap pointer-events-none" aria-hidden="true">{{ .Param "analytics_ghost" }}</div>
 
-  <div class="max-w-7xl mx-auto relative z-10 section-pad">
+  <div class="rail relative z-10 section-pad">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+
+      {{/* -------------------------------------------------------------------
+           2. LEFT COLUMN — heading, two headline stats, two pill stats
+           ------------------------------------------------------------------- */}}
       <div>
         <h2 class="text-5xl sm:text-6xl md:text-8xl font-serif leading-tight mb-10 sm:mb-12">{{ .Param "analytics_heading" }} <br/><span class="text-brand-yellow italic">{{ .Param "analytics_heading_accent" }}</span></h2>
 
@@ -43,6 +75,9 @@
         </div>
       </div>
 
+      {{/* -------------------------------------------------------------------
+           3. RIGHT COLUMN — one progress bar per platform, then a footnote
+           ------------------------------------------------------------------- */}}
       <div class="space-y-10 sm:space-y-12">
         <div class="space-y-6 sm:space-y-8">
           {{ range .Param "analytics_platforms" }}

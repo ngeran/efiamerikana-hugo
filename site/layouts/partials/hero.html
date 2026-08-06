@@ -1,36 +1,69 @@
-{{/* Hero — left portrait + intro, right pink "view portfolio" aside.
+{{/* =========================================================================
+     hero.html — section 1 of 6: the landing view
+     =========================================================================
 
-     Sizing strategy: fixed, explicit widths per breakpoint rather than
-     viewport-relative math (vw/calc/clamp). The fluid version scaled
-     smoothly in theory but was hard to predict/tune in practice and made
-     the layout feel off at normal window sizes. Plain fixed widths at
-     each breakpoint are easier to reason about and adjust by eye — bump
-     one number, see exactly what changes, nothing else moves.
+     ROLE
+       First thing the visitor sees. An 80/20 split: portrait + name + role
+       on the left, a full-bleed pink "view my portfolio" aside on the right.
+       No anchor id — the nav never links here; the wordmark links to "/".
 
-     Responsive notes:
-     - Headline/subhead sizes step through an extra breakpoint (base → sm
-       → md) instead of jumping straight to their final size, so a 375px
-       phone doesn't render the same 36-40px type as a desktop.
-     - Padding/gaps tighten on the smallest screens so the hero doesn't
-       force excessive scrolling before "view my portfolio" appears.
-     - `.hero-pad` (input.css) also trims vertical padding on short
-       *viewports* — a laptop with a shallow effective window (OS display
-       scaling, browser chrome) shouldn't have to scroll past a full-size
-       padding just to reach the fold. This only kicks in under 820px of
-       viewport height, so it doesn't affect normal-height windows at all. */ -}}
-<section class="relative flex flex-col md:flex-row flex-1 w-full bg-brand-yellow border-b border-charcoal/10">
-  <div class="relative overflow-hidden w-full md:w-4/5 flex items-center justify-center px-5 sm:px-8 md:px-12 hero-pad">
+     READS (site params)
+       hero_image, hero_brand, hero_name, hero_role, hero_tags, hero_quote,
+       hero_portfolio_label
+       hero_tags is a single "A • B • C" string, split on the bullet below.
+
+     LAYOUT CONTRACT
+       · `.section-fill` + `.section-fill-center` — fills the viewport, and is
+         the ONE section that centres its content vertically, because it's a
+         poster-like composition rather than a titled section.
+       · `.rail` on the left column puts the portrait on the page's shared
+         left edge. This is the subtle part: the column is only 80% wide, so
+         any parent-relative cap (the old `max-w-6xl` + justify-center) landed
+         on a different edge than every other section — 192px vs 344px at
+         1920, and the gap widened as the window narrowed. --rail-inset is
+         keyed to 100vw precisely so it resolves identically in both contexts.
+       · The aside stays full-bleed on the right, outside the rail.
+
+     SECTIONS BELOW
+       1. Left column — portrait + intro copy
+       2. Right aside — pink "view my portfolio" panel
+
+     SIZING STRATEGY
+       Fixed, explicit widths per breakpoint rather than viewport math
+       (vw/calc/clamp). The fluid version scaled smoothly in theory but was
+       hard to predict and felt off at normal window sizes; fixed steps are
+       easier to tune by eye — bump one number, nothing else moves.
+
+     RESPONSIVE NOTES
+       · Headline/subhead step base → sm → md rather than jumping straight to
+         their final size, so a 375px phone doesn't get desktop-sized type.
+       · `.hero-pad` also trims vertical padding under 820px of viewport
+         HEIGHT, so a shallow laptop window doesn't scroll past big padding
+         to reach the fold. No effect on normal-height windows.
+     ========================================================================= */ -}}
+<section class="relative flex flex-col md:flex-row w-full bg-brand-yellow border-b border-charcoal/10 section-fill section-fill-center">
+  {{/* ---------------------------------------------------------------------
+       1. LEFT COLUMN — portrait + intro copy (80% of the width)
+       `.rail` is load-bearing here; see the LAYOUT CONTRACT note above.
+       --------------------------------------------------------------------- */}}
+  <div class="relative overflow-hidden w-full md:w-4/5 flex items-center hero-pad rail">
+    {{/* Decorative warm glow behind the copy. */}}
     <div class="absolute right-0 top-1/4 w-96 h-96 bg-white/20 blur-3xl rounded-full pointer-events-none" aria-hidden="true"></div>
 
-    <div class="relative z-10 flex flex-col md:flex-row items-center gap-8 sm:gap-10 md:gap-12 w-full max-w-6xl">
-      {{/* Portrait: capped max-width on mobile so it never dominates a
-           small screen edge-to-edge; a fixed width from md up, stepping
-           up slightly at lg/xl so it doesn't feel undersized on a big
-           monitor without ever depending on the parent's own width. */}}
-      <div class="w-full max-w-xs sm:max-w-sm md:w-72 lg:w-80 xl:w-96 mx-auto md:mx-0 shrink-0 rounded-[2rem] overflow-hidden border-2 border-black/5 aspect-[4/5]">
+    <div class="relative z-10 flex flex-col md:flex-row items-center gap-8 sm:gap-10 md:gap-12 w-full">
+      {{/* Portrait. Capped on mobile so it never dominates a small screen;
+           fixed width from md up (stepping at lg/xl) so it never depends on
+           the parent's width.
+
+           ring-2, NOT border-2: a border draws INSIDE the box, which inset the
+           photo 2px past the rail while its frame sat on it. A ring draws
+           outside, so the visible photo edge lands exactly on the rail — same
+           reason the about portrait uses ring-4. */}}
+      <div class="w-full max-w-xs sm:max-w-sm md:w-72 lg:w-80 xl:w-96 mx-auto md:mx-0 shrink-0 rounded-[2rem] overflow-hidden ring-2 ring-black/5 aspect-[4/5]">
         {{ with .Param "hero_image" }}<img class="w-full h-full object-cover" src="{{ . }}" alt="{{ $.Param "hero_name" }}" loading="eager" fetchpriority="high" />{{ end }}
       </div>
 
+      {{/* Intro copy. Centred while stacked, left-aligned from md up. */}}
       <div class="flex flex-col max-w-md text-center md:text-left items-center md:items-start">
         <div class="mb-5 sm:mb-6">
           <h1 class="font-bold leading-none text-3xl sm:text-4xl">{{ .Param "hero_brand" }}</h1>
@@ -39,6 +72,8 @@
         </div>
         <h3 class="text-3xl sm:text-4xl font-bold mb-4">{{ .Param "hero_role" | safeHTML }}</h3>
         <div class="space-y-4">
+          {{/* hero_tags is one "A • B • C" string in config, split into lines
+               here — so the count can change without touching this template. */}}
           {{ with .Param "hero_tags" }}
           <div class="uppercase font-bold tracking-tighter text-sm space-y-1">
             {{ range $tag := split . "•" }}{{ with (trim $tag " ") }}<div>• {{ . }}</div>{{ end }}{{ end }}
@@ -50,6 +85,18 @@
     </div>
   </div>
 
+  {{/* ---------------------------------------------------------------------
+       2. RIGHT ASIDE — pink "view my portfolio" panel (20% of the width)
+
+       Deliberately OUTSIDE the rail: it's a full-bleed colour block that runs
+       to the viewport edge. The red rule flips side and thickness by
+       breakpoint — a top rule while stacked, a left rule from md up. Both
+       live here as utilities rather than being split between markup and a CSS
+       media query, since two mechanisms fighting over one property was
+       fragile and made the breakpoint hard to find.
+
+       The play button jumps to #videos, mirroring the nav's "Favorite Videos".
+       --------------------------------------------------------------------- */}}
   <aside class="w-full md:w-1/5 hero-aside border-t-[20px] sm:border-t-[32px] md:border-t-0 md:border-l-[32px] border-brand-red flex flex-col items-center justify-center text-center gap-6 sm:gap-8 px-6 hero-pad">
     <h4 class="text-2xl sm:text-3xl md:text-4xl leading-tight font-medium max-w-[150px] text-white">{{ .Param "hero_portfolio_label" }}</h4>
     <a class="w-16 h-16 sm:w-20 sm:h-20 bg-charcoal rounded-full grid place-items-center hover:scale-105 transition-transform" href="#videos" aria-label="{{ .Param "hero_portfolio_label" }}">

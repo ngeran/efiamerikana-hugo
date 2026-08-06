@@ -1,4 +1,39 @@
+{{/* =========================================================================
+     baseof.html — the HTML shell every page is rendered into
+     =========================================================================
+
+     ROLE
+       Document head (fonts, stylesheet, meta) plus the three-part body:
+       fixed header → main content block → footer. index.html supplies the
+       "main" block; there are no other templates.
+
+     STRUCTURE
+       <head>   fonts (Google), the pre-compiled stylesheet, SEO meta
+       <body>   header.html  — fixed, 64px tall, overlays the page
+                <main>       — pt-16 clears the header; holds all sections
+                footer.html  — rail-aligned, dark
+
+     CSS
+       static/css/main.css is a BUILD ARTIFACT compiled offline from
+       src/input.css and served verbatim (no Hugo Pipes). Editing input.css
+       does nothing until it is recompiled.
+
+     KEY DETAIL — the header offset
+       `pt-16` on <main> is what pushes content below the fixed header, and
+       it is deliberately PADDING on main rather than a margin on the first
+       section. That distinction matters: it keeps the offset outside the
+       section box, so a `.section-fill` child can measure a full viewport
+       height without overflowing by the header's 64px.
+
+       Three values must stay in sync — the header's own h-16, --header-h in
+       input.css (which .section-fill subtracts), and this pt-16.
+
+     Fonts are loaded from Google Fonts with preconnect; `display=swap` keeps
+     text visible during load rather than blocking on the webfont.
+     ========================================================================= */ -}}
 <!DOCTYPE html>
+{{/* scroll-smooth powers animated jumps to nav anchors; it is switched back
+     to `auto` under prefers-reduced-motion in input.css @layer base. */ -}}
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
@@ -16,10 +51,17 @@
   <link rel="stylesheet" href="{{ "css/main.css" | relURL }}" />
 </head>
 <body class="bg-brand-yellow text-charcoal font-sans selection:bg-brand-pink selection:text-white">
+
+  {{/* Fixed header + the mobile menu panel and its toggle script. */}}
   {{ partial "header.html" . }}
+
+  {{/* pt-16 offsets the fixed h-16 header. Padding on <main>, NOT a margin on
+       the first section — see the header-offset note in the banner above. */}}
   <main class="pt-16">
     {{ block "main" . }}{{ end }}
   </main>
+
   {{ partial "footer.html" . }}
+
 </body>
 </html>

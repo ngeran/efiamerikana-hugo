@@ -1,26 +1,52 @@
-{{/* Selected Works — one card per item in the `videos` headless section.
+{{/* =========================================================================
+     videos.html — section 3 of 6: "Favorite Videos"   → anchor #videos
+     =========================================================================
 
-     Responsive/UX fixes:
-     - Grid steps 1 → 2 → 3 at sm/lg (was 1 → 2 → 3 at md/lg — see
-       gallery.html for why the extra sm: step matters on tablets).
-     - Card thumbnails use `.preview-media` instead of a fixed
-       `aspect-square`, so the row's height adapts to a short *viewport*,
-       not just a narrow one — see gallery.html / input.css for the full
-       explanation.
-     - alt text uses a captured `{{ $title }}` (this video's own title).
-       It must NOT be `{{ .Title }}`: inside the `{{ with .Param "image" }}`
-       block the dot is rebound to the URL string, so `.Title` there throws
-       "can't evaluate field Title in type string" (this once broke the
-       CI/Nix build).
-     - The play-icon overlay was `opacity-0 group-hover:opacity-100`,
-       which never appears on touch devices (no hover state) — a tap just
-       navigates away with no visual affordance beforehand. It now shows
-       at low opacity by default and brightens on hover *or* focus, so
-       touch and keyboard users get the same "this is playable" cue mouse
-       users do.
-     - Added `loading="lazy"` for below-the-fold cards. */ -}}
-<section id="videos" class="bg-brand-yellow">
-  <div class="max-w-7xl mx-auto section-pad">
+     ROLE
+       Card grid of selected video work. One card per page in the `videos`
+       headless bundle, newest first. Each card links out to the video.
+
+     READS
+       Section params: videos_label, videos_sublabel, videos_intro
+       Per-card (front matter of each page in content/videos/):
+         .Title, .Date, video_url, image, platform, category, views
+       "Headless" means those pages render only here — never at their own URL
+       (enforced by disableKinds in hugo.toml).
+
+     LAYOUT CONTRACT
+       · `.section-fill` — occupies the screen, content top-anchored.
+       · `.rail section-pad` — shared left/right edge. The grid spans the FULL
+         rail with no inner cap, so card 1's left edge and the last card's
+         right edge match every other section.
+       · Grid steps 1 → 2 → 3 → 4 columns at sm / lg / xl.
+       · `.preview-media` + those column steps are what guarantee the first
+         row's image AND caption stay visible on any viewport.
+
+     SECTIONS BELOW
+       1. Title row — title + right-aligned sublabel
+       2. Intro paragraph
+       3. Card grid
+
+     TEMPLATE TRAP — read before editing the card markup
+       alt text uses a captured `{{ $title }}`, NOT `{{ .Title }}`. Inside
+       `{{ with .Param "image" }}` the dot is rebound to the image URL string,
+       so `.Title` throws "can't evaluate field Title in type string". This has
+       broken the build before. Capture page fields ABOVE the `with` block.
+
+     ACCESSIBILITY
+       The play icon shows at low opacity by default and brightens on hover OR
+       group-focus-visible. It used to be `opacity-0 group-hover:opacity-100`,
+       which never appeared on touch devices — a tap just navigated away with
+       no prior affordance.
+     ========================================================================= */ -}}
+<section id="videos" class="bg-brand-yellow section-fill">
+  <div class="rail section-pad">
+
+    {{/* ---------------------------------------------------------------------
+         1. TITLE ROW — title on the rail's left edge, sublabel on its right.
+         `items-end` baselines the small uppercase sublabel against the much
+         larger serif title; see the vertical-rail-alignment skill for why.
+         --------------------------------------------------------------------- */}}
     <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
       <div class="section-title-pipe">
         <span class="pipe text-brand-red">|</span>
@@ -28,11 +54,32 @@
       </div>
       <p class="max-w-xs text-xs font-bold uppercase tracking-widest text-charcoal/40">{{ .Param "videos_sublabel" }}</p>
     </div>
+
+    {{/* 2. INTRO — .section-intro trims its bottom gap on short viewports so
+         more of the first card row fits. */}}
     <p class="text-base text-charcoal/70 max-w-5xl section-intro">{{ .Param "videos_intro" }}</p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+    {{/* ---------------------------------------------------------------------
+         3. CARD GRID
+
+         NO max-w / mx-auto here — the grid spans the full rail so card 1's
+         left edge lines up with every other section. (The old
+         `max-w-5xl mx-auto` re-centred it inside an already-centred
+         container, pushing card 1 in by 104px.)
+
+         The xl:grid-cols-4 step is what makes that safe: spanning the rail
+         with only 3 columns would inflate cards ~341px → ~410px at 1920, and
+         a wider card means a taller 1:1 thumbnail, which is exactly what
+         pushes the caption below the fold. Four columns keeps cards slightly
+         NARROWER than before, improving the height budget.
+
+         gallery.html must keep identical column and gap rules, or the two
+         grids' first cards stop aligning with each other.
+         --------------------------------------------------------------------- */}}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
       {{ with .Site.GetPage "videos" }}
         {{ range .Pages.ByDate.Reverse }}
+          {{/* Captured here, ABOVE the `with` blocks below — see TEMPLATE TRAP. */}}
           {{ $title := .Title }}
           <a href="{{ .Param "video_url" | default "#" }}" class="group block">
             <div class="preview-media relative bg-charcoal rounded-preview-sm overflow-hidden card-border mb-4">
@@ -43,6 +90,9 @@
               {{ with .Param "platform" }}<div class="absolute bottom-3 left-3 bg-charcoal/70 backdrop-blur-sm px-4 py-1.5 rounded-full text-white text-[10px] font-bold uppercase tracking-wider">{{ . }}</div>{{ end }}
             </div>
 
+            {{/* Caption block — title/category, then date/views. Keeping this
+                 visible alongside the thumbnail is the constraint that drives
+                 .preview-media's height queries and the 4-column step. */}}
             <div class="space-y-1">
               <div class="flex justify-between items-start gap-2">
                 <h3 class="font-serif text-xl font-bold leading-tight">{{ .Title }}</h3>

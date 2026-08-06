@@ -1,14 +1,59 @@
 /* =========================================================================
-   Tailwind v4 entry — compiled (offline, pre-build) to static/css/main.css
-   via the justfile `css` recipe. Hugo serves main.css verbatim (no Pipes).
+   input.css — Tailwind v4 entry point and the site's only stylesheet source
+   =========================================================================
+
+   ROLE
+     Single source of truth for design tokens, base styles, and every
+     reusable component class on the landing page.
+
+   BUILD (important)
+     Compiled OFFLINE, ahead of the Hugo build, by the Tailwind v4 CLI:
+         src/input.css  ──►  static/css/main.css      (`just css`)
+     Hugo serves main.css verbatim — no Hugo Pipes. So **editing this file
+     has no visible effect until the CSS is recompiled**, and
+     static/css/main.css is a generated artifact you must never hand-edit.
+
+   CONFIG STYLE
+     Tailwind v4 CSS-first: there is no tailwind.config.js. Tokens live in
+     @theme, and @source below tells the class scanner where the markup is.
+
+   WHAT'S IN HERE (in order)
+     1. Tokens .............. @theme: brand colours + fonts
+     2. Base ................ :root layout variables, html/body, a11y, motion
+     3. Layout primitives ... .rail, .section-fill, .section-pad, .section-intro
+     4. Typography scales ... .half-type, .micro-label, .ghost-text
+     5. Header .............. .header-inner, hamburger button
+     6. Cards & media ....... .card-border, .card-soft, .preview-media, .img-cover
+     7. Hero ................ .hero-pad, .hero-aside
+     8. Section titles ...... .section-title-pipe
+
+   THE THREE LAYOUT RULES
+     Section geometry is governed by rules documented in
+     .claude/skills/section-layout/SKILL.md — read it before changing any
+     section wrapper, width, padding, or grid column count. Summary:
+       · one shared left/right edge for all sections    → .rail
+       · fill the viewport without scaling content       → .section-fill
+       · first card row always fully visible             → .preview-media + grid steps
+
+   EDITING GOTCHA
+     When extending a comment block, merge into it — do NOT add prose after
+     the closing delimiter. That leaves text as bare CSS, and the CLI
+     reports it as "CssSyntaxError: Unterminated string" pointing at an
+     apostrophe several lines from the real problem. Compile before
+     declaring any change done.
    ========================================================================= */
 @import "tailwindcss";
 
-/* Scan the layouts (and every partial under it) for class names. Relative to
-   this file, layouts live one dir up. */
+/* Where the class scanner looks. Paths are relative to THIS file, and they
+   describe the real repo layout (layouts/ as a sibling of src/), not this
+   extract's flattened `partial/` + `_default/` directories. */
 @source "../layouts/**/*.html";
 
-/* Design tokens lifted from the original <style> / tailwind.config block.
+
+/* =========================================================================
+   1. TOKENS — brand colours and fonts
+   =========================================================================
+   Design tokens lifted from the original <style> / tailwind.config block.
    Defining these in @theme makes bg-brand-pink / font-serif / text-charcoal
    etc. available as first-class utilities. */
 @theme {
@@ -35,7 +80,41 @@
   --color-about-blue: #8A93D9;
 }
 
+/* =========================================================================
+   2. BASE — layout variables, document defaults, accessibility
+   ========================================================================= */
 @layer base {
+  /* -----------------------------------------------------------------------
+     LAYOUT VARIABLES — the geometry every section is built from.
+
+     --rail-inset is the single source of truth for the page's left/right
+     alignment edge. It is deliberately keyed to 100vw rather than to a
+     parent's width, because the hero's content column is only 80% of the
+     viewport (the pink aside owns the other 20%). A parent-relative rule
+     (max-w-7xl mx-auto) centres inside whatever box it's in, so the hero
+     would land on a different edge than every other section — which is
+     exactly the bug this replaces: at 1920px the hero portrait sat at
+     192px while every other section's content sat at 344px, and the gap
+     WIDENED as the window narrowed.
+
+     The formula reproduces `max-w-7xl mx-auto` + `px-6` exactly, so the
+     sections that already used that pattern do not move:
+       1920px viewport → (1920-1280)/2 + 24 = 344px
+       ≤1328px         → clamps to the 1.5rem floor (24px)
+     Safe against scrollbar-induced 100vw overflow because the scrollbar is
+     hidden below (scrollbar-width: none), so 100vw == client width here.
+
+     --header-h / --divider-h feed the fill calc. `main` carries pt-16 to
+     clear the fixed header, so a naive 100svh section overflows by exactly
+     the header height; the divider is the 4px rule that scroll-padding-top
+     also accounts for. Keep all three in sync if the header height changes.
+     ----------------------------------------------------------------------- */
+  :root {
+    --rail-inset: max(1.5rem, calc((100vw - 80rem) / 2 + 1.5rem));
+    --header-h: 4rem;
+    --divider-h: 4px;
+  }
+
   /* The original hid the scrollbar entirely. */
   html {
     -ms-overflow-style: none;
@@ -85,14 +164,98 @@
   }
 }
 
+/* =========================================================================
+   3. LAYOUT PRIMITIVES — .rail, .section-fill, .section-pad, .section-intro
+
+   These four classes define where every section's content sits. Together
+   they replaced a mix of four competing centring rules that produced three
+   different left edges across the page. Change them with care: they are
+   load-bearing for every section simultaneously.
+   ========================================================================= */
 @layer components {
+  /* -----------------------------------------------------------------------
+     .rail — the shared horizontal alignment edge.  [Layout rule 1 of 3]
+
+     Every section's content sits inside one of these so that the hero
+     portrait, the about portrait, the first card of the videos/pictures
+     grids, and all six section titles share one left edge and one right
+     edge. Replaces the previous mix of four different centring rules
+     (max-w-6xl inside w-4/5, max-w-7xl+px-6, an inner max-w-5xl mx-auto,
+     and an image-level mx-auto) that produced three different left edges.
+
+     Use `.rail` on the section's inner wrapper. Do NOT add `mx-auto` or a
+     `max-w-*` cap to anything inside it — that re-centres the content in a
+     narrower box and reintroduces the misalignment. The one intentional
+     exception is the contact section, which is a deliberately narrow
+     centred CTA (max-w-3xl) rather than a rail-aligned section.
+     ----------------------------------------------------------------------- */
+  .rail {
+    width: 100%;
+    padding-inline: var(--rail-inset);
+  }
+
+  /* -----------------------------------------------------------------------
+     .section-fill — "occupy the screen without stretching the contents".
+                                                        [Layout rule 2 of 3]
+
+     Sets a MIN height of one viewport (minus the fixed header and the 4px
+     divider) on the section box; the natural-size content block then sits
+     in whatever height results. The surplus becomes plain whitespace: type,
+     images, gaps and aspect ratios are untouched, so a 1080p monitor shows
+     the same layout as a laptop with more air around it. This is the
+     opposite of stretching to fit — never scale content up to fill space.
+
+     svh (not vh) so mobile browser chrome collapsing doesn't cause a jump.
+     The `min-height` also makes anchor navigation land cleanly — combined
+     with html{scroll-padding-top}, clicking a nav item puts that section's
+     top edge just under the header with the section filling the screen.
+
+     Applied to hero/about/videos/pictures only. Analytics and contact size
+     to their content; contact in particular is a short centred CTA that
+     would otherwise sit in a large empty red field.
+
+     Below `md` this is intentionally inert: on a phone, forcing each
+     section to a full viewport height creates tall empty gaps and makes the
+     page feel like it scrolls forever. Short-viewport landscape (under
+     640px tall) is also exempted, because there a full-height floor plus
+     the section padding leaves too little room for the content itself.
+
+     Content is anchored to the TOP of the surplus, not centred in it.
+     Centring was the first attempt and it looked wrong on a 1080p monitor:
+     a section whose content is ~500px tall in a 1012px box pushed the
+     heading ~350px down the screen, so landing on a nav anchor showed a
+     large empty colour band with the title floating in the middle and the
+     eye had nothing to catch. Top-anchoring keeps the title immediately
+     under the header (where the reader expects it after clicking a nav
+     item) and lets the surplus collect at the bottom as trailing space.
+     The hero opts out of this via `.section-fill-center` — it genuinely
+     is a centred, poster-like composition rather than a titled section.
+     ----------------------------------------------------------------------- */
+  @media (min-width: 768px) and (min-height: 640px) {
+    .section-fill {
+      min-height: calc(100svh - var(--header-h) - var(--divider-h));
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .section-fill-center {
+      justify-content: center;
+    }
+  }
+
   /* Generous breathing room on desktop, tightened on mobile so sections
      don't feel sparse or force needless scrolling on a phone. Also
      tightened on short *viewports* (regardless of width) — a shallow
      browser window shouldn't spend a big chunk of its limited height on
-     padding alone. */
+     padding alone.
+
+     Horizontal padding deliberately does NOT live here: it moved to `.rail`
+     so that one rule owns the page's left/right alignment edge. A section
+     that needs both writes `class="rail section-pad"`. (This class used to
+     carry px-6; anything still relying on that needs .rail added, or it
+     will sit flush against the viewport edge.) */
   .section-pad {
-    @apply py-6 px-6 md:py-10;
+    @apply py-6 md:py-10;
   }
   @media (max-height: 820px) {
     .section-pad {
@@ -111,6 +274,14 @@
       @apply mb-6;
     }
   }
+
+  /* =======================================================================
+     4. TYPOGRAPHY SCALES — .half-type, .micro-label, .ghost-text
+
+     These exist to enforce a legibility floor. Do not reintroduce arbitrary
+     font sizes (text-[5px], text-[8vw]) in the sections that use them;
+     extend the scale or use the utilities below instead.
+     ======================================================================= */
 
   /* Sections rendered at half type (analytics, contact). The --text-*
      custom-property cascade makes every text-* utility inside resolve to
@@ -159,6 +330,14 @@
     font-size: clamp(1.75rem, 8vw, 8rem);
   }
 
+  /* =======================================================================
+     5. HEADER — inner row cap + mobile hamburger button
+
+     The header is the one fixed element on the page (h-16 / 64px). Its
+     height is mirrored by --header-h and by html{scroll-padding-top}; if it
+     ever changes, update all three together or anchor landings will drift.
+     ======================================================================= */
+
   /* Constrains and centers the header's inner flex row on very large
      screens (ultra-wide / 4K monitors). Without this the nav links, the
      centered logo, and the email link all spread out to the full window
@@ -180,6 +359,14 @@
   #menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
   #menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+  /* =======================================================================
+     6. CARDS & MEDIA — card frames, tags, thumbnails, image hover
+
+     Shared by the videos and pictures grids. Both grids must keep identical
+     column and gap rules, or their first cards stop aligning with each other.
+     ======================================================================= */
+
+  /* Bordered card frame with a hover lift. Used by grid thumbnails. */
   .card-border {
     @apply border-[1.5px] border-charcoal;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -198,7 +385,13 @@
   }
 
   /* -----------------------------------------------------------------------
-     Gallery/video preview thumbnails.
+     .preview-media — gallery/video preview thumbnails.
+                                                        [Layout rule 3 of 3]
+
+     Together with the grids' 1→2→3→4 column steps, this is what keeps the
+     first card row (image AND its caption) fully visible when you land on
+     #videos or #pictures from the nav.
+
      These were plain `aspect-square`, sized purely off the grid column's
      *width*. That's fine for how wide the row is, but it ignores how much
      *vertical* space the browser window actually has. On a shorter window
@@ -245,6 +438,15 @@
     box-shadow: 0 12px 24px -10px rgba(27, 28, 28, 0.2);
   }
 
+  /* =======================================================================
+     7. HERO — its own padding rhythm and the pink aside
+
+     The hero is the one section that is a centred poster composition rather
+     than a titled section, so it opts into `.section-fill-center`. Its left
+     column still carries `.rail`, which is what keeps the portrait on the
+     same edge as every other section's content.
+     ======================================================================= */
+
   /* Hero's own vertical rhythm (it doesn't use .section-pad since it needs
      to fill the viewport-height "above the fold" feel, not just a normal
      section's breathing room). Same short-viewport logic as .section-pad:
@@ -275,6 +477,14 @@
   .hero-aside {
     background-color: var(--color-brand-pink);
   }
+
+  /* =======================================================================
+     8. SECTION TITLES — the "| Title" heading pattern
+
+     Every titled section opens with one of these, and because they all sit
+     directly inside a `.rail` they share the page's left edge. Fluid clamp()
+     sizing means they scale without breakpoint steps.
+     ======================================================================= */
 
   /* "| Title" section headings — fluid (clamp) so they scale to any screen. */
   .section-title-pipe {

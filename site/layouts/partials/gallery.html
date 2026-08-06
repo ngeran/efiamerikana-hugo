@@ -1,23 +1,59 @@
-{{/* The Gallery — one card per item in the `gallery` headless section.
+{{/* =========================================================================
+     gallery.html — section 4 of 6: "The Gallery"     → anchor #pictures
+     =========================================================================
 
-     Responsive/UX fixes:
-     - Grid now steps 1 → 2 → 3 columns at sm/lg instead of jumping
-       straight from 1 to 2 at md (768px). Without the sm: step, phones in
-       landscape and small tablets (roughly 480-767px) rendered a single
-       full-width card per row, wasting most of the horizontal space.
-     - Card thumbnails use `.preview-media` instead of a fixed
-       `aspect-square`: it flattens from 1:1 toward 16:9 as the *viewport
-       height* shrinks (not just the width), so a shallow browser window
-       has a much better chance of showing a full row — image, title,
-       date, tag — without cutting it off mid-caption. See input.css.
-     - alt text uses a captured `{{ $title }}` (each photo's own title). It
-       must NOT be `{{ .Title }}`: inside `{{ with .Param "image" }}` the dot
-       is rebound to the URL string, so `.Title` throws "can't evaluate field
-       Title in type string" (broke the CI/Nix build).
-     - Added `loading="lazy"` since this section sits well below the fold;
-       the browser no longer has to fetch every gallery image up front. */ -}}
-<section id="pictures" class="bg-brand-pink border-y border-charcoal/10">
-  <div class="max-w-7xl mx-auto section-pad">
+     NOTE: the anchor id is **#pictures**, not #gallery — the nav links to
+     #pictures. Filename and id deliberately differ; don't "fix" one without
+     updating the `nav` param.
+
+     ROLE
+       Photo grid, structurally a near-twin of videos.html: same rail, same
+       column steps, same caption pattern. Differences: cards aren't links,
+       images are grayscale until hover, and the pink background flips the
+       title pipe and all text to white.
+
+     READS
+       Section params: gallery_label, gallery_sublabel, gallery_intro
+       Per-card (front matter of each page in content/gallery/):
+         .Title, .Date, image, descriptor, tag
+
+     LAYOUT CONTRACT
+       Identical to videos.html — `.section-fill`, `.rail section-pad`, grid
+       spanning the full rail at 1 → 2 → 3 → 4 columns (sm/lg/xl), and
+       `.preview-media` thumbnails. The two grids MUST keep the same column
+       and gap rules or their first cards stop aligning with each other.
+
+     SECTIONS BELOW
+       1. Title row  2. Intro  3. Card grid
+
+     WHY THE COLUMN STEPS MATTER
+       · `sm:` — without it, landscape phones and small tablets (480–767px)
+         render one full-width card per row, wasting the horizontal space.
+       · `xl:` — lets the grid span the full rail without inflating cards; a
+         wider card means a taller thumbnail, which pushes the caption off
+         screen. See videos.html for the measured numbers.
+
+     WHY .preview-media IS A HEIGHT QUERY
+       Thumbnails were `aspect-square`, sized purely off column WIDTH. That
+       ignores how much vertical space the window has: on a shallow viewport
+       the row's total height (square image + caption) stayed the same as on a
+       tall monitor, so it ran off the bottom mid-caption. `.preview-media`
+       flattens 1:1 → 4:3 → 16:9 as viewport HEIGHT shrinks. Defined in
+       input.css.
+
+     TEMPLATE TRAP
+       alt text uses a captured `{{ $title }}`, NOT `{{ .Title }}` — inside
+       `{{ with .Param "image" }}` the dot is the URL string and `.Title`
+       throws "can't evaluate field Title in type string". This broke the build
+       before. Capture page fields above the `with`.
+     ========================================================================= */ -}}
+<section id="pictures" class="bg-brand-pink border-y border-charcoal/10 section-fill">
+  <div class="rail section-pad">
+
+    {{/* ---------------------------------------------------------------------
+         1. TITLE ROW — pipe and text are WHITE here, overriding the
+         light-section default, because this section's background is pink.
+         --------------------------------------------------------------------- */}}
     <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
       <div class="section-title-pipe">
         <span class="pipe text-white">|</span>
@@ -25,11 +61,18 @@
       </div>
       <p class="max-w-xs text-xs font-bold uppercase tracking-widest text-white/70">{{ .Param "gallery_sublabel" }}</p>
     </div>
+
+    {{/* 2. INTRO */}}
     <p class="text-base text-white/80 max-w-2xl section-intro">{{ .Param "gallery_intro" }}</p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+    {{/* ---------------------------------------------------------------------
+         3. CARD GRID — spans the full rail, no inner cap. Column and gap
+         rules are intentionally identical to videos.html.
+         --------------------------------------------------------------------- */}}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
       {{ with .Site.GetPage "gallery" }}
         {{ range .Pages.ByDate.Reverse }}
+          {{/* Captured above the `with` blocks — see TEMPLATE TRAP. */}}
           {{ $title := .Title }}
           <div class="group">
             <div class="preview-media bg-white rounded-preview-sm overflow-hidden card-border mb-4">

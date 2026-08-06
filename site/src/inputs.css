@@ -1,9 +1,0 @@
-@import "tailwindcss";
-@source "../layouts/**/*.html";
-
-@theme {
-  --color-brand-500: #3b82f6;
-  --color-brand-900: #1e3a8a;
-  --font-display: "Inter", sans-serif;
-  --radius-card: 1rem;
-}
