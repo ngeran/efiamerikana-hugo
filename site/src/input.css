@@ -66,12 +66,12 @@
   --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Libre Caslon Text", ui-serif, Georgia, serif;
 
-  /* About section background — warm sand/sienna (#f4a261). Token is named
-     --color-about (not after the hue) so re-tinting the section doesn't
-     turn the name into a lie. The warm tone bridges the yellow hero above
-     and the pink gallery below, and the portrait's charcoal/pink copy
-     still reads clearly on it. */
-  --color-about: #f4a261;
+  /* About section background — deep navy (#1b263b). Token is named
+     --color-about (not after the hue) so re-tinting never makes the name
+     a lie. A dark band here breaks hard from the yellow hero above and
+     the pink gallery below; the About copy is set light (text-white and
+     white-with-opacity) to stay readable on it. */
+  --color-about: #1b263b;
 }
 
 /* =========================================================================
@@ -234,6 +234,17 @@
     }
     .section-fill-center {
       justify-content: center;
+    }
+  }
+
+  /* 2K+ monitors (≥2560px wide): the hero and about are compact poster
+     compositions, not card grids — filling a ~1440px+ tall viewport
+     leaves them swimming in whitespace. Sections carrying
+     .section-fill-relax drop the viewport fill above 2K and size to
+     their content instead. The videos/pictures grids keep filling. */
+  @media (min-width: 2560px) {
+    .section-fill-relax {
+      min-height: 0;
     }
   }
 
