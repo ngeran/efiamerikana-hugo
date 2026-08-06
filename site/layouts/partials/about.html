@@ -33,11 +33,13 @@
        portraits now read as one visual language. Kept: white ring, drop
        shadow, grayscale→colour hover, blurred glow behind.
 
-       Size: capped to the hero portrait's widths (max-w-72/80/96 at md/lg/xl)
-       so the two photos share one scale. Half a grid-cols-2 cell is ~600px,
-       and a 4:5 portrait filling that would be ~750px tall — towering over
-       the ~360px of story copy and inflating the section. Capping lets the
-       TEXT drive the section height.
+       Size: fixed widths matching the hero portrait exactly (md:w-72/80/96
+       at md/lg/xl), so the two photos share one scale AND the About copy's
+       left edge lands on the same x as the Hero text. This is a flex row
+       (portrait | copy), not a grid-cols-2: a 50/50 grid left a huge gap
+       between a ~384px portrait and the right-hand column on wide screens,
+       and put the copy's left edge at the rail midpoint instead of beside
+       the portrait.
 
      THE -translate-y-[Npx] OFFSETS
        Small optical nudges that only make sense in the two-column desktop
@@ -59,10 +61,10 @@
     </div>
 
     {{/* ---------------------------------------------------------------------
-         2. TWO-COLUMN GRID — portrait | story copy
+         2. TWO-COLUMN ROW — portrait | story copy
          --------------------------------------------------------------------- */}}
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-      <div class="relative md:-translate-y-[10px]">
+    <div class="flex flex-col md:flex-row items-center gap-8 sm:gap-10 md:gap-12">
+      <div class="relative md:-translate-y-[10px] w-full max-w-xs sm:max-w-sm md:w-72 lg:w-80 xl:w-96 mx-auto md:mx-0 shrink-0">
         {{/* Decorative blurred glow, slightly larger than the photo. It must
              track the portrait's alignment (m-auto md:mx-0) or it drifts
              toward the column's centre while the photo stays on the rail. */}}
@@ -70,7 +72,7 @@
 
         {{/* mx-auto md:mx-0 — centred while stacked, flush to the rail from md
              up so this portrait shares the hero portrait's left edge. */}}
-        {{ with .Param "about_image" }}<img src="{{ . }}" class="relative block w-full max-w-xs md:max-w-72 lg:max-w-80 xl:max-w-96 mx-auto md:mx-0 aspect-[4/5] rounded-[2rem] object-cover object-[50%_25%] grayscale hover:grayscale-0 transition-all duration-700 ring-4 ring-white/80 shadow-xl shadow-charcoal/15" alt="Portrait of {{ $.Param "hero_name" }}" loading="lazy">{{ end }}
+        {{ with .Param "about_image" }}<img src="{{ . }}" class="relative block w-full aspect-[4/5] rounded-[2rem] object-cover object-[50%_25%] grayscale hover:grayscale-0 transition-all duration-700 ring-4 ring-white/80 shadow-xl shadow-charcoal/15" alt="Portrait of {{ $.Param "hero_name" }}" loading="lazy">{{ end }}
       </div>
 
       {{/* Story copy. Centred while stacked, left-aligned from md up so it
