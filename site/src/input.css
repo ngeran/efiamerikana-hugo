@@ -66,18 +66,12 @@
   --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Libre Caslon Text", ui-serif, Georgia, serif;
 
-  /* About section background — swapped hue, not just lightness. The
-     original (#AED6F1, then a lightened #C2E0F5) was a cyan-leaning sky
-     blue in the same family as a clear-day photo backdrop, which made it
-     compete a little with the portrait itself. This shifts toward a
-     periwinkle/blue-violet instead, which sits further from both the
-     portrait's likely tones and reads nicely alongside the brand pink
-     (an analogous pink→violet→blue pairing) without turning cold or
-     corporate. Two easy alternates if this isn't the one:
-       - Deeper "denim" blue:  #7CA3C9  (more contrast, still soft)
-       - Teal-leaning blue:    #9FD6D6  (cooler, pairs more with the
-                                 charcoal/analytics section than the pink) */
-  --color-about-blue: #8A93D9;
+  /* About section background — warm sand/sienna (#f4a261). Token is named
+     --color-about (not after the hue) so re-tinting the section doesn't
+     turn the name into a lie. The warm tone bridges the yellow hero above
+     and the pink gallery below, and the portrait's charcoal/pink copy
+     still reads clearly on it. */
+  --color-about: #f4a261;
 }
 
 /* =========================================================================
