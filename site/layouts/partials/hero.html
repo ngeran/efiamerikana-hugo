@@ -87,7 +87,7 @@
 
       {{/* 2. RIGHT (md:col-span-7) — portrait with organic pink/red blobs. */}}
       <div class="w-full md:col-span-7 relative flex items-center justify-center md:-ml-12 order-1 md:order-2">
-        <div class="relative w-full aspect-square md:aspect-[4/4.5] md:max-w-[640px]">
+        <div class="relative w-full aspect-square md:aspect-[4/4.5] md:max-w-[540px]">
           <div class="absolute inset-0 bg-brand-pink rounded-[40px_140px_60px_140px] rotate-6 translate-x-4 translate-y-4 opacity-50 mix-blend-multiply" aria-hidden="true"></div>
           <div class="absolute inset-0 bg-brand-red rounded-[120px_40px_120px_60px] -rotate-3 -translate-x-4 -translate-y-4 opacity-40 mix-blend-multiply" aria-hidden="true"></div>
           {{ with .Param "hero_image" }}<img class="w-full h-full object-cover absolute inset-0 rounded-[60px_100px_50px_120px] shadow-2xl" src="{{ . }}" alt="{{ $.Param "hero_name" }}" loading="eager" />{{ end }}
