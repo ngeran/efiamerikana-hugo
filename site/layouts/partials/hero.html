@@ -52,15 +52,16 @@
 
     <div class="relative z-10 flex flex-col md:flex-row items-center gap-8 sm:gap-10 md:gap-12 w-full">
       {{/* Portrait. Capped on mobile so it never dominates a small screen;
-           a fixed w-72 (288px) SQUARE from md up — the same ~288px the
-           video/gallery thumbnails render at on desktop, so every image on
-           the page is one uniform size. Square (not 4:5) to match them.
+           fixed width from md up (stepping at lg/xl) so it never depends on
+           the parent's width. 4:5 portrait — deliberately NOT the square used
+           by the about portrait and the video/gallery cards: the hero is the
+           page's poster image and reads larger on purpose.
 
            ring-2, NOT border-2: a border draws INSIDE the box, which inset the
            photo 2px past the rail while its frame sat on it. A ring draws
            outside, so the visible photo edge lands exactly on the rail — same
            reason the about portrait uses ring-4. */}}
-      <div class="w-full max-w-xs sm:max-w-sm md:w-72 mx-auto md:mx-0 shrink-0 rounded-[2rem] overflow-hidden ring-2 ring-black/5 aspect-square">
+      <div class="w-full max-w-xs sm:max-w-sm md:w-72 lg:w-80 xl:w-96 mx-auto md:mx-0 shrink-0 rounded-[2rem] overflow-hidden ring-2 ring-black/5 aspect-[4/5]">
         {{ with .Param "hero_image" }}<img class="w-full h-full object-cover" src="{{ . }}" alt="{{ $.Param "hero_name" }}" loading="eager" fetchpriority="high" />{{ end }}
       </div>
 
