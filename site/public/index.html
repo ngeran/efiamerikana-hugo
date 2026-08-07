@@ -122,7 +122,7 @@
     <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-center">
 
       
-      <div class="w-full md:col-span-5 flex flex-col items-start relative z-20">
+      <div class="w-full md:col-span-5 flex flex-col items-start relative z-20 order-2 md:order-1">
 
         
         <div class="inline-flex items-center px-5 sm:px-6 py-2.5 sm:py-3 bg-brand-pink rounded-full mb-6 -rotate-3 shadow-lg">
@@ -174,8 +174,8 @@
       </div>
 
       
-      <div class="w-full md:col-span-7 relative flex items-center justify-center md:-ml-12 mt-10 md:mt-0">
-        <div class="relative w-full aspect-square md:aspect-[4/4.5] max-w-[800px]">
+      <div class="w-full md:col-span-7 relative flex items-center justify-center md:-ml-12 order-1 md:order-2">
+        <div class="relative w-full aspect-square md:aspect-[4/4.5] md:max-w-[640px]">
           <div class="absolute inset-0 bg-brand-pink rounded-[40px_140px_60px_140px] rotate-6 translate-x-4 translate-y-4 opacity-50 mix-blend-multiply" aria-hidden="true"></div>
           <div class="absolute inset-0 bg-brand-red rounded-[120px_40px_120px_60px] -rotate-3 -translate-x-4 -translate-y-4 opacity-40 mix-blend-multiply" aria-hidden="true"></div>
           <img class="w-full h-full object-cover absolute inset-0 rounded-[60px_100px_50px_120px] shadow-2xl" src="/images/efi-hero.jpg" alt="Effie Kazantzidis" loading="eager" />
@@ -191,7 +191,7 @@
   <div class="h-1 bg-brand-red" aria-hidden="true"></div>
 
   
-  <section id="about" class="bg-about section-fill section-fill-center section-fill-relax">
+  <section id="about" class="bg-about overflow-hidden section-fill section-fill-center section-fill-relax">
   <div class="rail section-pad">
     <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16">
 
@@ -565,53 +565,52 @@
 
   
   <section id="analytics" class="bg-charcoal text-white overflow-hidden relative">
-  <div class="rail py-12 md:py-24">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 xl:gap-24 items-start">
+  <div class="rail py-10 md:py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-16 items-start">
 
       
-      <div class="lg:col-span-7 space-y-16 sm:space-y-24">
+      <div class="lg:col-span-7 space-y-12 sm:space-y-16">
         <header>
-          <h2 class="font-montserrat text-2xl sm:text-3xl md:text-4xl font-light tracking-wide text-white/40 uppercase mb-4">Driven by</h2>
-          <div class="font-montserrat text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white">Engagement</div>
+          <h2 class="font-montserrat text-xl sm:text-2xl md:text-3xl font-light tracking-wide text-white/40 uppercase mb-3">Driven by</h2>
+          <div class="font-montserrat text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white">Engagement</div>
         </header>
 
         
-        <div class="space-y-12 sm:space-y-16">
+        <div class="space-y-10 sm:space-y-12">
           <div class="relative">
-            <div class="absolute -left-4 sm:-left-6 top-4 w-1.5 h-20 sm:h-24 bg-brand-pink" aria-hidden="true"></div>
-            <div class="font-montserrat text-[5rem] sm:text-[6rem] md:text-[8rem] xl:text-[10rem] leading-none font-bold tracking-tighter text-white mb-4">5.2M</div>
+            <div class="absolute -left-4 sm:-left-6 top-3 w-1.5 h-12 sm:h-16 bg-brand-pink" aria-hidden="true"></div>
+            <div class="font-montserrat text-[3.5rem] sm:text-[5rem] md:text-[6rem] xl:text-[7rem] leading-none font-bold tracking-tighter text-white mb-2">5.2M</div>
             <div class="font-montserrat text-xs sm:text-sm md:text-base font-semibold tracking-[0.2em] text-white/40 uppercase">Monthly Reach</div>
           </div>
           <div class="relative">
-            <div class="absolute -left-4 sm:-left-6 top-3 w-1.5 h-12 sm:h-16 bg-brand-yellow" aria-hidden="true"></div>
-            <div class="font-montserrat text-[3.5rem] sm:text-[4.5rem] md:text-[6rem] xl:text-[7rem] leading-none font-bold tracking-tighter text-white mb-4">150k</div>
+            <div class="absolute -left-4 sm:-left-6 top-2 w-1.5 h-9 sm:h-12 bg-brand-yellow" aria-hidden="true"></div>
+            <div class="font-montserrat text-[3rem] sm:text-[4rem] md:text-[5rem] xl:text-[6rem] leading-none font-bold tracking-tighter text-white mb-2">150k</div>
             <div class="font-montserrat text-xs sm:text-sm md:text-base font-semibold tracking-[0.2em] text-white/40 uppercase">Community Size</div>
           </div>
         </div>
 
         
-        <div class="grid grid-cols-2 gap-8 sm:gap-12 pt-8 border-t border-white/10">
+        <div class="grid grid-cols-2 gap-8 sm:gap-12 pt-6 border-t border-white/10">
           <div>
-            <div class="font-montserrat text-brand-yellow text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter mb-3">12.4%</div>
+            <div class="font-montserrat text-brand-yellow text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter mb-2">12.4%</div>
             <div class="font-montserrat text-xs sm:text-sm font-semibold tracking-widest text-white/40 uppercase">Engagement Rate</div>
           </div>
           <div>
-            <div class="font-montserrat text-brand-pink text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter mb-3">1.8M</div>
+            <div class="font-montserrat text-brand-pink text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter mb-2">1.8M</div>
             <div class="font-montserrat text-xs sm:text-sm font-semibold tracking-widest text-white/40 uppercase">Avg. Video Views</div>
           </div>
         </div>
       </div>
 
       
-      <div class="lg:col-span-5 space-y-12 lg:pt-32">
-        <div class="space-y-10 sm:space-y-16">
+      <div class="lg:col-span-5 space-y-10 lg:pt-12">
+        <div class="space-y-8 sm:space-y-12">
           
             
             
-            
             <div class="group">
-              <div class="flex justify-between items-end mb-4">
-                <div class="flex items-center gap-4 font-montserrat text-xs sm:text-sm md:text-base font-bold tracking-widest text-white uppercase">
+              <div class="flex justify-between items-end mb-3">
+                <div class="flex items-center gap-3 sm:gap-4 font-montserrat text-xs sm:text-sm md:text-base font-bold tracking-widest text-white uppercase">
                   <span class="w-3 h-3 rounded-full bg-brand-pink" aria-hidden="true"></span>
                   TikTok Community
                 </div>
@@ -624,10 +623,9 @@
           
             
             
-            
             <div class="group">
-              <div class="flex justify-between items-end mb-4">
-                <div class="flex items-center gap-4 font-montserrat text-xs sm:text-sm md:text-base font-bold tracking-widest text-white uppercase">
+              <div class="flex justify-between items-end mb-3">
+                <div class="flex items-center gap-3 sm:gap-4 font-montserrat text-xs sm:text-sm md:text-base font-bold tracking-widest text-white uppercase">
                   <span class="w-3 h-3 rounded-full bg-brand-yellow" aria-hidden="true"></span>
                   Instagram Reach
                 </div>
@@ -640,10 +638,9 @@
           
             
             
-            
             <div class="group">
-              <div class="flex justify-between items-end mb-4">
-                <div class="flex items-center gap-4 font-montserrat text-xs sm:text-sm md:text-base font-bold tracking-widest text-white uppercase">
+              <div class="flex justify-between items-end mb-3">
+                <div class="flex items-center gap-3 sm:gap-4 font-montserrat text-xs sm:text-sm md:text-base font-bold tracking-widest text-white uppercase">
                   <span class="w-3 h-3 rounded-full bg-brand-red" aria-hidden="true"></span>
                   YouTube Views
                 </div>
