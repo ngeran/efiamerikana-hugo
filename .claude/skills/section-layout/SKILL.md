@@ -126,11 +126,12 @@ Two mechanisms cooperate:
   inconsistent next to the square hero/about portraits. The short-window case
   is now handled by the grid steps + natural scroll, not by distorting the
   thumbnail.
-- Grids step `1 → 2 → 3 → 4` columns at `sm`/`lg`/`xl`. The `xl:grid-cols-4`
-  step exists specifically so that spanning the full rail does **not** inflate
-  cards (~341px → ~410px at 1920). A wider card means a taller 1:1 thumbnail,
-  which is what pushes the caption below the fold. Four columns keeps cards
-  slightly narrower than before, improving the height budget.
+- Grids step `1 → 2 → 3` columns at `sm`/`lg` and cap there — six items form a
+  deliberate 3×2 grid on desktop. (A 4-column `xl:` step was tried to keep
+  cards narrow, but 3×2 is the chosen composition. Three columns do widen cards
+  (~341px → ~410px at 1920) and so tall-en the 1:1 thumbnails, which pressures
+  the first-card-visible budget; that's now held by the rail's content cap and
+  `.section-fill-relax` on large desktops, not by a 4th column.)
 - The `sm:` step matters independently: without it, landscape phones and small
   tablets (480–767px) render one full-width card per row.
 

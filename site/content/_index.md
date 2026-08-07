@@ -13,13 +13,11 @@ nav:
     url: "#pictures"
   - label: "Analytics"
     url: "#analytics"
-  - label: "Contact"
-    url: "#contact"
 
 # ── Hero ──────────────────────────────────────────────────────────────────
 hero_brand: "efiamerikana"
 hero_name: "Effie Kazantzidis"
-hero_role: "Greek-American<br>Home Cook"
+hero_role: "Greek-American Home Cook"
 hero_tags: "Authentic Food • Everyday Cooking • UGC Creator"
 hero_quote: "A little bit of cooking, little bit of humor, and even serious talk sometimes."
 hero_image: "/images/efi-hero.jpg"
@@ -27,13 +25,15 @@ hero_portfolio_label: "view my portfolio"
 
 # ── About ─────────────────────────────────────────────────────────────────
 about_label: "About Effie"
+about_greeting: "Hello, I'm"
+about_name: "Effie"
 about_tag: "Authenticity"
 about_heading: "Authenticity is the"
 about_heading_accent: "Main Ingredient."
 about_p1: "I believe that the best meals aren't found in five-star restaurants, but in the noisy, flour-dusted kitchens of our grandmothers. My journey as a Greek-American home cook is a love letter to those traditions — updated for the way we live today."
 about_p2: "Born from a heritage that spans the Aegean Sea and the American East Coast, my cooking is about more than just recipes. It's about the \"kefi\" — that spirit of joy and passion that turns a simple dish into a celebration. No fuss, no pretension, just bold flavors and honest ingredients."
 about_image: "/images/efi-about.png"
-about_cta: "Start a Partnership"
+about_cta: "Get In Touch!"
 
 # ── Videos section ────────────────────────────────────────────────────────
 videos_label: "Selected Works"

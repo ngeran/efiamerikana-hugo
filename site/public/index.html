@@ -10,7 +10,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Caslon+Text:wght@400;700&family=Montserrat:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@700&family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
 
   
@@ -32,7 +32,7 @@
 
     
     <nav class="hidden lg:flex flex-1 gap-4 xl:gap-6 text-[0.75rem] leading-[1rem] font-bold uppercase tracking-widest items-center">
-      <a href="#about" class="hover:text-brand-pink transition-colors">About</a><a href="#videos" class="hover:text-brand-pink transition-colors">Videos</a><a href="#pictures" class="hover:text-brand-pink transition-colors">Pictures</a><a href="#analytics" class="hover:text-brand-pink transition-colors">Analytics</a><a href="#contact" class="hover:text-brand-pink transition-colors">Contact</a>
+      <a href="#about" class="hover:text-brand-pink transition-colors">About</a><a href="#videos" class="hover:text-brand-pink transition-colors">Videos</a><a href="#pictures" class="hover:text-brand-pink transition-colors">Pictures</a><a href="#analytics" class="hover:text-brand-pink transition-colors">Analytics</a>
     </nav>
 
     
@@ -56,7 +56,7 @@
 
 <div id="mobile-menu" class="hidden lg:hidden fixed top-16 inset-x-0 z-[99] bg-brand-yellow border-b border-charcoal/10 shadow-xl max-h-[calc(100dvh-4rem)] overflow-y-auto">
   <nav class="flex flex-col px-6 py-4 text-[0.75rem] leading-[1rem] font-bold uppercase tracking-widest">
-    <a href="#about" class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">About</a><a href="#videos" class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Videos</a><a href="#pictures" class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Pictures</a><a href="#analytics" class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Analytics</a><a href="#contact" class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Contact</a>
+    <a href="#about" class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">About</a><a href="#videos" class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Videos</a><a href="#pictures" class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Pictures</a><a href="#analytics" class="mobile-link py-3 border-b border-charcoal/10 hover:text-brand-pink transition-colors">Analytics</a>
 
     
     <div class="flex items-center justify-between py-3">
@@ -117,46 +117,73 @@
     
 
   
-  <section class="relative flex flex-col md:flex-row w-full bg-brand-yellow border-b border-charcoal/10 section-fill section-fill-center section-fill-relax">
-  
-  <div class="relative overflow-hidden w-full md:w-4/5 flex items-center hero-pad rail">
-    
-    <div class="absolute right-0 top-1/4 w-96 h-96 bg-white/20 blur-3xl rounded-full pointer-events-none" aria-hidden="true"></div>
-
-    <div class="relative z-10 flex flex-col md:flex-row items-center gap-8 sm:gap-10 md:gap-12 w-full">
-      
-      <div class="w-full max-w-xs sm:max-w-sm md:w-72 lg:w-80 xl:w-96 mx-auto md:mx-0 shrink-0 rounded-[2rem] overflow-hidden ring-2 ring-black/5 aspect-[4/5]">
-        <img class="w-full h-full object-cover" src="/images/efi-hero.jpg" alt="Effie Kazantzidis" loading="eager" fetchpriority="high" />
-      </div>
+  <section class="hero-split relative overflow-hidden w-full bg-brand-yellow border-b border-charcoal/10 section-fill section-fill-center section-fill-relax">
+  <div class="rail section-pad">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-center">
 
       
-      <div class="flex flex-col max-w-md text-center md:text-left items-center md:items-start">
-        <div class="mb-5 sm:mb-6">
-          <h1 class="font-bold leading-none text-3xl sm:text-4xl">efiamerikana</h1>
-          <h2 class="mt-1 tracking-widest uppercase font-bold text-brand-pink text-base sm:text-lg">Effie Kazantzidis</h2>
-          <div class="h-1 w-12 mt-4 bg-brand-red mx-auto md:mx-0" aria-hidden="true"></div>
+      <div class="w-full md:col-span-5 flex flex-col items-start relative z-20">
+
+        
+        <div class="inline-flex items-center px-5 sm:px-6 py-2.5 sm:py-3 bg-brand-pink rounded-full mb-6 -rotate-3 shadow-lg">
+          <span class="font-grotesk text-[13px] sm:text-sm text-white uppercase tracking-widest font-bold">Greek-American Home Cook</span>
         </div>
-        <h3 class="text-3xl sm:text-4xl font-bold mb-4">Greek-American<br>Home Cook</h3>
-        <div class="space-y-4">
+
+        
+        <h1 class="font-jakarta text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] text-charcoal mb-1 leading-[0.9] tracking-tighter font-extrabold md:-mr-[180px] relative z-30">efiamerikana</h1>
+
+        <h2 class="font-jakarta text-2xl md:text-3xl text-charcoal/80 mb-4 font-bold relative z-20">Effie Kazantzidis</h2>
+
+        <p class="font-jakarta text-base sm:text-lg text-charcoal/80 mb-8 sm:mb-10 max-w-[450px] font-medium relative z-20">A little bit of cooking, little bit of humor, and even serious talk sometimes.</p>
+
+        
+        
+        <ul class="flex flex-col gap-3 sm:gap-4 mb-8 sm:mb-10 relative z-20">
           
+            
+          <li class="flex items-center gap-4">
+            <div class="w-3 h-3 rounded-full shadow-lg bg-brand-red" aria-hidden="true"></div>
+            <span class="font-grotesk text-sm text-charcoal uppercase tracking-widest font-bold">Authentic Food</span>
+          </li>
+            
           
-          <div class="uppercase font-bold tracking-tighter text-sm space-y-1">
-            <div>• Authentic Food</div><div>• Everyday Cooking</div><div>• UGC Creator</div>
+            
+          <li class="flex items-center gap-4">
+            <div class="w-3 h-3 rounded-full shadow-lg bg-brand-pink" aria-hidden="true"></div>
+            <span class="font-grotesk text-sm text-charcoal uppercase tracking-widest font-bold">Everyday Cooking</span>
+          </li>
+            
+          
+            
+          <li class="flex items-center gap-4">
+            <div class="w-3 h-3 rounded-full shadow-lg bg-brand-red" aria-hidden="true"></div>
+            <span class="font-grotesk text-sm text-charcoal uppercase tracking-widest font-bold">UGC Creator</span>
+          </li>
+            
+          
+        </ul>
+        
+
+        
+        <a href="#videos" class="group flex items-center justify-between bg-charcoal hover:bg-brand-pink text-brand-yellow hover:text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full transition-all duration-300 shadow-2xl hover:-translate-y-1 relative z-20">
+          <span class="font-grotesk text-sm uppercase tracking-widest font-bold mr-4 sm:mr-6">view my portfolio</span>
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-brand-yellow group-hover:bg-white flex items-center justify-center transition-colors duration-300 shrink-0">
+            <span class="material-symbols-outlined text-charcoal text-[20px]" style="font-variation-settings: 'FILL' 0, 'wght' 700">arrow_forward</span>
           </div>
-          
-          <p class="text-xl sm:text-2xl italic opacity-80 leading-tight max-w-md">A little bit of cooking, little bit of humor, and even serious talk sometimes.</p>
+        </a>
+      </div>
+
+      
+      <div class="w-full md:col-span-7 relative flex items-center justify-center md:-ml-12 mt-10 md:mt-0">
+        <div class="relative w-full aspect-square md:aspect-[4/4.5] max-w-[800px]">
+          <div class="absolute inset-0 bg-brand-pink rounded-[40px_140px_60px_140px] rotate-6 translate-x-4 translate-y-4 opacity-50 mix-blend-multiply" aria-hidden="true"></div>
+          <div class="absolute inset-0 bg-brand-red rounded-[120px_40px_120px_60px] -rotate-3 -translate-x-4 -translate-y-4 opacity-40 mix-blend-multiply" aria-hidden="true"></div>
+          <img class="w-full h-full object-cover absolute inset-0 rounded-[60px_100px_50px_120px] shadow-2xl" src="/images/efi-hero.jpg" alt="Effie Kazantzidis" loading="eager" />
         </div>
       </div>
+
     </div>
   </div>
-
-  
-  <aside class="w-full md:w-1/5 hero-aside border-t-[20px] sm:border-t-[32px] md:border-t-0 md:border-l-[32px] border-brand-red flex flex-col items-center justify-center text-center gap-6 sm:gap-8 px-6 hero-pad">
-    <h4 class="text-2xl sm:text-3xl md:text-4xl leading-tight font-medium max-w-[150px] text-white">view my portfolio</h4>
-    <a class="w-16 h-16 sm:w-20 sm:h-20 bg-charcoal rounded-full grid place-items-center hover:scale-105 transition-transform" href="#videos" aria-label="view my portfolio">
-      <svg class="w-6 h-6 sm:w-8 sm:h-8 fill-white ml-1" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
-    </a>
-  </aside>
 </section>
 
 
@@ -164,34 +191,78 @@
   <div class="h-1 bg-brand-red" aria-hidden="true"></div>
 
   
-  <section id="about" class="bg-about section-fill section-fill-relax">
+  <section id="about" class="bg-about section-fill section-fill-center section-fill-relax">
   <div class="rail section-pad">
+    <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16">
 
-    
-    <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4 relative md:-translate-y-[5px]">
-      <div class="section-title-pipe">
-        <span class="pipe text-brand-red">|</span>
-        <span class="title-text text-white">About Effie</span>
-      </div>
-    </div>
-
-    
-    <div class="flex flex-col md:flex-row items-center gap-8 sm:gap-10 md:gap-12">
-      <div class="relative md:-translate-y-[10px] w-full max-w-xs sm:max-w-sm md:w-72 mx-auto md:mx-0 shrink-0">
-        
-        <div class="absolute inset-0 m-auto md:mx-0 w-60 sm:w-80 md:w-72 aspect-square bg-brand-pink/20 blur-3xl rounded-[3rem] pointer-events-none" aria-hidden="true"></div>
+      
+      <div class="w-full flex flex-col items-start gap-8 order-2 lg:order-1">
+        <div class="flex flex-col gap-2">
+          <h1 class="font-montserrat font-extrabold tracking-tight leading-[1.05] text-charcoal text-5xl sm:text-6xl md:text-7xl xl:text-[84px]">
+            Hello, I&#39;m <br/><span class="text-charcoal/80">Effie</span>
+          </h1>
+          <h2 class="font-montserrat font-bold uppercase tracking-wide text-charcoal/60 mt-2 text-xl sm:text-2xl lg:text-3xl">
+            Authenticity is the Main Ingredient.
+          </h2>
+        </div>
 
         
-        <img src="/images/efi-about.png" class="relative block w-full aspect-square rounded-[2rem] object-cover object-[50%_25%] grayscale hover:grayscale-0 transition-all duration-700 ring-4 ring-white/80 shadow-xl shadow-charcoal/15" alt="Portrait of Effie Kazantzidis" loading="lazy">
+        <div class="w-16 h-2 bg-charcoal" aria-hidden="true"></div>
+
+        
+        <div class="flex flex-col gap-6 font-inter text-charcoal/90 max-w-2xl text-base sm:text-lg">
+          <p>I believe that the best meals aren&#39;t found in five-star restaurants, but in the noisy, flour-dusted kitchens of our grandmothers. My journey as a Greek-American home cook is a love letter to those traditions — updated for the way we live today.</p>
+          <p>Born from a heritage that spans the Aegean Sea and the American East Coast, my cooking is about more than just recipes. It&#39;s about the &#34;kefi&#34; — that spirit of joy and passion that turns a simple dish into a celebration. No fuss, no pretension, just bold flavors and honest ingredients.</p>
+        </div>
+
+        
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-8 mt-4 w-full">
+          <a class="inline-flex items-center justify-center px-10 py-5 bg-charcoal text-brand-yellow font-inter font-bold text-sm uppercase tracking-widest hover:bg-charcoal/90 transition-colors shadow-xl" href="mailto:hello@efiamerikana.com">
+            Get In Touch!
+          </a>
+          <div class="flex flex-col gap-2">
+            <a class="font-inter font-bold text-sm text-charcoal hover:text-charcoal/70 transition-colors flex items-center gap-2" href="mailto:hello@efiamerikana.com">
+              <span class="material-symbols-outlined text-lg">mail</span>
+              hello@efiamerikana.com
+            </a>
+            <div class="flex items-center gap-4 mt-2">
+              
+              <a aria-label="TikTok" class="w-10 h-10 rounded-full bg-charcoal/10 flex items-center justify-center text-charcoal hover:bg-charcoal hover:text-brand-yellow transition-all" href="https://www.tiktok.com/@efiamerikana" target="_blank" rel="noopener noreferrer">
+                
+
+<svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.06.37-.63.41-1.1 1.07-1.35 1.78-.21.59-.15 1.23-.14 1.85.2 2.13 2.3 3.93 4.44 3.74 1.42-.08 2.77-.93 3.49-2.13.24-.39.37-.85.44-1.31.1-1.66.06-3.31.07-4.97.01-3.97 0-7.94.01-11.91z"/></svg>
+
+
+              </a>
+              
+              <a aria-label="Instagram" class="w-10 h-10 rounded-full bg-charcoal/10 flex items-center justify-center text-charcoal hover:bg-charcoal hover:text-brand-yellow transition-all" href="https://www.instagram.com/efiamerikana" target="_blank" rel="noopener noreferrer">
+                
+
+<svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+
+
+              </a>
+              
+              <a aria-label="Facebook" class="w-10 h-10 rounded-full bg-charcoal/10 flex items-center justify-center text-charcoal hover:bg-charcoal hover:text-brand-yellow transition-all" href="https://www.facebook.com/efiamerikana" target="_blank" rel="noopener noreferrer">
+                
+
+<svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>
+
+
+              </a>
+              
+            </div>
+          </div>
+        </div>
       </div>
 
       
-      <div class="space-y-4 relative md:-translate-y-[25px] text-center md:text-left">
-        <span class="pill-tag inline-block">Authenticity</span>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight text-white">Authenticity is the <br/><span class="italic text-brand-pink">Main Ingredient.</span></h2>
-        <p class="text-base sm:text-lg leading-snug text-white/80 max-w-lg mx-auto md:mx-0">I believe that the best meals aren&#39;t found in five-star restaurants, but in the noisy, flour-dusted kitchens of our grandmothers. My journey as a Greek-American home cook is a love letter to those traditions — updated for the way we live today.</p>
-        <p class="text-sm sm:text-base leading-snug text-white/70 max-w-lg mx-auto md:mx-0">Born from a heritage that spans the Aegean Sea and the American East Coast, my cooking is about more than just recipes. It&#39;s about the &#34;kefi&#34; — that spirit of joy and passion that turns a simple dish into a celebration. No fuss, no pretension, just bold flavors and honest ingredients.</p>
+      <div class="w-full relative flex justify-center lg:justify-end order-1 lg:order-2">
+        <div class="relative w-full max-w-[500px] aspect-square lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-charcoal/10">
+          <img class="absolute inset-0 w-full h-full object-cover" src="/images/efi-about.png" alt="Effie" loading="lazy" />
+        </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -217,7 +288,7 @@
     <p class="text-base text-charcoal/70 max-w-5xl section-intro">A curated collection of culinary explorations, from sizzling Mediterranean street food to refined bistro classics. Captured with high-energy movement and a focus on the raw textures of real ingredients.</p>
 
     
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
       
         
           
@@ -390,7 +461,7 @@
     <p class="text-base text-white/80 max-w-2xl section-intro">Stills from the kitchen and the road — the textures, the light, and the honest mess of real cooking. High-energy frames with a focus on raw ingredients.</p>
 
     
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
       
         
           
@@ -493,54 +564,61 @@
   <div class="h-1 bg-brand-yellow" aria-hidden="true"></div>
 
   
-  <section id="analytics" class="half-type bg-charcoal text-white overflow-hidden relative">
-  
-  <div class="ghost-text absolute top-1/2 left-0 transform -translate-y-1/2 font-serif italic text-white/[0.03] whitespace-nowrap pointer-events-none" aria-hidden="true">Data Driven Results</div>
-
-  <div class="rail relative z-10 section-pad">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+  <section id="analytics" class="bg-charcoal text-white overflow-hidden relative">
+  <div class="rail py-12 md:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 xl:gap-24 items-start">
 
       
-      <div>
-        <h2 class="text-5xl sm:text-6xl md:text-8xl font-serif leading-tight mb-10 sm:mb-12">Driven by <br/><span class="text-brand-yellow italic">Engagement</span></h2>
+      <div class="lg:col-span-7 space-y-16 sm:space-y-24">
+        <header>
+          <h2 class="font-montserrat text-2xl sm:text-3xl md:text-4xl font-light tracking-wide text-white/40 uppercase mb-4">Driven by</h2>
+          <div class="font-montserrat text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white">Engagement</div>
+        </header>
 
-        <div class="grid grid-cols-2 gap-4 sm:gap-8">
-          <div class="border-l border-brand-pink pl-4 sm:pl-6">
-            <p class="text-3xl sm:text-4xl md:text-5xl font-bold font-serif mb-2">5.2M</p>
-            <p class="micro-label uppercase font-bold tracking-widest text-white/40">Monthly Reach</p>
+        
+        <div class="space-y-12 sm:space-y-16">
+          <div class="relative">
+            <div class="absolute -left-4 sm:-left-6 top-4 w-1.5 h-20 sm:h-24 bg-brand-pink" aria-hidden="true"></div>
+            <div class="font-montserrat text-[5rem] sm:text-[6rem] md:text-[8rem] xl:text-[10rem] leading-none font-bold tracking-tighter text-white mb-4">5.2M</div>
+            <div class="font-montserrat text-xs sm:text-sm md:text-base font-semibold tracking-[0.2em] text-white/40 uppercase">Monthly Reach</div>
           </div>
-          <div class="border-l border-brand-yellow pl-4 sm:pl-6">
-            <p class="text-3xl sm:text-4xl md:text-5xl font-bold font-serif mb-2">150k</p>
-            <p class="micro-label uppercase font-bold tracking-widest text-white/40">Community Size</p>
+          <div class="relative">
+            <div class="absolute -left-4 sm:-left-6 top-3 w-1.5 h-12 sm:h-16 bg-brand-yellow" aria-hidden="true"></div>
+            <div class="font-montserrat text-[3.5rem] sm:text-[4.5rem] md:text-[6rem] xl:text-[7rem] leading-none font-bold tracking-tighter text-white mb-4">150k</div>
+            <div class="font-montserrat text-xs sm:text-sm md:text-base font-semibold tracking-[0.2em] text-white/40 uppercase">Community Size</div>
           </div>
         </div>
 
-        <div class="mt-10 sm:mt-12 grid grid-cols-2 sm:flex gap-4 sm:gap-6 sm:flex-wrap">
-          <div class="bg-white/5 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-4 border border-white/10">
-            <span class="block text-xl sm:text-2xl font-bold font-serif text-brand-yellow">12.4%</span>
-            <span class="micro-label uppercase font-bold tracking-widest text-white/40">Engagement Rate</span>
+        
+        <div class="grid grid-cols-2 gap-8 sm:gap-12 pt-8 border-t border-white/10">
+          <div>
+            <div class="font-montserrat text-brand-yellow text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter mb-3">12.4%</div>
+            <div class="font-montserrat text-xs sm:text-sm font-semibold tracking-widest text-white/40 uppercase">Engagement Rate</div>
           </div>
-          <div class="bg-white/5 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-4 border border-white/10">
-            <span class="block text-xl sm:text-2xl font-bold font-serif text-brand-pink">1.8M</span>
-            <span class="micro-label uppercase font-bold tracking-widest text-white/40">Avg. Video Views</span>
+          <div>
+            <div class="font-montserrat text-brand-pink text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter mb-3">1.8M</div>
+            <div class="font-montserrat text-xs sm:text-sm font-semibold tracking-widest text-white/40 uppercase">Avg. Video Views</div>
           </div>
         </div>
       </div>
 
       
-      <div class="space-y-10 sm:space-y-12">
-        <div class="space-y-6 sm:space-y-8">
+      <div class="lg:col-span-5 space-y-12 lg:pt-32">
+        <div class="space-y-10 sm:space-y-16">
           
             
             
             
             <div class="group">
-              <div class="micro-label flex justify-between font-bold uppercase tracking-[0.2em] mb-3 gap-2">
-                <span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full shrink-0 bg-brand-pink" aria-hidden="true"></div> TikTok Community</span>
-                <span class="shrink-0">92k</span>
+              <div class="flex justify-between items-end mb-4">
+                <div class="flex items-center gap-4 font-montserrat text-xs sm:text-sm md:text-base font-bold tracking-widest text-white uppercase">
+                  <span class="w-3 h-3 rounded-full bg-brand-pink" aria-hidden="true"></span>
+                  TikTok Community
+                </div>
+                <div class="font-montserrat text-base sm:text-lg font-bold text-white tracking-tight">92k</div>
               </div>
-              <div class="w-full h-1 bg-white/10 overflow-hidden rounded-full">
-                <div class="h-full bg-brand-pink rounded-full transition-all duration-1000" style="width: 85%"></div>
+              <div class="h-1 w-full bg-white/5 overflow-hidden">
+                <div class="h-full bg-brand-pink" style="width: 85%"></div>
               </div>
             </div>
           
@@ -548,12 +626,15 @@
             
             
             <div class="group">
-              <div class="micro-label flex justify-between font-bold uppercase tracking-[0.2em] mb-3 gap-2">
-                <span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full shrink-0 bg-brand-yellow" aria-hidden="true"></div> Instagram Reach</span>
-                <span class="shrink-0">45k</span>
+              <div class="flex justify-between items-end mb-4">
+                <div class="flex items-center gap-4 font-montserrat text-xs sm:text-sm md:text-base font-bold tracking-widest text-white uppercase">
+                  <span class="w-3 h-3 rounded-full bg-brand-yellow" aria-hidden="true"></span>
+                  Instagram Reach
+                </div>
+                <div class="font-montserrat text-base sm:text-lg font-bold text-white tracking-tight">45k</div>
               </div>
-              <div class="w-full h-1 bg-white/10 overflow-hidden rounded-full">
-                <div class="h-full bg-brand-yellow rounded-full transition-all duration-1000" style="width: 60%"></div>
+              <div class="h-1 w-full bg-white/5 overflow-hidden">
+                <div class="h-full bg-brand-yellow" style="width: 60%"></div>
               </div>
             </div>
           
@@ -561,69 +642,22 @@
             
             
             <div class="group">
-              <div class="micro-label flex justify-between font-bold uppercase tracking-[0.2em] mb-3 gap-2">
-                <span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full shrink-0 bg-brand-red" aria-hidden="true"></div> YouTube Views</span>
-                <span class="shrink-0">28k</span>
+              <div class="flex justify-between items-end mb-4">
+                <div class="flex items-center gap-4 font-montserrat text-xs sm:text-sm md:text-base font-bold tracking-widest text-white uppercase">
+                  <span class="w-3 h-3 rounded-full bg-brand-red" aria-hidden="true"></span>
+                  YouTube Views
+                </div>
+                <div class="font-montserrat text-base sm:text-lg font-bold text-white tracking-tight">28k</div>
               </div>
-              <div class="w-full h-1 bg-white/10 overflow-hidden rounded-full">
-                <div class="h-full bg-brand-red rounded-full transition-all duration-1000" style="width: 45%"></div>
+              <div class="h-1 w-full bg-white/5 overflow-hidden">
+                <div class="h-full bg-brand-red" style="width: 45%"></div>
               </div>
             </div>
           
         </div>
-        <p class="text-white/40 text-xs font-medium max-w-sm">Consistently ranking in the top 1% of food and lifestyle creators for retention and share-ability.</p>
+        <p class="font-montserrat text-sm sm:text-base md:text-lg text-white/40 font-light leading-relaxed">Consistently ranking in the top 1% of food and lifestyle creators for retention and share-ability.</p>
       </div>
-    </div>
-  </div>
-</section>
 
-
-  
-  <div class="h-1 bg-brand-pink" aria-hidden="true"></div>
-
-  
-  <section id="contact" class="half-type bg-brand-red text-white text-center">
-  <div class="max-w-3xl mx-auto space-y-10 sm:space-y-12 section-pad px-6">
-
-    
-    <h2 class="text-4xl sm:text-6xl md:text-8xl font-serif italic leading-none">Let&#39;s Collaborate.</h2>
-
-    
-    <div class="space-y-6">
-      <p class="text-lg sm:text-xl md:text-2xl font-medium text-white/80">Available for brand partnerships and recipe development.</p>
-      <a href="mailto:hello@efiamerikana.com" class="text-lg sm:text-xl md:text-4xl font-serif font-bold border-b-2 border-brand-yellow inline-block hover:text-brand-yellow transition-colors break-all sm:whitespace-nowrap">hello@efiamerikana.com</a>
-    </div>
-
-    
-    <div class="pt-10 sm:pt-12 flex flex-wrap justify-center items-center gap-6 sm:gap-8">
-      
-      <a href="https://www.tiktok.com/@efiamerikana" class="flex items-center gap-2 text-white hover:text-brand-yellow transition-colors" target="_blank" rel="noopener noreferrer">
-        
-
-<svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.06.37-.63.41-1.1 1.07-1.35 1.78-.21.59-.15 1.23-.14 1.85.2 2.13 2.3 3.93 4.44 3.74 1.42-.08 2.77-.93 3.49-2.13.24-.39.37-.85.44-1.31.1-1.66.06-3.31.07-4.97.01-3.97 0-7.94.01-11.91z"/></svg>
-
-
-        <span class="text-sm font-bold uppercase tracking-widest">TikTok</span>
-      </a>
-      
-      <a href="https://www.instagram.com/efiamerikana" class="flex items-center gap-2 text-white hover:text-brand-yellow transition-colors" target="_blank" rel="noopener noreferrer">
-        
-
-<svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-
-
-        <span class="text-sm font-bold uppercase tracking-widest">Instagram</span>
-      </a>
-      
-      <a href="https://www.facebook.com/efiamerikana" class="flex items-center gap-2 text-white hover:text-brand-yellow transition-colors" target="_blank" rel="noopener noreferrer">
-        
-
-<svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>
-
-
-        <span class="text-sm font-bold uppercase tracking-widest">Facebook</span>
-      </a>
-      
     </div>
   </div>
 </section>

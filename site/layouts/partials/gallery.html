@@ -19,7 +19,7 @@
 
      LAYOUT CONTRACT
        Identical to videos.html — `.section-fill`, `.rail section-pad`, grid
-       spanning the full rail at 1 → 2 → 3 → 4 columns (sm/lg/xl), and
+       spanning the full rail at 1 → 2 → 3 columns (sm/lg), and
        `.preview-media` thumbnails. The two grids MUST keep the same column
        and gap rules or their first cards stop aligning with each other.
 
@@ -29,9 +29,10 @@
      WHY THE COLUMN STEPS MATTER
        · `sm:` — without it, landscape phones and small tablets (480–767px)
          render one full-width card per row, wasting the horizontal space.
-       · `xl:` — lets the grid span the full rail without inflating cards; a
-         wider card means a taller thumbnail, which pushes the caption off
-         screen. See videos.html for the measured numbers.
+       · `lg:` — caps the grid at 3 columns, so the six items form a 3×2 grid
+         on desktop. (An `xl:` 4-column step was tried to keep cards narrow,
+         but 3×2 is the chosen composition; three columns do widen — and so
+         tall-en — the 1:1 thumbnails, traded off against the 3×2 look.)
 
      WHY .preview-media IS ALWAYS SQUARE
        Thumbnails are a fixed 1:1 square (rounded via rounded-preview-sm) at
@@ -39,7 +40,7 @@
        them 1:1 → 4:3 → 16:9 as viewport HEIGHT shrank, to fit a row on a
        short window, but that made them rectangles on laptops and
        tablet-landscape, inconsistent with the square portraits. The grid's
-       1→2→3→4 column steps + natural scroll handle short windows now.
+       1→2→3 column steps + natural scroll handle short windows now.
 
      TEMPLATE TRAP
        alt text uses a captured `{{ $title }}`, NOT `{{ .Title }}` — inside
@@ -69,7 +70,7 @@
          3. CARD GRID — spans the full rail, no inner cap. Column and gap
          rules are intentionally identical to videos.html.
          --------------------------------------------------------------------- */}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
       {{ with .Site.GetPage "gallery" }}
         {{ range .Pages.ByDate.Reverse }}
           {{/* Captured above the `with` blocks — see TEMPLATE TRAP. */}}

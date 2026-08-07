@@ -1,103 +1,113 @@
 {{/* =========================================================================
-     analytics.html — section 5 of 6: reach & engagement  → anchor #analytics
+     analytics.html — section 5 of 5: reach & engagement  → anchor #analytics
      =========================================================================
 
      ROLE
-       The page's one dark section. Two columns: headline stats on the left,
-       per-platform progress bars on the right, over a huge faint "ghost" word.
+       The page's one dark section, restyled as a bold "dashboard": a light
+       "Driven by / Engagement." header, two MASSIVE figures each fronted by a
+       coloured accent bar, a two-up row of secondary stats, and a column of
+       thin per-platform progress bars. Matches a supplied reference design.
 
      READS (all site params)
-       analytics_ghost, analytics_heading, analytics_heading_accent,
-       analytics_reach(+_label), analytics_community(+_label),
-       analytics_engagement_rate(+_label), analytics_avg_views(+_label),
-       analytics_note
+       analytics_heading, analytics_heading_accent  — "Driven by / Engagement."
+       analytics_reach(+_label)                     — the huge primary figure
+       analytics_community(+_label)                 — the huge secondary figure
+       analytics_engagement_rate(+_label)           — secondary stat (left)
+       analytics_avg_views(+_label)                 — secondary stat (right)
+       analytics_note                               — the closing line
        analytics_platforms — list of {name, value, bar, color} maps
+       (analytics_ghost is no longer rendered — the reference has no ghost word.)
 
      LAYOUT CONTRACT
-       · `.rail section-pad` — shares the page's left/right edge.
-       · Deliberately NO `.section-fill`: this section sizes to its content.
-         Its stats are compact, so a forced full-viewport height would leave a
-         large empty dark band.
-       · `.half-type` rescales every text-* utility inside this section (see
-         input.css) — that's why the type here looks smaller than elsewhere
-         despite using the same utility names.
+       · `.rail` — shares the page's left/right edge (custom py-12 md:py-24 here
+         instead of .section-pad: this section reads best with more air than a
+         titled section, matching the reference's py-24).
+       · Deliberately NO `.section-fill`: sizes to its content. The stats are
+         the content; a forced full-viewport height would leave an empty dark band.
+       · NO `.half-type` (unlike the previous analytics): the reference's whole
+         point is oversized type, so the text-* utilities render at full size.
 
-     SECTIONS BELOW
-       1. Ghost word (decorative background)
-       2. Left column  — heading, two headline stats, two pill stats
-       3. Right column — per-platform bars + footnote
+     TYPE & COLOUR
+       Montserrat throughout (font-montserrat), matching the About section.
+       Accents use the project's brand tokens (brand-pink / brand-yellow /
+       brand-red) rather than the reference's literal hexes, so the dashboard
+       stays on-palette and the per-platform `color` field keeps working. Each
+       platform's colour is mapped to a literal utility below so the scanner
+       picks it up at compile time.
 
-     LEGIBILITY
-       Captions use `.micro-label` (10px floor), not raw text-[5px]/text-[6px]
-       which rendered below any comfortable reading size. The ghost word uses
-       `.ghost-text` rather than text-[8vw], which ballooned past 200px on
-       ultra-wide monitors. Don't reintroduce arbitrary font sizes here.
-
-     MOBILE
-       Stat pairs collapse to one column below `sm`: at 4 figures across a
-       320–375px screen the `border-l pl-6` dividers crowded the numbers.
+     THE ACCENT BARS
+       Each huge figure has a short vertical colour bar hung off its left edge
+       (absolute -left-4 sm:-left-6). The rail's content padding gives it room
+       to sit without clipping; the section is overflow-hidden.
      ========================================================================= */ -}}
-<section id="analytics" class="half-type bg-charcoal text-white overflow-hidden relative">
-  {{/* 1. GHOST WORD — decorative only, hence aria-hidden + pointer-events-none.
-       Sits behind everything at 3% opacity; the content below lifts above it
-       with relative z-10. */}}
-  <div class="ghost-text absolute top-1/2 left-0 transform -translate-y-1/2 font-serif italic text-white/[0.03] whitespace-nowrap pointer-events-none" aria-hidden="true">{{ .Param "analytics_ghost" }}</div>
-
-  <div class="rail relative z-10 section-pad">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+<section id="analytics" class="bg-charcoal text-white overflow-hidden relative">
+  <div class="rail py-12 md:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 xl:gap-24 items-start">
 
       {{/* -------------------------------------------------------------------
-           2. LEFT COLUMN — heading, two headline stats, two pill stats
+           LEFT (lg:col-span-7) — header, two massive figures, secondary stats
            ------------------------------------------------------------------- */}}
-      <div>
-        <h2 class="text-5xl sm:text-6xl md:text-8xl font-serif leading-tight mb-10 sm:mb-12">{{ .Param "analytics_heading" }} <br/><span class="text-brand-yellow italic">{{ .Param "analytics_heading_accent" }}</span></h2>
+      <div class="lg:col-span-7 space-y-16 sm:space-y-24">
+        <header>
+          <h2 class="font-montserrat text-2xl sm:text-3xl md:text-4xl font-light tracking-wide text-white/40 uppercase mb-4">{{ .Param "analytics_heading" }}</h2>
+          <div class="font-montserrat text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white">{{ .Param "analytics_heading_accent" }}</div>
+        </header>
 
-        <div class="grid grid-cols-2 gap-4 sm:gap-8">
-          <div class="border-l border-brand-pink pl-4 sm:pl-6">
-            <p class="text-3xl sm:text-4xl md:text-5xl font-bold font-serif mb-2">{{ .Param "analytics_reach" }}</p>
-            <p class="micro-label uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_reach_label" }}</p>
+        {{/* Massive figures, each with a coloured accent bar at its left. */}}
+        <div class="space-y-12 sm:space-y-16">
+          <div class="relative">
+            <div class="absolute -left-4 sm:-left-6 top-4 w-1.5 h-20 sm:h-24 bg-brand-pink" aria-hidden="true"></div>
+            <div class="font-montserrat text-[5rem] sm:text-[6rem] md:text-[8rem] xl:text-[10rem] leading-none font-bold tracking-tighter text-white mb-4">{{ .Param "analytics_reach" }}</div>
+            <div class="font-montserrat text-xs sm:text-sm md:text-base font-semibold tracking-[0.2em] text-white/40 uppercase">{{ .Param "analytics_reach_label" }}</div>
           </div>
-          <div class="border-l border-brand-yellow pl-4 sm:pl-6">
-            <p class="text-3xl sm:text-4xl md:text-5xl font-bold font-serif mb-2">{{ .Param "analytics_community" }}</p>
-            <p class="micro-label uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_community_label" }}</p>
+          <div class="relative">
+            <div class="absolute -left-4 sm:-left-6 top-3 w-1.5 h-12 sm:h-16 bg-brand-yellow" aria-hidden="true"></div>
+            <div class="font-montserrat text-[3.5rem] sm:text-[4.5rem] md:text-[6rem] xl:text-[7rem] leading-none font-bold tracking-tighter text-white mb-4">{{ .Param "analytics_community" }}</div>
+            <div class="font-montserrat text-xs sm:text-sm md:text-base font-semibold tracking-[0.2em] text-white/40 uppercase">{{ .Param "analytics_community_label" }}</div>
           </div>
         </div>
 
-        <div class="mt-10 sm:mt-12 grid grid-cols-2 sm:flex gap-4 sm:gap-6 sm:flex-wrap">
-          <div class="bg-white/5 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-4 border border-white/10">
-            <span class="block text-xl sm:text-2xl font-bold font-serif text-brand-yellow">{{ .Param "analytics_engagement_rate" }}</span>
-            <span class="micro-label uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_engagement_label" }}</span>
+        {{/* Secondary stats — two-up, divided from the figures by a hairline. */}}
+        <div class="grid grid-cols-2 gap-8 sm:gap-12 pt-8 border-t border-white/10">
+          <div>
+            <div class="font-montserrat text-brand-yellow text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter mb-3">{{ .Param "analytics_engagement_rate" }}</div>
+            <div class="font-montserrat text-xs sm:text-sm font-semibold tracking-widest text-white/40 uppercase">{{ .Param "analytics_engagement_label" }}</div>
           </div>
-          <div class="bg-white/5 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-4 border border-white/10">
-            <span class="block text-xl sm:text-2xl font-bold font-serif text-brand-pink">{{ .Param "analytics_avg_views" }}</span>
-            <span class="micro-label uppercase font-bold tracking-widest text-white/40">{{ .Param "analytics_avg_views_label" }}</span>
+          <div>
+            <div class="font-montserrat text-brand-pink text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter mb-3">{{ .Param "analytics_avg_views" }}</div>
+            <div class="font-montserrat text-xs sm:text-sm font-semibold tracking-widest text-white/40 uppercase">{{ .Param "analytics_avg_views_label" }}</div>
           </div>
         </div>
       </div>
 
       {{/* -------------------------------------------------------------------
-           3. RIGHT COLUMN — one progress bar per platform, then a footnote
+           RIGHT (lg:col-span-5) — per-platform bars + footnote. Pushed down
+           (lg:pt-32) so it starts mid-figure, as in the reference.
            ------------------------------------------------------------------- */}}
-      <div class="space-y-10 sm:space-y-12">
-        <div class="space-y-6 sm:space-y-8">
+      <div class="lg:col-span-5 space-y-12 lg:pt-32">
+        <div class="space-y-10 sm:space-y-16">
           {{ range .Param "analytics_platforms" }}
-            {{/* Map the stored color name to a literal utility so the scanner
+            {{/* Map the stored colour name to a literal utility so the scanner
                  picks it up at compile time. */}}
             {{ $bar := "" }}
             {{ if eq .color "brand-pink" }}{{ $bar = "bg-brand-pink" }}{{ else if eq .color "brand-yellow" }}{{ $bar = "bg-brand-yellow" }}{{ else if eq .color "brand-red" }}{{ $bar = "bg-brand-red" }}{{ else }}{{ $bar = "bg-white" }}{{ end }}
             <div class="group">
-              <div class="micro-label flex justify-between font-bold uppercase tracking-[0.2em] mb-3 gap-2">
-                <span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full shrink-0 {{ $bar }}" aria-hidden="true"></div> {{ .name }}</span>
-                <span class="shrink-0">{{ .value }}</span>
+              <div class="flex justify-between items-end mb-4">
+                <div class="flex items-center gap-4 font-montserrat text-xs sm:text-sm md:text-base font-bold tracking-widest text-white uppercase">
+                  <span class="w-3 h-3 rounded-full {{ $bar }}" aria-hidden="true"></span>
+                  {{ .name }}
+                </div>
+                <div class="font-montserrat text-base sm:text-lg font-bold text-white tracking-tight">{{ .value }}</div>
               </div>
-              <div class="w-full h-1 bg-white/10 overflow-hidden rounded-full">
-                <div class="h-full {{ $bar }} rounded-full transition-all duration-1000" style="width: {{ .bar | default "50%" }}"></div>
+              <div class="h-1 w-full bg-white/5 overflow-hidden">
+                <div class="h-full {{ $bar }}" style="width: {{ .bar | default "50%" }}"></div>
               </div>
             </div>
           {{ end }}
         </div>
-        <p class="text-white/40 text-xs font-medium max-w-sm">{{ .Param "analytics_note" }}</p>
+        <p class="font-montserrat text-sm sm:text-base md:text-lg text-white/40 font-light leading-relaxed">{{ .Param "analytics_note" }}</p>
       </div>
+
     </div>
   </div>
 </section>

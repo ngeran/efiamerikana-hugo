@@ -7,82 +7,96 @@
      renaming the file is the real fix if you want to tidy it.
 
      ROLE
-       Two-column story section: portrait on the left, pill tag + heading +
-       two paragraphs on the right. The page's only dark-navy section.
+       A bold, poster-style intro matching a supplied reference design: a large
+       "Hello, I'm Effie" display heading, a one-line manifesto, two story
+       paragraphs, and a contact row (CTA button + email + socials), beside a
+       large rounded portrait.
 
      READS (site params)
-       about_label, about_image, about_tag, about_heading,
-       about_heading_accent, about_p1, about_p2
+       about_greeting, about_name          — the big "Hello, I'm / Effie" line
+       about_heading, about_heading_accent — joined into the uppercase subhead
+       about_p1, about_p2                  — story paragraphs
+       about_cta                           — button label (links to #contact)
+       about_image                         — portrait
+       contact_email, socials              — REUSED from the contact section
+       (each social renders via the shared social-icon.html partial)
 
      LAYOUT CONTRACT
-       · `.section-fill` — occupies the screen when reached from the nav,
-         content top-anchored (title sits just under the header).
+       · `.section-fill` + `.section-fill-center` — fills the viewport in
+         landscape AND centres the block vertically, like the hero (the
+         reference is a min-h-screen + my-auto composition). `.section-fill-relax`
+         drops the floor on ≥1920px; portrait does not fill (see input.css §9).
        · `.rail section-pad` on the inner wrapper — shared left/right edge.
-       · The portrait uses `mx-auto md:mx-0`: centred while stacked, flush to
-         the rail from md up. It previously had an unconditional `mx-auto`,
-         which floated it 108px inside the rail on desktop.
+       · Two-column grid: TEXT left / IMAGE right at `lg`; on mobile it stacks
+         IMAGE-first then text (order-1 / order-2). NB this MIRRORS the hero —
+         hero is portrait-left/text-right, about is text-left/image-right.
 
-     SECTIONS BELOW
-       1. Section title
-       2. Two-column grid — portrait | story copy
+     TYPE
+       Montserrat (display heading + subhead) and Inter (body, email, button),
+       loaded in baseof.html and exposed as --font-montserrat / --font-inter.
+       Used ONLY here for now — the rest of the site stays Libre Caslon + Work
+       Sans, so expect the About to read in a different typeface by design.
 
-     PORTRAIT DESIGN NOTES
-       Shape: a `rounded-[2rem]` SQUARE (1:1), matching the hero portrait AND
-       the video/gallery preview thumbnails — one uniform image shape and
-       size across the page. (Was a circle, then a 4:5 portrait; both
-       mismatched the square cards.) Kept: white ring, drop shadow,
-       grayscale→colour hover, blurred glow behind.
-
-       Size: `md:w-72` (288px) from md up — the same ~288px the video/gallery
-       thumbnails render at on desktop (4 columns of the rail), so every
-       image on the page reads as one size. This is a flex row
-       (portrait | copy), not a grid-cols-2: a 50/50 grid left a huge gap
-       between the portrait and the right-hand column on wide screens, and
-       put the copy's left edge at the rail midpoint instead of beside the
-       portrait.
-
-     THE -translate-y-[Npx] OFFSETS
-       Small optical nudges that only make sense in the two-column desktop
-       arrangement. They're scoped to `md:` and up because unconditionally
-       they also pulled the mobile title and copy upward, tightening the
-       image/text gap to the point of nearly overlapping.
+     BACKGROUND
+       `bg-about` = #fbd509 (vivid yellow), the reference's ground. The hero
+       directly above is the same yellow family (#FFD24D), so the two flow into
+       one warm band by design — the section break reads through the content
+       swap (hero's pink aside → about's portrait), not a colour change. Copy
+       is therefore dark (text-charcoal / charcoal-with-opacity).
      ========================================================================= */ -}}
-<section id="about" class="bg-about section-fill section-fill-relax">
+<section id="about" class="bg-about section-fill section-fill-center section-fill-relax">
   <div class="rail section-pad">
+    <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16">
 
-    {{/* ---------------------------------------------------------------------
-         1. SECTION TITLE — pipe is red, title text white (dark background)
-         --------------------------------------------------------------------- */}}
-    <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4 relative md:-translate-y-[5px]">
-      <div class="section-title-pipe">
-        <span class="pipe text-brand-red">|</span>
-        <span class="title-text text-white">{{ .Param "about_label" }}</span>
+      {{/* 1. TEXT COLUMN — left at lg, below the image on mobile. */}}
+      <div class="w-full flex flex-col items-start gap-8 order-2 lg:order-1">
+        <div class="flex flex-col gap-2">
+          <h1 class="font-montserrat font-extrabold tracking-tight leading-[1.05] text-charcoal text-5xl sm:text-6xl md:text-7xl xl:text-[84px]">
+            {{ .Param "about_greeting" }} <br/><span class="text-charcoal/80">{{ .Param "about_name" }}</span>
+          </h1>
+          <h2 class="font-montserrat font-bold uppercase tracking-wide text-charcoal/60 mt-2 text-xl sm:text-2xl lg:text-3xl">
+            {{ .Param "about_heading" }} {{ .Param "about_heading_accent" }}
+          </h2>
+        </div>
+
+        {{/* Charcoal divider bar. */}}
+        <div class="w-16 h-2 bg-charcoal" aria-hidden="true"></div>
+
+        {{/* Story paragraphs (Inter). */}}
+        <div class="flex flex-col gap-6 font-inter text-charcoal/90 max-w-2xl text-base sm:text-lg">
+          <p>{{ .Param "about_p1" }}</p>
+          <p>{{ .Param "about_p2" }}</p>
+        </div>
+
+        {{/* Contact row: CTA button + email + socials. The email and socials
+             are the same data the contact section uses, so they stay in sync. */}}
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-8 mt-4 w-full">
+          <a class="inline-flex items-center justify-center px-10 py-5 bg-charcoal text-brand-yellow font-inter font-bold text-sm uppercase tracking-widest hover:bg-charcoal/90 transition-colors shadow-xl" href="mailto:{{ .Param "contact_email" }}">
+            {{ .Param "about_cta" }}
+          </a>
+          <div class="flex flex-col gap-2">
+            <a class="font-inter font-bold text-sm text-charcoal hover:text-charcoal/70 transition-colors flex items-center gap-2" href="mailto:{{ .Param "contact_email" }}">
+              <span class="material-symbols-outlined text-lg">mail</span>
+              {{ .Param "contact_email" }}
+            </a>
+            <div class="flex items-center gap-4 mt-2">
+              {{ range .Param "socials" }}
+              <a aria-label="{{ .label }}" class="w-10 h-10 rounded-full bg-charcoal/10 flex items-center justify-center text-charcoal hover:bg-charcoal hover:text-brand-yellow transition-all" href="{{ .url | default "#" }}" target="_blank" rel="noopener noreferrer">
+                {{ partial "social-icon.html" (dict "label" .label) }}
+              </a>
+              {{ end }}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    {{/* ---------------------------------------------------------------------
-         2. TWO-COLUMN ROW — portrait | story copy
-         --------------------------------------------------------------------- */}}
-    <div class="flex flex-col md:flex-row items-center gap-8 sm:gap-10 md:gap-12">
-      <div class="relative md:-translate-y-[10px] w-full max-w-xs sm:max-w-sm md:w-72 mx-auto md:mx-0 shrink-0">
-        {{/* Decorative blurred glow, slightly larger than the photo. It must
-             track the portrait's alignment (m-auto md:mx-0) or it drifts
-             toward the column's centre while the photo stays on the rail. */}}
-        <div class="absolute inset-0 m-auto md:mx-0 w-60 sm:w-80 md:w-72 aspect-square bg-brand-pink/20 blur-3xl rounded-[3rem] pointer-events-none" aria-hidden="true"></div>
-
-        {{/* mx-auto md:mx-0 — centred while stacked, flush to the rail from md
-             up so this portrait shares the hero portrait's left edge. */}}
-        {{ with .Param "about_image" }}<img src="{{ . }}" class="relative block w-full aspect-square rounded-[2rem] object-cover object-[50%_25%] grayscale hover:grayscale-0 transition-all duration-700 ring-4 ring-white/80 shadow-xl shadow-charcoal/15" alt="Portrait of {{ $.Param "hero_name" }}" loading="lazy">{{ end }}
+      {{/* 2. IMAGE COLUMN — right at lg, first (above the text) on mobile. */}}
+      <div class="w-full relative flex justify-center lg:justify-end order-1 lg:order-2">
+        <div class="relative w-full max-w-[500px] aspect-square lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-charcoal/10">
+          {{ with .Param "about_image" }}<img class="absolute inset-0 w-full h-full object-cover" src="{{ . }}" alt="{{ $.Param "about_name" }}" loading="lazy" />{{ end }}
+        </div>
       </div>
 
-      {{/* Story copy. Centred while stacked, left-aligned from md up so it
-           reads as a column paired with the portrait. */}}
-      <div class="space-y-4 relative md:-translate-y-[25px] text-center md:text-left">
-        <span class="pill-tag inline-block">{{ .Param "about_tag" }}</span>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight text-white">{{ .Param "about_heading" }} <br/><span class="italic text-brand-pink">{{ .Param "about_heading_accent" }}</span></h2>
-        <p class="text-base sm:text-lg leading-snug text-white/80 max-w-lg mx-auto md:mx-0">{{ .Param "about_p1" }}</p>
-        <p class="text-sm sm:text-base leading-snug text-white/70 max-w-lg mx-auto md:mx-0">{{ .Param "about_p2" }}</p>
-      </div>
     </div>
   </div>
 </section>

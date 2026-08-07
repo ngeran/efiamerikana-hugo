@@ -49,6 +49,8 @@ collections:
           - { label: "Hero · Portfolio Label", name: "hero_portfolio_label", widget: "string" }
           # About
           - { label: "About · Heading Label", name: "about_label", widget: "string" }
+          - { label: "About · Greeting", name: "about_greeting", widget: "string" }
+          - { label: "About · Name", name: "about_name", widget: "string" }
           - { label: "About · Pill Tag", name: "about_tag", widget: "string" }
           - { label: "About · Heading", name: "about_heading", widget: "string" }
           - { label: "About · Heading Accent", name: "about_heading_accent", widget: "string" }

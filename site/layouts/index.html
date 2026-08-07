@@ -11,11 +11,10 @@
        ┌─ header ────────── fixed, 64px, always visible (from baseof.html)
        │
        1. hero ............ portrait + name + role + pink "view portfolio"
-       2. about ........... portrait + story copy
+       2. about ........... display intro + story copy + contact row (email/socials)
        3. videos .......... "Favorite Videos" card grid   → #videos
        4. gallery ......... "The Gallery" card grid       → #pictures
        5. analytics ....... reach/engagement stats, dark
-       6. contact ......... big CTA + email + socials
        │
        └─ footer ───────── copyright, policy links, tagline (from baseof.html)
 
@@ -31,7 +30,7 @@
        The nav (a `nav` param, rendered in header.html) links to the section
        ids below. Note the mismatch worth remembering: the gallery partial is
        `gallery.html` but its anchor is **#pictures**.
-         #about  #videos  #pictures  #analytics  #contact
+         #about  #videos  #pictures  #analytics
        The hero has no anchor — it's the landing view.
 
      LAYOUT CONTRACT
@@ -80,12 +79,5 @@
 
   {{/* 5. ANALYTICS → #analytics — sizes to its content (no .section-fill). */}}
   {{ partial "analytics.html" . }}
-
-  {{/* pink: lifts off the dark analytics panel into the red contact block. */}}
-  <div class="h-1 bg-brand-pink" aria-hidden="true"></div>
-
-  {{/* 6. CONTACT → #contact — narrow centred CTA; intentionally the one
-        section NOT aligned to the shared rail. */}}
-  {{ partial "contact.html" . }}
 
 {{ end }}
