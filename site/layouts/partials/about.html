@@ -54,7 +54,7 @@
           <h1 class="font-montserrat font-extrabold tracking-tight leading-[1.05] text-charcoal text-5xl sm:text-6xl md:text-7xl xl:text-[84px]">
             {{ .Param "about_greeting" }} <br/><span class="text-charcoal/80">{{ .Param "about_name" }}</span>
           </h1>
-          <h2 class="font-montserrat font-bold uppercase tracking-wide text-charcoal/60 mt-2 text-xl sm:text-2xl lg:text-3xl">
+          <h2 class="font-montserrat font-bold uppercase tracking-wide text-charcoal/60 mt-2 whitespace-nowrap text-base sm:text-lg lg:text-xl">
             {{ .Param "about_heading" }} {{ .Param "about_heading_accent" }}
           </h2>
         </div>
@@ -68,31 +68,25 @@
           <p>{{ .Param "about_p2" }}</p>
         </div>
 
-        {{/* Contact row: CTA button + email + socials. The email and socials
-             are the same data the contact section uses, so they stay in sync. */}}
+        {{/* Contact row: CTA button + socials. The button opens the email;
+             socials are the same data the contact section uses. */}}
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-8 mt-4 w-full">
           <a class="inline-flex items-center justify-center px-10 py-5 bg-charcoal text-brand-yellow font-inter font-bold text-sm uppercase tracking-widest hover:bg-charcoal/90 transition-colors shadow-xl" href="mailto:{{ .Param "contact_email" }}">
             {{ .Param "about_cta" }}
           </a>
-          <div class="flex flex-col gap-2">
-            <a class="font-inter font-bold text-sm text-charcoal hover:text-charcoal/70 transition-colors flex items-center gap-2" href="mailto:{{ .Param "contact_email" }}">
-              <span class="material-symbols-outlined text-lg">mail</span>
-              {{ .Param "contact_email" }}
+          <div class="flex items-center gap-4">
+            {{ range .Param "socials" }}
+            <a aria-label="{{ .label }}" class="w-10 h-10 rounded-full bg-charcoal/10 flex items-center justify-center text-charcoal hover:bg-charcoal hover:text-brand-yellow transition-all" href="{{ .url | default "#" }}" target="_blank" rel="noopener noreferrer">
+              {{ partial "social-icon.html" (dict "label" .label) }}
             </a>
-            <div class="flex items-center gap-4 mt-2">
-              {{ range .Param "socials" }}
-              <a aria-label="{{ .label }}" class="w-10 h-10 rounded-full bg-charcoal/10 flex items-center justify-center text-charcoal hover:bg-charcoal hover:text-brand-yellow transition-all" href="{{ .url | default "#" }}" target="_blank" rel="noopener noreferrer">
-                {{ partial "social-icon.html" (dict "label" .label) }}
-              </a>
-              {{ end }}
-            </div>
+            {{ end }}
           </div>
         </div>
       </div>
 
       {{/* 2. IMAGE COLUMN — right at lg, first (above the text) on mobile. */}}
       <div class="w-full relative flex justify-center lg:justify-end order-1 lg:order-2">
-        <div class="relative w-full max-w-[500px] aspect-square lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-charcoal/10">
+        <div class="relative w-full max-w-[400px] aspect-square lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-charcoal/10">
           {{ with .Param "about_image" }}<img class="absolute inset-0 w-full h-full object-cover" src="{{ . }}" alt="{{ $.Param "about_name" }}" loading="lazy" />{{ end }}
         </div>
       </div>
