@@ -82,13 +82,17 @@
   --font-jakarta: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-grotesk: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 
-  /* About section background — vivid yellow (#fbd509), per the supplied
-     reference design. The hero directly above is the same yellow family
-     (#FFD24D), so the two flow into one warm band; the section break reads
-     through the content swap (hero's pink aside → about's portrait), not a
-     colour change. About copy is dark (text-charcoal / charcoal-with-opacity)
-     on this light ground. */
-  --color-about: #fbd509;
+  /* About section background — near-black (#131313), per the supplied
+     reference design: a dark band between the yellow hero and the yellow
+     videos section. Copy is light (hearth-offwhite / offwhite-with-opacity)
+     with a gold (#ffb400) accent on the name, the divider bar, the CTA
+     button and the portrait's ring frame. */
+  --color-about: #131313;
+
+  /* Gold accent for the About section (#ffb400 = the reference's
+     primary-container). Used for the name, divider, button bg and the
+     portrait ring. */
+  --color-gold: #ffb400;
 }
 
 /* =========================================================================
