@@ -5,9 +5,9 @@ description: "Effie Kazantzidis — Greek-American home cook, UGC creator & culi
 
 # ── Navigation ─────────────────────────────────────────────────────────────
 nav:
-  - label: "About Me"
+  - label: "About"
     url: "#about"
-  - label: "Favorite Videos"
+  - label: "Videos"
     url: "#videos"
   - label: "Pictures"
     url: "#pictures"
