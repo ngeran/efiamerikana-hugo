@@ -92,7 +92,8 @@
 
             {{/* Caption block — title/category, then date/views. Keeping this
                  visible alongside the thumbnail is the constraint that drives
-                 .preview-media's height queries and the 4-column step. */}}
+                 the grid's 1→2→3→4 column step (the thumbnails themselves are
+                 fixed 1:1 squares via .preview-media at every viewport). */}}
             <div class="space-y-1">
               <div class="flex justify-between items-start gap-2">
                 <h3 class="font-serif text-xl font-bold leading-tight">{{ .Title }}</h3>

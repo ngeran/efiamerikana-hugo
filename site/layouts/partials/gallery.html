@@ -33,13 +33,13 @@
          wider card means a taller thumbnail, which pushes the caption off
          screen. See videos.html for the measured numbers.
 
-     WHY .preview-media IS A HEIGHT QUERY
-       Thumbnails were `aspect-square`, sized purely off column WIDTH. That
-       ignores how much vertical space the window has: on a shallow viewport
-       the row's total height (square image + caption) stayed the same as on a
-       tall monitor, so it ran off the bottom mid-caption. `.preview-media`
-       flattens 1:1 → 4:3 → 16:9 as viewport HEIGHT shrinks. Defined in
-       input.css.
+     WHY .preview-media IS ALWAYS SQUARE
+       Thumbnails are a fixed 1:1 square (rounded via rounded-preview-sm) at
+       every viewport — defined in input.css. An earlier version flattened
+       them 1:1 → 4:3 → 16:9 as viewport HEIGHT shrank, to fit a row on a
+       short window, but that made them rectangles on laptops and
+       tablet-landscape, inconsistent with the square portraits. The grid's
+       1→2→3→4 column steps + natural scroll handle short windows now.
 
      TEMPLATE TRAP
        alt text uses a captured `{{ $title }}`, NOT `{{ .Title }}` — inside

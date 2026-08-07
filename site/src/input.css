@@ -66,12 +66,12 @@
   --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Libre Caslon Text", ui-serif, Georgia, serif;
 
-  /* About section background — deep navy (#1b263b). Token is named
+  /* About section background — deep navy (#0d1b2a). Token is named
      --color-about (not after the hue) so re-tinting never makes the name
      a lie. A dark band here breaks hard from the yellow hero above and
      the pink gallery below; the About copy is set light (text-white and
      white-with-opacity) to stay readable on it. */
-  --color-about: #1b263b;
+  --color-about: #0d1b2a;
 }
 
 /* =========================================================================
@@ -244,7 +244,11 @@
      drop the viewport fill on large desktops and size to their content
      instead. The videos/pictures grids keep filling — they have the cards. */
   @media (min-width: 1920px) {
-    .section-fill-relax {
+    /* Compound selector (.section-fill.section-fill-relax, specificity
+       0,2,0) so this reliably beats .section-fill (0,1,0) no matter how
+       the minifier orders the two @media blocks — a plain .section-fill-relax
+       only tied on specificity and could lose the cascade. */
+    .section-fill.section-fill-relax {
       min-height: 0;
     }
   }
@@ -394,34 +398,17 @@
      .preview-media — gallery/video preview thumbnails.
                                                         [Layout rule 3 of 3]
 
-     Together with the grids' 1→2→3→4 column steps, this is what keeps the
-     first card row (image AND its caption) fully visible when you land on
-     #videos or #pictures from the nav.
-
-     These were plain `aspect-square`, sized purely off the grid column's
-     *width*. That's fine for how wide the row is, but it ignores how much
-     *vertical* space the browser window actually has. On a shorter window
-     (a laptop with a shallow viewport, or DevTools/keyboard eating screen
-     height) the row's total height — square image + title/date/tag block
-     below it — stays exactly the same as on a tall monitor, so the row
-     just runs off the bottom of the viewport mid-caption instead of
-     resizing to fit.
-     `.preview-media` keeps the square ratio by default but flattens it in
-     two steps as the *viewport height* shrinks, so the whole row (image +
-     caption) has a much better chance of fitting within a short window
-     without an awkward, scroll-required cut partway through a card. */
+     Always a fixed 1:1 square (rounded corners come from the
+     `rounded-preview-sm` utility on the same element), at every viewport.
+     An earlier version flattened the ratio toward 4:3 / 16:9 as the
+     viewport HEIGHT shrank, to squeeze a whole card row onto a short
+     window — but that turned the thumbnails into rectangles on laptops
+     and tablet-landscape, which read as inconsistent next to the square
+     hero/about portraits. They are squares unconditionally now; the grids'
+     1→2→3→4 column steps and the page's natural scroll handle the
+     short-window case instead of distorting the thumbnails. */
   .preview-media {
     aspect-ratio: 1 / 1;
-  }
-  @media (max-height: 820px) {
-    .preview-media {
-      aspect-ratio: 4 / 3;
-    }
-  }
-  @media (max-height: 680px) {
-    .preview-media {
-      aspect-ratio: 16 / 9;
-    }
   }
 
   .img-cover {

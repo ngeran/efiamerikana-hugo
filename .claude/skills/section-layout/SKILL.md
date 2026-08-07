@@ -90,6 +90,13 @@ with more air around it. Never scale content up to fill space.
 - `svh`, not `vh`, so collapsing mobile browser chrome doesn't cause a jump.
 - Applied to **hero, about, videos, pictures**. Analytics and contact size to
   their content — contact especially would sit in a large empty red field.
+- **`.section-fill-relax` opts a section out of the fill on large desktops**
+  (`min-width: 1920px`). Hero and about carry it: their content is a compact
+  poster (~450–600px), so filling a 1080p+ viewport leaves a huge empty band.
+  On ≥1920px (Full HD and up) they size to their content instead; below that
+  they still fill. The selector is compounded (`.section-fill.section-fill-relax`,
+  specificity 0,2,0) so it beats `.section-fill` regardless of @media ordering.
+  Videos/pictures do NOT carry it — their card grids have the content to fill.
 - Inert below `md` and below 640px viewport height: forcing full-height sections
   on a phone creates tall empty gaps and makes the page scroll forever.
 
@@ -112,9 +119,13 @@ image **and** its caption (title, date, tag) without scrolling.
 
 Two mechanisms cooperate:
 
-- `.preview-media` flattens `1:1 → 4:3 → 16:9` as *viewport height* shrinks
-  (`max-height: 820px`, then `680px`). This is a height query, not a width
-  query, on purpose — a shallow window is the failure case.
+- `.preview-media` is a fixed **1:1 square at every viewport** (rounded corners
+  via `rounded-preview-sm`). An earlier version flattened it toward 4:3 / 16:9
+  as viewport *height* shrank to fit a row on a short window, but that turned
+  the thumbnails into rectangles on laptops / tablet-landscape and read as
+  inconsistent next to the square hero/about portraits. The short-window case
+  is now handled by the grid steps + natural scroll, not by distorting the
+  thumbnail.
 - Grids step `1 → 2 → 3 → 4` columns at `sm`/`lg`/`xl`. The `xl:grid-cols-4`
   step exists specifically so that spanning the full rail does **not** inflate
   cards (~341px → ~410px at 1920). A wider card means a taller 1:1 thumbnail,
