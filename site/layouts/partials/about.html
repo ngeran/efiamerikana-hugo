@@ -57,7 +57,6 @@
         {{/* Story paragraphs (Montserrat). */}}
         <div class="flex flex-col gap-6 font-montserrat text-hearth-offwhite/70 max-w-2xl text-base sm:text-lg">
           <p>{{ .Param "about_p1" }}</p>
-          <p>{{ .Param "about_p2" }}</p>
         </div>
 
         {{/* Contact row: CTA button + socials. The button opens the email. */}}
@@ -77,7 +76,7 @@
 
       {{/* 2. IMAGE COLUMN — right at lg, first on mobile. Gold ring + glow. */}}
       <div class="w-full relative flex justify-center lg:justify-end order-1 lg:order-2">
-        <div class="relative w-full max-w-[400px] aspect-square lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-white/5 ring-4 ring-inset ring-gold shadow-[inset_0_0_40px_rgba(255,180,0,0.15)]">
+        <div class="relative w-full max-w-[320px] aspect-square lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-white/5 ring-4 ring-inset ring-gold shadow-[inset_0_0_40px_rgba(255,180,0,0.15)]">
           {{ with .Param "about_image" }}<img class="absolute inset-0 w-full h-full object-cover transition-all duration-700 p-2 rounded-3xl" src="{{ . }}" alt="{{ $.Param "about_name" }}" loading="lazy" />{{ end }}
         </div>
       </div>
