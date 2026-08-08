@@ -81,6 +81,8 @@
      (labels). */
   --font-jakarta: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-grotesk: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  /* Analytics precision-grid labels use a monospace (its reference design). */
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* About section background — near-black (#131313), per the supplied
      reference design: a dark band between the yellow hero and the yellow
@@ -450,9 +452,12 @@
   .group:hover .img-cover {
     transform: scale(1.05);
   }
-  .group:hover .img-cover-grayscale {
-    filter: grayscale(0);
-  }
+  /* NOTE: B&W → colour on hover is done with the `grayscale
+     group-hover:grayscale-0` utilities in the gallery/video markup, NOT a
+     rule here. An earlier `.group:hover .img-cover-grayscale { filter:
+     grayscale(0) }` lived in this components layer and was silently
+     overridden by the `grayscale` utility (the utilities layer wins
+     regardless of specificity), so the hover never went colour. */
 
   .card-soft {
     @apply bg-white rounded-3xl border-[1.5px] border-charcoal;

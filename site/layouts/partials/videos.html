@@ -86,7 +86,7 @@
           {{ $title := .Title }}
           <a href="{{ .Param "video_url" | default "#" }}" class="group block">
             <div class="preview-media relative bg-charcoal rounded-preview-sm overflow-hidden card-border mb-4">
-              {{ with .Param "image" }}<img src="{{ . }}" class="w-full h-full img-cover opacity-90 group-hover:opacity-100" alt="{{ $title }}" loading="lazy" decoding="async">{{ end }}
+              {{ with .Param "image" }}<img src="{{ . }}" class="w-full h-full img-cover grayscale group-hover:grayscale-0" alt="{{ $title }}" loading="lazy" decoding="async">{{ end }}
               <div class="absolute inset-0 flex items-center justify-center">
                 <span class="material-symbols-outlined text-white text-6xl opacity-40 group-hover:opacity-100 group-focus-visible:opacity-100 scale-90 group-hover:scale-100 group-focus-visible:scale-100 transition-all drop-shadow-2xl" aria-hidden="true">play_circle</span>
               </div>

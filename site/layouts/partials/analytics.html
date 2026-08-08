@@ -1,96 +1,129 @@
 {{/* =========================================================================
-     analytics.html — section 5 of 5: reach & engagement  → anchor #analytics
+     analytics.html — section 2 of 5: reach & engagement  → anchor #analytics
      =========================================================================
 
      ROLE
-       The page's one dark section: a "Driven by / Engagement." header, two
-       large figures each fronted by a coloured accent bar, a two-up row of
-       secondary stats, and a column of per-platform progress bars. Sized down
-       from an earlier "massive" treatment so the whole section fits a laptop
-       viewport without the bottom items dropping below the fold.
+       A "precision grid" dashboard: a bordered cell grid (1 col mobile, 2 at
+       md, 4 at lg) holding a title cell, two huge primary metrics, two
+       secondary metrics with mini-visualisations, and a platform-breakdown
+       cell. Montserrat for the big figures, JetBrains Mono for the labels.
 
      READS (all site params)
        analytics_heading, analytics_heading_accent  — "Driven by / Engagement."
-       analytics_reach(+_label)                     — the large primary figure
-       analytics_community(+_label)                 — the large secondary figure
-       analytics_engagement_rate(+_label)           — secondary stat (left)
-       analytics_avg_views(+_label)                 — secondary stat (right)
-       analytics_note                               — the closing line
+       analytics_reach(+_label)                     — primary metric 1
+       analytics_community(+_label)                 — primary metric 2
+       analytics_engagement_rate(+_label)           — secondary metric 1
+       analytics_avg_views(+_label)                 — secondary metric 2
+       analytics_note                               — the closing line (title cell)
        analytics_platforms — list of {name, value, bar, color} maps
-       (analytics_ghost is no longer rendered.)
 
      LAYOUT CONTRACT
-       · `.rail` — shares the page's left/right edge (py-10 md:py-16 here).
-       · Deliberately NO `.section-fill`: sizes to its content.
-       · NO `.half-type`: the figures use full-size text-* utilities.
-       · `overflow-hidden` guards against the big numerals ever causing
-         horizontal page scroll on a narrow/portrait viewport.
+       · `.rail` — shared left/right edge; py-12 md:py-16 here (no section-pad).
+       · NO `.section-fill`: sizes to its content.
+       · `overflow-hidden` guards the big numerals against horizontal scroll.
+       · The grid uses border-t/border-l on the container and border-b/border-r
+         on each cell — that pair draws the full precision-grid hairline net.
+       · Responsive: 1 col (mobile) → 2 (md) → 4 (lg). Title + platform cells
+         span md:col-span-2 so they read as full-width rows on tablet and half-
+         width on desktop. Numerals step text-4xl→text-7xl so they never overflow
+         a cell at any width.
 
      TYPE & COLOUR
-       Montserrat throughout (font-montserrat). Accents use brand tokens
-       (brand-pink / brand-yellow / brand-red); each platform's colour is
-       mapped to a literal utility below so the scanner picks it up at compile
-       time. The accent bars hang at -left-4 sm:-left-6 off each figure.
+       Montserrat (font-montserrat) for figures; JetBrains Mono (font-mono) for
+       labels/captions/values. Accents use brand-pink; each platform bar keeps
+       its stored colour (brand-pink / brand-yellow / brand-red).
      ========================================================================= */ -}}
 <section id="analytics" class="bg-charcoal text-white overflow-hidden relative">
-  <div class="rail py-10 md:py-16">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-16 items-start">
+  <div class="rail py-12 md:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-l border-white/10">
 
-      {{/* LEFT (lg:col-span-7) — header, two figures, secondary stats */}}
-      <div class="lg:col-span-7 space-y-12 sm:space-y-16">
-        <header>
-          <h2 class="font-montserrat text-xl sm:text-2xl md:text-3xl font-light tracking-wide text-white/40 uppercase mb-3">{{ .Param "analytics_heading" }}</h2>
-          <div class="font-montserrat text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white">{{ .Param "analytics_heading_accent" }}</div>
-        </header>
-
-        {{/* Two figures, each with a coloured accent bar at its left. */}}
-        <div class="space-y-10 sm:space-y-12">
-          <div class="relative">
-            <div class="absolute -left-4 sm:-left-6 top-3 w-1.5 h-12 sm:h-16 bg-brand-pink" aria-hidden="true"></div>
-            <div class="font-montserrat text-[3.5rem] sm:text-[5rem] md:text-[6rem] xl:text-[7rem] leading-none font-bold tracking-tighter text-white mb-2">{{ .Param "analytics_reach" }}</div>
-            <div class="font-montserrat text-xs sm:text-sm md:text-base font-semibold tracking-[0.2em] text-white/40 uppercase">{{ .Param "analytics_reach_label" }}</div>
-          </div>
-          <div class="relative">
-            <div class="absolute -left-4 sm:-left-6 top-2 w-1.5 h-9 sm:h-12 bg-brand-yellow" aria-hidden="true"></div>
-            <div class="font-montserrat text-[3rem] sm:text-[4rem] md:text-[5rem] xl:text-[6rem] leading-none font-bold tracking-tighter text-white mb-2">{{ .Param "analytics_community" }}</div>
-            <div class="font-montserrat text-xs sm:text-sm md:text-base font-semibold tracking-[0.2em] text-white/40 uppercase">{{ .Param "analytics_community_label" }}</div>
-          </div>
+      {{/* TITLE (md:col-span-2) — heading + note. */}}
+      <div class="p-5 sm:p-6 lg:p-10 border-b border-r border-white/10 md:col-span-2 flex flex-col justify-center">
+        <h2 class="font-mono text-xs sm:text-sm font-medium tracking-[0.2em] text-white/40 uppercase mb-4 flex items-center gap-3">
+          <span class="w-8 h-[2px] bg-brand-pink block"></span>
+          {{ .Param "analytics_heading" }}
+        </h2>
+        <div class="font-montserrat text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tighter text-white">
+          {{ .Param "analytics_heading_accent" }}
         </div>
-
-        {{/* Secondary stats — two-up, divided by a hairline. */}}
-        <div class="grid grid-cols-2 gap-8 sm:gap-12 pt-6 border-t border-white/10">
-          <div>
-            <div class="font-montserrat text-brand-yellow text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter mb-2">{{ .Param "analytics_engagement_rate" }}</div>
-            <div class="font-montserrat text-xs sm:text-sm font-semibold tracking-widest text-white/40 uppercase">{{ .Param "analytics_engagement_label" }}</div>
-          </div>
-          <div>
-            <div class="font-montserrat text-brand-pink text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter mb-2">{{ .Param "analytics_avg_views" }}</div>
-            <div class="font-montserrat text-xs sm:text-sm font-semibold tracking-widest text-white/40 uppercase">{{ .Param "analytics_avg_views_label" }}</div>
-          </div>
+        <div class="mt-6 sm:mt-8 flex items-start gap-4">
+          <span class="material-symbols-outlined text-brand-pink mt-1 text-xl" aria-hidden="true">insights</span>
+          <p class="font-mono text-xs sm:text-sm text-white/40 font-light leading-relaxed max-w-md">{{ .Param "analytics_note" }}</p>
         </div>
       </div>
 
-      {{/* RIGHT (lg:col-span-5) — per-platform bars + footnote. */}}
-      <div class="lg:col-span-5 space-y-10 lg:pt-12">
-        <div class="space-y-8 sm:space-y-12">
+      {{/* PRIMARY METRIC 1 — Monthly Reach. */}}
+      <div class="p-5 sm:p-6 lg:p-10 border-b border-r border-white/10 flex flex-col justify-between group relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="material-symbols-outlined text-brand-pink" aria-hidden="true">trending_up</span>
+        </div>
+        <div class="font-mono text-xs sm:text-sm font-bold tracking-[0.1em] text-white/40 uppercase mb-6 sm:mb-8">{{ .Param "analytics_reach_label" }}</div>
+        <div>
+          <div class="font-montserrat text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tighter text-white mb-2">{{ .Param "analytics_reach" }}</div>
+          <div class="h-1 w-12 bg-brand-pink"></div>
+        </div>
+      </div>
+
+      {{/* PRIMARY METRIC 2 — Community Size. */}}
+      <div class="p-5 sm:p-6 lg:p-10 border-b border-r border-white/10 flex flex-col justify-between group relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="material-symbols-outlined text-brand-pink" aria-hidden="true">group</span>
+        </div>
+        <div class="font-mono text-xs sm:text-sm font-bold tracking-[0.1em] text-white/40 uppercase mb-6 sm:mb-8">{{ .Param "analytics_community_label" }}</div>
+        <div>
+          <div class="font-montserrat text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tighter text-white mb-2">{{ .Param "analytics_community" }}</div>
+          <div class="h-1 w-12 bg-brand-pink"></div>
+        </div>
+      </div>
+
+      {{/* SECONDARY METRIC 1 — Engagement Rate (segmented bar). */}}
+      <div class="p-5 sm:p-6 lg:p-10 border-b border-r border-white/10 flex flex-col justify-center">
+        <div class="font-mono text-xs font-bold tracking-[0.1em] text-white/40 uppercase mb-4 flex items-center justify-between">
+          <span>{{ .Param "analytics_engagement_label" }}</span>
+          <span class="material-symbols-outlined text-white/30 text-sm" aria-hidden="true">favorite</span>
+        </div>
+        <div class="font-montserrat text-3xl sm:text-4xl font-bold tracking-tighter text-white">{{ .Param "analytics_engagement_rate" }}</div>
+        <div class="mt-4 flex gap-1">
+          <div class="h-1 flex-1 bg-brand-pink/20"></div>
+          <div class="h-1 flex-1 bg-brand-pink/40"></div>
+          <div class="h-1 flex-1 bg-brand-pink/60"></div>
+          <div class="h-1 flex-1 bg-brand-pink"></div>
+        </div>
+      </div>
+
+      {{/* SECONDARY METRIC 2 — Avg. Video Views (mini bar chart). */}}
+      <div class="p-5 sm:p-6 lg:p-10 border-b border-r border-white/10 flex flex-col justify-center">
+        <div class="font-mono text-xs font-bold tracking-[0.1em] text-white/40 uppercase mb-4 flex items-center justify-between">
+          <span>{{ .Param "analytics_avg_views_label" }}</span>
+          <span class="material-symbols-outlined text-white/30 text-sm" aria-hidden="true">play_circle</span>
+        </div>
+        <div class="font-montserrat text-3xl sm:text-4xl font-bold tracking-tighter text-white">{{ .Param "analytics_avg_views" }}</div>
+        <div class="mt-4 flex gap-1 items-end h-4">
+          <div class="w-2 h-[40%] bg-brand-pink/40"></div>
+          <div class="w-2 h-[60%] bg-brand-pink/60"></div>
+          <div class="w-2 h-[80%] bg-brand-pink/80"></div>
+          <div class="w-2 h-[100%] bg-brand-pink"></div>
+        </div>
+      </div>
+
+      {{/* PLATFORM BREAKDOWN (md:col-span-2) — per-platform bars. */}}
+      <div class="p-5 sm:p-6 lg:p-10 border-b border-r border-white/10 md:col-span-2">
+        <h3 class="font-mono text-xs font-bold tracking-[0.1em] text-white/40 uppercase mb-6 sm:mb-8">Platform Impact Distribution</h3>
+        <div class="space-y-5 sm:space-y-6">
           {{ range .Param "analytics_platforms" }}
             {{ $bar := "" }}
             {{ if eq .color "brand-pink" }}{{ $bar = "bg-brand-pink" }}{{ else if eq .color "brand-yellow" }}{{ $bar = "bg-brand-yellow" }}{{ else if eq .color "brand-red" }}{{ $bar = "bg-brand-red" }}{{ else }}{{ $bar = "bg-white" }}{{ end }}
-            <div class="group">
-              <div class="flex justify-between items-end mb-3">
-                <div class="flex items-center gap-3 sm:gap-4 font-montserrat text-xs sm:text-sm md:text-base font-bold tracking-widest text-white uppercase">
-                  <span class="w-3 h-3 rounded-full {{ $bar }}" aria-hidden="true"></span>
-                  {{ .name }}
-                </div>
-                <div class="font-montserrat text-base sm:text-lg font-bold text-white tracking-tight">{{ .value }}</div>
-              </div>
-              <div class="h-1 w-full bg-white/5 overflow-hidden">
-                <div class="h-full {{ $bar }}" style="width: {{ .bar | default "50%" }}"></div>
-              </div>
+          <div>
+            <div class="flex justify-between items-end mb-2">
+              <div class="font-mono text-xs tracking-wider text-white/70">{{ .name }}</div>
+              <div class="font-mono text-xs font-bold text-white">{{ .value }}</div>
             </div>
+            <div class="h-1 w-full bg-white/10">
+              <div class="h-full {{ $bar }}" style="width: {{ .bar | default "50%" }}"></div>
+            </div>
+          </div>
           {{ end }}
         </div>
-        <p class="font-montserrat text-sm sm:text-base md:text-lg text-white/40 font-light leading-relaxed">{{ .Param "analytics_note" }}</p>
       </div>
 
     </div>

@@ -11,10 +11,10 @@
        ┌─ header ────────── fixed, 64px, always visible (from baseof.html)
        │
        1. hero ............ portrait + name + role + pink "view portfolio"
-       2. about ........... display intro + story copy + contact row (email/socials)
+       2. analytics ....... reach/engagement stats, dark
        3. videos .......... "Favorite Videos" card grid   → #videos
        4. gallery ......... "The Gallery" card grid       → #pictures
-       5. analytics ....... reach/engagement stats, dark
+       5. about ........... display intro + story copy + contact row (email/socials)
        │
        └─ footer ───────── copyright, policy links, tagline (from baseof.html)
 
@@ -54,14 +54,13 @@
         (.section-fill-center) rather than a titled section. */}}
   {{ partial "hero.html" . }}
 
-  {{/* red: contrasts the hero's yellow above and the periwinkle about below.
-        (Pink would clash with the hero's own pink aside.) */}}
+  {{/* red: contrasts the hero's yellow above and the dark analytics below. */}}
   <div class="h-1 bg-brand-red" aria-hidden="true"></div>
 
-  {{/* 2. ABOUT → #about */}}
-  {{ partial "about.html" . }}
+  {{/* 2. ANALYTICS → #analytics — sizes to its content (no .section-fill). */}}
+  {{ partial "analytics.html" . }}
 
-  {{/* pink: sits between periwinkle and yellow. */}}
+  {{/* pink: between the dark analytics and the yellow videos. */}}
   <div class="h-1 bg-brand-pink" aria-hidden="true"></div>
 
   {{/* 3. VIDEOS → #videos */}}
@@ -73,11 +72,10 @@
   {{/* 4. GALLERY → #pictures  (note: id differs from the filename) */}}
   {{ partial "gallery.html" . }}
 
-  {{/* yellow: the only bright colour that reads against pink above and the
-        near-black analytics panel below. */}}
+  {{/* yellow: against the gallery's pink above and the dark about below. */}}
   <div class="h-1 bg-brand-yellow" aria-hidden="true"></div>
 
-  {{/* 5. ANALYTICS → #analytics — sizes to its content (no .section-fill). */}}
-  {{ partial "analytics.html" . }}
+  {{/* 5. ABOUT → #about */}}
+  {{ partial "about.html" . }}
 
 {{ end }}
